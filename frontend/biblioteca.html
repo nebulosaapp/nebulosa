@@ -274,12 +274,14 @@
     import { I18N, getLang } from './assets/i18n.js';
 
     const API_URL = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1') ? 'http://localhost:3001/api' : '/api';
+    const userId = localStorage.getItem('bdsm_user_id');
+    const token = localStorage.getItem('bdsm_auth_token');
 
     function aplicarIdioma() {
       const lang = getLang();
       const L = I18N[lang] || I18N['pt'];
       
-      document.getElementById('libTitle').innerText = L.menu_library || 'Biblioteca BDSM';
+      document.getElementById('libTitle').innerText = L.menu_library || 'Biblioteca Nebulosa';
       document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang;
     }
 
@@ -397,8 +399,6 @@
     let userLimits = [];
 
     async function carregarDicionario() {
-      const userId = localStorage.getItem('bdsm_user_id');
-      const token = localStorage.getItem('bdsm_auth_token');
       try {
         // Carrega dicionário
         const res = await fetch(`${API_URL}/wiki/dicionario`);
@@ -480,11 +480,9 @@
       });
     }
 
-    const token = localStorage.getItem('bdsm_auth_token');
-
     // Função de clique do semáforo
     window.definirLimite = async function(termo, nivel, botao) {
-      const userId = localStorage.getItem('bdsm_user_id') || '1';
+      if (!userId) { alert('Faça login para salvar limites.'); return; }
       const parent = botao.parentElement;
       
       // Remover classe active dos irmãos
@@ -510,7 +508,7 @@
 
     // Salvar notas adicionais ao mudar de input ou clicar no check
     window.salvarNotaLimite = async function(termo, input, botao) {
-      const userId = localStorage.getItem('bdsm_user_id') || '1';
+      if (!userId) { alert('Faça login para salvar notas.'); return; }
       
       // Buscar o nível que estiver ativo no acordeão pai
       const accordionContent = input.closest('.accordion-content');

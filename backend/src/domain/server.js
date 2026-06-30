@@ -8,6 +8,7 @@ import { processarResultadoRelacional } from './relacional_engine.js';
 import { registrarUsuario, loginUsuario, gerarTokenUnico } from './auth.js';
 import { LimitRepository } from '../repositories/LimitRepository.js';
 import { authMiddleware } from './authMiddleware.js';
+import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
 import path from 'path';
@@ -163,17 +164,33 @@ app.post('/api/calculate', async (req, res) => {
   const token = await gerarTokenUnico();
   const db = await getDb();
   
-  const parsedUserId = userId ? parseInt(userId) : null;
+  // Extrair e validar o ID do usuário usando o token JWT dos headers (se houver) para evitar fraude de userId
+  let jwtUserId = null;
+  const authHeader = req.headers.authorization;
+  if (authHeader) {
+    const parts = authHeader.split(' ');
+    if (parts.length === 2 && parts[0] === 'Bearer') {
+      try {
+        const decoded = jwt.verify(parts[1], process.env.JWT_SECRET || 'super_segredo_jwt_nebulosa_v4_2026');
+        jwtUserId = decoded.id;
+      } catch (err) {
+        console.warn('Token inválido enviado na rota de cálculo:', err.message);
+      }
+    }
+  }
+
+  // Fallback para o userId do body se não tiver token, mas forçando o parseInt
+  const finalUserId = jwtUserId ? parseInt(jwtUserId) : (userId ? parseInt(userId) : null);
 
   let userPronome = 'elu';
-  if (parsedUserId) {
-    const userRow = await db.get(`SELECT pronome FROM usuarios WHERE id = ?`, [parsedUserId]);
+  if (finalUserId) {
+    const userRow = await db.get(`SELECT pronome FROM usuarios WHERE id = ?`, [finalUserId]);
     if (userRow) userPronome = userRow.pronome;
   }
 
   await db.run(
     `INSERT INTO testes_salvos (token, usuario_id, level_teste, scores_json, profile_declarado, pronome) VALUES (?, ?, ?, ?, ?, ?)`,
-    [token, parsedUserId, level || 'completo', JSON.stringify(scores), profile || 'nao_sabe', userPronome]
+    [token, finalUserId, level || 'completo', JSON.stringify(scores), profile || 'nao_sabe', userPronome]
   );
   await db.close();
 
