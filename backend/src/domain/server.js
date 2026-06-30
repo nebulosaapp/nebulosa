@@ -199,8 +199,9 @@ app.post('/api/calculate', async (req, res) => {
 
 // 4. Buscar Teste por Token
 app.get('/api/result/:token', async (req, res) => {
+  const normToken = req.params.token.trim().toUpperCase();
   const db = await getDb();
-  const test = await db.get(`SELECT * FROM testes_salvos WHERE token = ?`, [req.params.token]);
+  const test = await db.get(`SELECT * FROM testes_salvos WHERE UPPER(token) = ?`, [normToken]);
   await db.close();
 
   if (!test) {
@@ -232,13 +233,18 @@ app.get('/api/result/:token', async (req, res) => {
   });
 });
 
-// 5. Comparar Compatibilidade entre dois Tokens
 app.post('/api/compare', async (req, res) => {
   const { tokenA, tokenB } = req.body;
+  if (!tokenA || !tokenB) {
+    return res.status(400).json({ error: 'Tokens não fornecidos.' });
+  }
+
+  const normA = tokenA.trim().toUpperCase();
+  const normB = tokenB.trim().toUpperCase();
   const db = await getDb();
   
-  const testA = await db.get(`SELECT scores_json FROM testes_salvos WHERE token = ?`, [tokenA]);
-  const testB = await db.get(`SELECT scores_json FROM testes_salvos WHERE token = ?`, [tokenB]);
+  const testA = await db.get(`SELECT scores_json FROM testes_salvos WHERE UPPER(token) = ?`, [normA]);
+  const testB = await db.get(`SELECT scores_json FROM testes_salvos WHERE UPPER(token) = ?`, [normB]);
   
   await db.close();
 

@@ -85,9 +85,11 @@ export async function gerarTokenUnico(tabela = 'testes_salvos') {
       token += chars[idx];
     }
 
-    const row = await db.get(`SELECT token FROM ${tabela} WHERE token = ?`, [token]);
+    let finalToken = token.toUpperCase();
+    const row = await db.get(`SELECT token FROM ${tabela} WHERE token = ?`, [finalToken]);
     if (!row) {
       exists = false;
+      token = finalToken;
     }
   }
 
