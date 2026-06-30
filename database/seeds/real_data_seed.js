@@ -16,13 +16,13 @@ async function seedData() {
     driver: sqlite3.Database
   });
 
-  // Limpar dados anteriores para evitar duplicação em dev
+  // Limpar apenas os dados exatos da semente (para não apagar novos testes feitos nas contas de semente)
   await db.exec(`
+    DELETE FROM relacionamentos WHERE usuario_a_id IN (SELECT id FROM usuarios WHERE identificador IN ('@wellington', '@orion')) OR usuario_b_id IN (SELECT id FROM usuarios WHERE identificador IN ('@wellington', '@orion'));
+    DELETE FROM testes_salvos WHERE token IN ('TESTE-WELL', 'TESTE-ORION');
+    DELETE FROM resultados_relacionais WHERE token IN ('REL-WELL', 'REL-ORION');
     DELETE FROM usuarios WHERE identificador IN ('@wellington', '@orion');
-    DELETE FROM relacionamentos;
-    DELETE FROM testes_salvos;
-    DELETE FROM limites;
-    DELETE FROM resultados_relacionais;
+    -- Observação: limites não estão sendo limpos para preservar os novos limites adicionados
   `);
 
   // 1. Criar Usuários

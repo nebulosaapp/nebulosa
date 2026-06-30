@@ -308,14 +308,14 @@
     }
 
     function aplicarIdioma() {
-      // Títulos e Labels
-      document.getElementById('lblProfileTitle').innerText = L.profile_title || 'Meu Perfil';
-      document.getElementById('lblCardNewTest').innerText = L.profile_new_test || 'Fazer o Teste BDSM';
-      document.getElementById('lblCardNewTestDesc').innerText = L.profile_new_test_desc || 'Você pode realizar um novo questionário a qualquer momento.';
-      document.getElementById('btnNewTest').innerText = L.profile_new_test_btn || 'Novo Teste ➔';
-      document.getElementById('lblFormTitle').innerText = L.profile_form_title || 'Ficha Cadastral';
-      document.getElementById('lblHistoryTitle').innerText = L.profile_history || 'Resultados Anteriores';
-      document.getElementById('lblNoHistory').innerText = L.profile_no_tests || 'Nenhum teste concluído localizado.';
+      const el = (id) => document.getElementById(id);
+      if (el('lblProfileTitle')) el('lblProfileTitle').innerText = L.profile_title || 'Meu Perfil';
+      if (el('lblCardNewTest')) el('lblCardNewTest').innerText = L.profile_new_test || 'Fazer o Teste BDSM';
+      if (el('lblCardNewTestDesc')) el('lblCardNewTestDesc').innerText = L.profile_new_test_desc || 'Você pode realizar um novo questionário a qualquer momento.';
+      if (el('btnNewTest')) el('btnNewTest').innerText = L.profile_new_test_btn || 'Novo Teste ➔';
+      if (el('lblFormTitle')) el('lblFormTitle').innerText = L.profile_form_title || 'Ficha Cadastral';
+      if (el('lblHistoryTitle')) el('lblHistoryTitle').innerText = L.profile_history || 'Resultados Anteriores';
+      if (el('lblNoHistory')) el('lblNoHistory').innerText = L.profile_no_tests || 'Nenhum teste concluído localizado.';
 
       document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang;
     }
