@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nebulosa - Painel Administrativo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Estilização Admin Especial */
+    body {
+      background-color: #06050b;
+      color: #f8fafc;
+      padding: 1.5rem 1rem;
+    }
+
+    .admin-container {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .admin-card {
+      background: rgba(14, 11, 25, 0.95);
+      border: 1.5px solid rgba(168, 85, 247, 0.25);
+      border-radius: 20px;
+      padding: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+    }
+
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1.5px solid rgba(168, 85, 247, 0.2);
+      padding-bottom: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .admin-title-group h1 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .admin-title-group p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 0.15rem;
+    }
+
+    .btn-admin-logout {
+      background: rgba(255, 51, 51, 0.1);
+      border: 1px solid rgba(255, 51, 51, 0.3);
+      color: #ff5555;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background-color 0.2s;
+    }
+
+    .btn-admin-logout:hover {
+      background: rgba(255, 51, 51, 0.2);
+    }
+
+    /* Cards numéricos */
+    .admin-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.01);
+      border: 1.5px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.25rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .stat-number {
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #df9eff 0%, #a855f7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+    }
+
+    /* Gráficos */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .chart-box {
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .chart-box h3 {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #df9eff;
+      margin-bottom: 1rem;
+      align-self: flex-start;
+      border-left: 3px solid var(--accent-color);
+      padding-left: 0.5rem;
+    }
+
+    .chart-wrapper {
+      position: relative;
+      width: 100%;
+      height: 220px;
+    }
+
+    /* Tela de Login */
+    .admin-login-box {
+      max-width: 380px;
+      margin: 10vh auto 0 auto;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Splash Screen -->
+  <div id="splash-screen" class="splash-screen">
+    <img src="logos/logo simples.png" alt="Nebulosa Logo" class="splash-logo">
+    <h1 class="splash-title">Nebulosa</h1>
+    <p class="splash-subtitle">Controle & Métricas</p>
+  </div>
+
+  <!-- TELA DE LOGIN DO ADMIN -->
+  <div id="loginSection" class="admin-container admin-login-box" style="display: none;">
+    <div class="admin-card">
+      <div style="text-align: center; margin-bottom: 1.5rem;">
+        <img src="logos/logo com nome.png" alt="Nebulosa" style="height: 50px; width: auto; object-fit: contain; margin-bottom: 0.5rem;">
+        <h2 style="font-size: 1.2rem; font-weight: 800; text-transform: uppercase; color: #df9eff;">Painel de Controle</h2>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Usuário Administrador</label>
+        <input type="text" id="adminUser" placeholder="Usuário" autocomplete="off">
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Senha</label>
+        <input type="password" id="adminPass" placeholder="Senha">
+      </div>
+
+      <button onclick="realizarLoginAdmin()" class="btn-primary" style="margin-top: 0.5rem;">Entrar no Painel</button>
+    </div>
+  </div>
+
+  <!-- PAINEL PRINCIPAL (DASHBOARD) -->
+  <div id="dashboardSection" class="admin-container" style="display: none;">
+    
+    <div class="admin-card">
+      <div class="admin-header">
+        <div class="admin-title-group">
+          <h1>Nebulosa Admin</h1>
+          <p>Métricas consolidadas do ecossistema em tempo real</p>
+        </div>
+        <button class="btn-admin-logout" onclick="logoutAdmin()">Sair</button>
+      </div>
+
+      <!-- Indicadores numéricos -->
+      <div class="admin-stats-grid" style="margin-top: 1rem;">
+        <div class="stat-card">
+          <div class="stat-number" id="numUsuarios">0</div>
+          <div class="stat-label">Usuários Ativos</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="numTestesBdsm">0</div>
+          <div class="stat-label">Testes BDSM Realizados</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="numTestesRel">0</div>
+          <div class="stat-label">Mapas Relacionais</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gráficos de Métricas -->
+    <div class="charts-grid">
+      
+      <!-- Gráfico Perfis Declarados -->
+      <div class="chart-box admin-card">
+        <h3>Perfis Declarados (BDSM)</h3>
+        <div class="chart-wrapper">
+          <canvas id="chartPerfis"></canvas>
+        </div>
+      </div>
+
+      <!-- Gráfico Níveis do Teste -->
+      <div class="chart-box admin-card">
+        <h3>Níveis Escolhidos</h3>
+        <div class="chart-wrapper">
+          <canvas id="chartNiveis"></canvas>
+        </div>
+      </div>
+
+      <!-- Gráfico Pronomes Cadastrados -->
+      <div class="chart-box admin-card" style="grid-column: 1 / -1;">
+        <h3>Distribuição de Pronomes</h3>
+        <div class="chart-wrapper" style="height: 180px;">
+          <canvas id="chartPronomes"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    // Configurações Globais
+    const API_URL = window.location.origin + '/api';
+    let chartInstancePerfis = null;
+    let chartInstanceNiveis = null;
+    let chartInstancePronomes = null;
+
+    // Função de verificação de login administrativo local
+    function checkAuthAdmin() {
+      const authHeader = localStorage.getItem('nebulosa_admin_auth');
+      if (authHeader) {
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('dashboardSection').style.display = 'flex';
+        carregarEstatisticasAdmin(authHeader);
+      } else {
+        document.getElementById('dashboardSection').style.display = 'none';
+        document.getElementById('loginSection').style.display = 'flex';
+      }
+    }
+
+    async function realizarLoginAdmin() {
+      const user = document.getElementById('adminUser').value;
+      const pass = document.getElementById('adminPass').value;
+
+      if (user === 'adminorion' && pass === 'orion123') {
+        const credentials = btoa(`${user}:${pass}`);
+        const authHeader = `Basic ${credentials}`;
+        localStorage.setItem('nebulosa_admin_auth', authHeader);
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('dashboardSection').style.display = 'flex';
+        carregarEstatisticasAdmin(authHeader);
+      } else {
+        alert('Credenciais incorretas.');
+      }
+    }
+
+    function logoutAdmin() {
+      localStorage.removeItem('nebulosa_admin_auth');
+      window.location.reload();
+    }
+
+    async function carregarEstatisticasAdmin(authHeader) {
+      try {
+        const response = await fetch(`${API_URL}/admin/stats`, {
+          method: 'GET',
+          headers: { 'Authorization': authHeader }
+        });
+
+        if (response.status === 401) {
+          logoutAdmin();
+          return;
+        }
+
+        const data = await response.json();
+        if (data.success) {
+          document.getElementById('numUsuarios').textContent = data.totalUsuarios;
+          document.getElementById('numTestesBdsm').textContent = data.totalTestesBdsm;
+          document.getElementById('numTestesRel').textContent = data.totalTestesRelacionais;
+
+          renderizarGraficos(data);
+        } else {
+          alert('Erro ao carregar dados: ' + data.error);
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Erro ao conectar ao servidor administrativo.');
+      }
+    }
+
+    function renderizarGraficos(data) {
+      // 1. Gráfico de Perfis (BDSM)
+      const ctxPerfis = document.getElementById('chartPerfis').getContext('2d');
+      if (chartInstancePerfis) chartInstancePerfis.destroy();
+
+      const labelsPerfis = data.perfis.map(p => p.profile_declarado || 'Anônimo');
+      const valoresPerfis = data.perfis.map(p => p.qtd);
+
+      chartInstancePerfis = new Chart(ctxPerfis, {
+        type: 'doughnut',
+        data: {
+          labels: labelsPerfis,
+          datasets: [{
+            data: valoresPerfis,
+            backgroundColor: ['#a855f7', '#ec4899', '#6366f1', '#14b8a6', '#f59e0b', '#ef4444', '#10b981'],
+            borderColor: 'rgba(6, 5, 11, 0.8)',
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'right',
+              labels: { color: '#94a3b8', font: { family: 'Outfit', size: 10 } }
+            }
+          }
+        }
+      });
+
+      // 2. Gráfico de Níveis
+      const ctxNiveis = document.getElementById('chartNiveis').getContext('2d');
+      if (chartInstanceNiveis) chartInstanceNiveis.destroy();
+
+      const labelsNiveis = data.niveis.map(n => n.level_teste?.toUpperCase() || 'PADRÃO');
+      const valoresNiveis = data.niveis.map(n => n.qtd);
+
+      chartInstanceNiveis = new Chart(ctxNiveis, {
+        type: 'bar',
+        data: {
+          labels: labelsNiveis,
+          datasets: [{
+            label: 'Testes',
+            data: valoresNiveis,
+            backgroundColor: 'rgba(168, 85, 247, 0.65)',
+            borderColor: '#a855f7',
+            borderWidth: 1.5,
+            borderRadius: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { family: 'Outfit' } } },
+            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { family: 'Outfit' } } }
+          }
+        }
+      });
+
+      // 3. Gráfico de Pronomes
+      const ctxPronomes = document.getElementById('chartPronomes').getContext('2d');
+      if (chartInstancePronomes) chartInstancePronomes.destroy();
+
+      const labelsPronomes = data.pronomes.map(p => {
+        if (p.pronome === 'ele') return 'Ele / Dele';
+        if (p.pronome === 'ela') return 'Ela / Dela';
+        return 'Elu / Delu';
+      });
+      const valoresPronomes = data.pronomes.map(p => p.qtd);
+
+      chartInstancePronomes = new Chart(ctxPronomes, {
+        type: 'bar',
+        data: {
+          labels: labelsPronomes,
+          datasets: [{
+            data: valoresPronomes,
+            backgroundColor: ['#6366f1', '#ec4899', '#a855f7'],
+            borderRadius: 6
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+            y: { grid: { display: false }, ticks: { color: '#94a3b8', font: { family: 'Outfit' } } }
+          }
+        }
+      });
+    }
+
+    // Inicializar verificação
+    checkAuthAdmin();
+
+    // Fechar Splash Screen
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        if (splash) splash.classList.add('fade-out');
+      }, 1000);
+    });
+  </script>
+</body>
+</html>

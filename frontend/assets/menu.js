@@ -28,9 +28,8 @@ export function injetarMenuGlobal() {
       <div class="menu-links">
         <a href="home.html" class="menu-link ${currentPath.includes('home') ? 'active' : ''}">${lang === 'en' ? 'Home' : lang === 'es' ? 'Inicio' : 'Início'}</a>
         <a href="perfil.html" class="menu-link ${currentPath.includes('perfil') ? 'active' : ''}">${L.menu_profile}</a>
-        <a href="index.html" class="menu-link ${currentPath.includes('index') || currentPath.endsWith('/') ? 'active' : ''}">${L.menu_new_test}</a>
+        <a href="testes.html" class="menu-link ${currentPath.includes('testes') ? 'active' : ''}">${lang === 'en' ? 'Tests' : lang === 'es' ? 'Pruebas' : 'Testes'}</a>
         <a href="biblioteca.html" class="menu-link ${currentPath.includes('biblioteca') ? 'active' : ''}">${L.menu_library || 'Biblioteca Nebulosa'}</a>
-        <a href="relacional-test.html" class="menu-link ${currentPath.includes('relacional') ? 'active' : ''}" style="color:#c084fc; border-color:rgba(124,92,252,0.3);">Mapa Relacional</a>
       </div>
 
     <!-- Seletor de Idioma no Menu -->

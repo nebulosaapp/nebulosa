@@ -744,6 +744,51 @@ app.get('/api/health', (req, res) => {
   res.json({ success: true, status: 'healthy', timestamp: new Date().toISOString() });
 });
 
+// Rota amigável para a página do painel administrativo
+app.get('/admadm', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../../../frontend/admadm.html'));
+});
+
+// Endpoint seguro para estatísticas administrativas (acesso via Basic Auth)
+app.get('/api/admin/stats', async (req, res) => {
+  const auth = req.headers['authorization'];
+  // Base64 de 'adminorion:orion123' é 'YWRtaW5vcmlvbjpvcmlvbjEyMw=='
+  if (!auth || auth !== 'Basic YWRtaW5vcmlvbjpvcmlvbjEyMw==') {
+    return res.status(401).json({ success: false, error: 'Acesso não autorizado.' });
+  }
+
+  const db = await getDb();
+  try {
+    const uCount = await db.get('SELECT COUNT(*) AS total FROM usuarios');
+    const tCount = await db.get('SELECT COUNT(*) AS total FROM testes_salvos');
+    const rCount = await db.get('SELECT COUNT(*) AS total FROM resultados_relacionais');
+
+    // Mapeamento por perfil declarado no teste BDSM
+    const profiles = await db.all('SELECT profile_declarado, COUNT(*) AS qtd FROM testes_salvos GROUP BY profile_declarado');
+    
+    // Mapeamento por nível de teste concluído
+    const levels = await db.all('SELECT level_teste, COUNT(*) AS qtd FROM testes_salvos GROUP BY level_teste');
+
+    // Mapeamento de pronomes
+    const pronomes = await db.all('SELECT pronome, COUNT(*) AS qtd FROM usuarios GROUP BY pronome');
+
+    await db.close();
+
+    res.json({
+      success: true,
+      totalUsuarios: uCount.total,
+      totalTestesBdsm: tCount.total,
+      totalTestesRelacionais: rCount.total,
+      perfis: profiles,
+      niveis: levels,
+      pronomes: pronomes
+    });
+  } catch (err) {
+    await db.close();
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`BDSM Test Server rodando na porta ${PORT}`);

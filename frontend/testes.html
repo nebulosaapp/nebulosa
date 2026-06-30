@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Nebulosa - Testes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    .tests-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-top: 1rem;
+    }
+    
+    .test-card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border-color);
+      border-radius: 20px;
+      padding: 1.5rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .test-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--accent-gradient);
+      opacity: 0.7;
+    }
+
+    .test-card:hover {
+      border-color: #ec4899;
+      box-shadow: 0 8px 30px rgba(236, 72, 153, 0.2);
+      transform: translateY(-4px);
+    }
+
+    .test-card-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .test-card-icon {
+      font-size: 2rem;
+      padding: 0.65rem;
+      background: rgba(168, 85, 247, 0.08);
+      border-radius: 12px;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .test-card.relational::before {
+      background: linear-gradient(135deg, #7c5cfc, #c084fc);
+    }
+
+    .test-card.relational:hover {
+      border-color: #7c5cfc;
+      box-shadow: 0 8px 30px rgba(124, 92, 252, 0.25);
+    }
+
+    .test-card.relational .test-card-icon {
+      background: rgba(124, 92, 252, 0.08);
+      border-color: rgba(124, 92, 252, 0.3);
+    }
+
+    .test-card-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .test-card-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .test-card-footer {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent-color);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 0.5rem;
+    }
+
+    .test-card.relational .test-card-footer {
+      color: #9d85ff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Splash Screen Animada -->
+  <div id="splash-screen" class="splash-screen">
+    <img src="logos/logo simples.png" alt="Nebulosa Logo" class="splash-logo">
+    <h1 class="splash-title">Nebulosa</h1>
+    <p class="splash-subtitle">Descubra. Conecte. Explore.</p>
+  </div>
+
+  <div class="app-container">
+    
+    <!-- Cabeçalho Global Padronizado -->
+    <div class="global-header">
+      <div class="header-logo-container">
+        <img src="logos/logo com nome.png" alt="Nebulosa" class="header-logo-img">
+      </div>
+      <button class="menu-trigger" id="menuOpenBtn">☰</button>
+    </div>
+
+    <div style="margin-top: 0.5rem;">
+      <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.25rem;" id="lblPageTitle">Painel de Testes</h2>
+      <p style="font-size: 0.85rem; color: var(--text-muted);" id="lblPageDesc">Selecione o mapeamento que deseja realizar abaixo:</p>
+    </div>
+
+    <div class="tests-grid">
+      
+      <!-- Card Teste BDSM Principal -->
+      <div class="test-card" onclick="window.location.href='index.html'">
+        <div class="test-card-header">
+          <div class="test-card-icon">📝</div>
+          <div class="test-card-title" id="lblBdsmTitle">Teste BDSM Principal</div>
+        </div>
+        <div class="test-card-desc" id="lblBdsmDesc">
+          O teste principal do ecossistema. Responda a perguntas lúdicas baseadas na escala Likert para mapear seu perfil de fetiches, afinidades kinky e traçar sua Persona erótica em destaque.
+        </div>
+        <div class="test-card-footer" id="lblBdsmBtn">Iniciar Teste →</div>
+      </div>
+
+      <!-- Card Mapa Relacional -->
+      <div class="test-card relational" onclick="window.location.href='relacional-test.html'">
+        <div class="test-card-header">
+          <div class="test-card-icon">🧭</div>
+          <div class="test-card-title" id="lblRelTitle">Mapa Relacional & Compatibilidade</div>
+        </div>
+        <div class="test-card-desc" id="lblRelDesc">
+          Mapeie o formato de relacionamento desejado (Monogamia, Relação Aberta, Poliamor, Swing) e cruze suas afinidades e o questionário Vanilla Reverso com seu parceiro ou parceira.
+        </div>
+        <div class="test-card-footer" id="lblRelBtn">Mapear Relação →</div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script type="module">
+    import { injetarMenuGlobal } from './assets/menu.js';
+    import { getLang } from './assets/i18n.js';
+
+    // Roteador de Segurança
+    const token = localStorage.getItem('bdsm_auth_token');
+    const userId = localStorage.getItem('bdsm_user_id');
+    if (!token || !userId) {
+      window.location.href = 'login.html';
+    }
+
+    injetarMenuGlobal();
+
+    const pageI18n = {
+      pt: {
+        pageTitle: 'Painel de Testes',
+        pageDesc: 'Selecione o mapeamento que deseja realizar abaixo:',
+        bdsmTitle: 'Teste BDSM Principal',
+        bdsmDesc: 'O teste principal do ecossistema. Responda a perguntas lúdicas baseadas na escala Likert para mapear seu perfil de fetiches, afinidades kinky e traçar sua Persona erótica em destaque.',
+        bdsmBtn: 'Iniciar Teste →',
+        relTitle: 'Mapa Relacional & Compatibilidade',
+        relDesc: 'Mapeie o formato de relacionamento desejado (Monogamia, Relação Aberta, Poliamor, Swing) e cruze suas afinidades e o questionário Vanilla Reverso com seu parceiro ou parceira.',
+        relBtn: 'Mapear Relação →'
+      },
+      en: {
+        pageTitle: 'Tests Center',
+        pageDesc: 'Select the mapping profile you want to perform below:',
+        bdsmTitle: 'Main BDSM Test',
+        bdsmDesc: 'The main ecosystem test. Answer playful Likert scale questions to map your fetish profile, kinky affinities, and highlight your erotic Persona.',
+        bdsmBtn: 'Start Test →',
+        relTitle: 'Relational Map & Compatibility',
+        relDesc: 'Map your desired relationship format (Monogamy, Open Relationship, Polyamory, Swing) and cross-reference your affinities and the Reverse Vanilla questionnaire.',
+        relBtn: 'Map Relationship →'
+      },
+      es: {
+        pageTitle: 'Centro de Pruebas',
+        pageDesc: 'Seleccione el mapeo que deseja realizar a continuación:',
+        bdsmTitle: 'Prueba BDSM Principal',
+        bdsmDesc: 'La prueba principal del ecosistema. Responda preguntas de la escala Likert para mapear su perfil de fetiches, afinidades kinky y trazar su Persona erótica.',
+        bdsmBtn: 'Iniciar Prueba →',
+        relTitle: 'Mapa Relacional y Compatibilidad',
+        relDesc: 'Mapee su formato de relación deseado (Monogamia, Relación Abierta, Poliamor, Swing) y cruce sus afinidades y el cuestionario Vainilla Reverso.',
+        relBtn: 'Mapear Relación →'
+      }
+    };
+
+    function aplicarTraducoes() {
+      const lang = getLang();
+      const t = pageI18n[lang] || pageI18n['pt'];
+      
+      document.getElementById('lblPageTitle').textContent = t.pageTitle;
+      document.getElementById('lblPageDesc').textContent = t.pageDesc;
+      document.getElementById('lblBdsmTitle').textContent = t.bdsmTitle;
+      document.getElementById('lblBdsmDesc').textContent = t.bdsmDesc;
+      document.getElementById('lblBdsmBtn').textContent = t.bdsmBtn;
+      document.getElementById('lblRelTitle').textContent = t.relTitle;
+      document.getElementById('lblRelDesc').textContent = t.relDesc;
+      document.getElementById('lblRelBtn').textContent = t.relBtn;
+    }
+
+    aplicarTraducoes();
+
+    // Fechar Splash Screen
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        if (splash) splash.classList.add('fade-out');
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
