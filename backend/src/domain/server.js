@@ -65,7 +65,15 @@ try {
 app.post('/api/auth/register', async (req, res) => {
   const { identificador, senha, pronome } = req.body;
   const result = await registrarUsuario(identificador, senha, pronome);
-  res.json(result);
+  if (!result.success) {
+    return res.status(400).json(result);
+  }
+  // Normalizar resposta para o mesmo formato do login: { token, user: { id, identificador } }
+  res.json({
+    success: true,
+    token: result.token,
+    user: { id: result.userId, identificador: identificador?.trim()?.toLowerCase() }
+  });
 });
 
 app.post('/api/auth/login', async (req, res) => {

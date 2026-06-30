@@ -325,8 +325,8 @@
         const result = await response.json();
 
         if (result.success) {
-          const uId = isRegisterMode ? result.userId : result.user.id;
-          const uIdent = isRegisterMode ? identificador : result.user.identificador;
+          const uId = result.user?.id;
+          const uIdent = result.user?.identificador || identificador;
           localStorage.setItem('bdsm_user_id', uId);
           localStorage.setItem('bdsm_user_name', uIdent);
           localStorage.setItem('bdsm_auth_token', result.token);
