@@ -162,16 +162,18 @@ app.post('/api/calculate', async (req, res) => {
   // Salvar no SQLite com profile_declarado e pronome do usuário
   const token = await gerarTokenUnico();
   const db = await getDb();
+  
+  const parsedUserId = userId ? parseInt(userId) : null;
 
   let userPronome = 'elu';
-  if (userId) {
-    const userRow = await db.get(`SELECT pronome FROM usuarios WHERE id = ?`, [userId]);
+  if (parsedUserId) {
+    const userRow = await db.get(`SELECT pronome FROM usuarios WHERE id = ?`, [parsedUserId]);
     if (userRow) userPronome = userRow.pronome;
   }
 
   await db.run(
     `INSERT INTO testes_salvos (token, usuario_id, level_teste, scores_json, profile_declarado, pronome) VALUES (?, ?, ?, ?, ?, ?)`,
-    [token, userId || null, level || 'completo', JSON.stringify(scores), profile || 'nao_sabe', userPronome]
+    [token, parsedUserId, level || 'completo', JSON.stringify(scores), profile || 'nao_sabe', userPronome]
   );
   await db.close();
 
@@ -642,6 +644,8 @@ app.post('/api/relacional/resultado', async (req, res) => {
     // Gerar token único validando na tabela correta
     const token = await gerarTokenUnico('resultados_relacionais');
 
+    const parsedUserId = userId ? parseInt(userId) : null;
+
     // Salvar resultado
     await db.run(
       `INSERT INTO resultados_relacionais
@@ -649,7 +653,7 @@ app.post('/api/relacional/resultado', async (req, res) => {
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         token,
-        userId || null,
+        parsedUserId,
         perfilId,
         scores.exclusividade,
         scores.seguranca,
