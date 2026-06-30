@@ -24,6 +24,48 @@
       text-decoration: underline;
       cursor: pointer;
     }
+    .btn-anon {
+      width: 100%;
+      padding: 0.9rem;
+      border-radius: 12px;
+      border: 1.5px solid rgba(255,255,255,0.12);
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 0.75rem;
+      transition: all 0.2s ease;
+      font-family: 'Outfit', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .btn-anon:hover {
+      border-color: rgba(255,255,255,0.3);
+      color: #fff;
+      background: rgba(255,255,255,0.04);
+    }
+    .anon-divider {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 1rem 0 0.25rem;
+    }
+    .anon-divider::before,
+    .anon-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border-color);
+    }
+    .anon-divider span {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
     .lang-selector {
       display: flex;
       gap: 0.5rem;
@@ -111,6 +153,11 @@
       <button class="btn-primary" id="submitBtn" onclick="processarAuth()">Entrar</button>
 
       <span class="toggle-link" id="toggleLink" onclick="toggleMode()">Não tem uma conta? Crie uma aqui</span>
+
+      <div class="anon-divider"><span id="anonDividerText">ou acesse sem conta</span></div>
+      <button class="btn-anon" id="btnAnon" onclick="anonimizarAcesso()">
+        👤 <span id="btnAnonText">Continuar como Anônimo</span>
+      </button>
     </div>
 
   </div>
@@ -361,6 +408,38 @@
         }
       } catch (err) {
         alert('Erro de comunicação com o servidor.');
+      }
+    }
+
+    window.anonimizarAcesso = async function() {
+      const btn = document.getElementById('btnAnon');
+      const btnText = document.getElementById('btnAnonText');
+      btn.disabled = true;
+      btnText.textContent = currentLang === 'en' ? 'Loading...' : currentLang === 'es' ? 'Cargando...' : 'Carregando...';
+
+      try {
+        const response = await fetch(`${API_URL}/auth/anonymous`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pronome: 'elu' })
+        });
+        const result = await response.json();
+
+        if (result.success) {
+          localStorage.setItem('bdsm_user_id', result.user.id);
+          localStorage.setItem('bdsm_user_name', result.user.identificador);
+          localStorage.setItem('bdsm_auth_token', result.token);
+          localStorage.setItem('bdsm_is_anonimo', 'true');
+          window.location.href = 'testes.html';
+        } else {
+          alert(result.error || 'Erro ao criar sessão anônima.');
+          btn.disabled = false;
+          btnText.textContent = currentLang === 'en' ? 'Continue as Anonymous' : currentLang === 'es' ? 'Continuar como Anónimo' : 'Continuar como Anônimo';
+        }
+      } catch (err) {
+        alert('Erro de comunicação com o servidor.');
+        btn.disabled = false;
+        btnText.textContent = currentLang === 'en' ? 'Continue as Anonymous' : currentLang === 'es' ? 'Continuar como Anónimo' : 'Continuar como Anônimo';
       }
     }
 

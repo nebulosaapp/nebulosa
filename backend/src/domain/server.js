@@ -82,6 +82,41 @@ app.post('/api/auth/login', async (req, res) => {
   res.json(result);
 });
 
+// Acesso Anônimo: cria um usuário temporário rastreável sem cadastro
+app.post('/api/auth/anonymous', async (req, res) => {
+  const { pronome } = req.body;
+  const db = await getDb();
+  try {
+    // Gerar identificador anônimo único
+    const anonId = `anon_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+    const anonPronome = pronome || 'elu';
+
+    // Inserir no banco com flag is_anonimo
+    const result = await db.run(
+      `INSERT INTO usuarios (identificador, senha_hash, pronome, is_anonimo) VALUES (?, ?, ?, 1)`,
+      [anonId, 'anonymous', anonPronome]
+    );
+    const userId = result.lastID;
+
+    // Emitir JWT igual aos usuários normais
+    const token = jwt.sign(
+      { id: userId, identificador: anonId },
+      process.env.JWT_SECRET || 'super_segredo_jwt_nebulosa_v4_2026',
+      { expiresIn: '7d' }
+    );
+
+    await db.close();
+    res.json({
+      success: true,
+      token,
+      user: { id: userId, identificador: anonId, is_anonimo: true }
+    });
+  } catch (error) {
+    await db.close();
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 // Associar testes anônimos salvos localmente ao usuário logado
 app.post('/api/auth/associate-tests', async (req, res) => {
   const { userId, tokens } = req.body;
@@ -760,6 +795,7 @@ app.get('/api/admin/stats', async (req, res) => {
   const db = await getDb();
   try {
     const uCount = await db.get('SELECT COUNT(*) AS total FROM usuarios');
+    const uAnonCount = await db.get('SELECT COUNT(*) AS total FROM usuarios WHERE is_anonimo = 1');
     const tCount = await db.get('SELECT COUNT(*) AS total FROM testes_salvos');
     const rCount = await db.get('SELECT COUNT(*) AS total FROM resultados_relacionais');
 
@@ -777,6 +813,7 @@ app.get('/api/admin/stats', async (req, res) => {
     res.json({
       success: true,
       totalUsuarios: uCount.total,
+      totalUsuariosAnonimos: uAnonCount ? uAnonCount.total : 0,
       totalTestesBdsm: tCount.total,
       totalTestesRelacionais: rCount.total,
       perfis: profiles,

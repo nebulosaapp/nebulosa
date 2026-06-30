@@ -197,7 +197,11 @@
       <div class="admin-stats-grid" style="margin-top: 1rem;">
         <div class="stat-card">
           <div class="stat-number" id="numUsuarios">0</div>
-          <div class="stat-label">Usuários Ativos</div>
+          <div class="stat-label">Usuários Cadastrados</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="numAnonimos" style="background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">0</div>
+          <div class="stat-label">Acessos Anônimos</div>
         </div>
         <div class="stat-card">
           <div class="stat-number" id="numTestesBdsm">0</div>
@@ -297,6 +301,7 @@
         const data = await response.json();
         if (data.success) {
           document.getElementById('numUsuarios').textContent = data.totalUsuarios;
+          document.getElementById('numAnonimos').textContent = data.totalUsuariosAnonimos || 0;
           document.getElementById('numTestesBdsm').textContent = data.totalTestesBdsm;
           document.getElementById('numTestesRel').textContent = data.totalTestesRelacionais;
 
