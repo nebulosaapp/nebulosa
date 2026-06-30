@@ -23,13 +23,13 @@ export function injetarMenuGlobal() {
       <button class="menu-close" id="menuCloseBtn">✕ ${lang === 'en' ? 'Close' : lang === 'es' ? 'Cerrar' : 'Fechar'}</button>
       <div style="margin-top: 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 1rem;">
         <span style="font-size: 0.85rem; color: #8e92a2; text-transform: uppercase; font-weight: 600;">${lang === 'en' ? 'Active Account' : lang === 'es' ? 'Cuenta Activa' : 'Conta Ativa'}</span>
-        <div style="font-size: 1.1rem; font-weight: 800; color: #ff3333; margin-top: 0.25rem; word-break: break-all;">${userName}</div>
+        <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent-color); margin-top: 0.25rem; word-break: break-all;">${userName}</div>
       </div>
       <div class="menu-links">
         <a href="home.html" class="menu-link ${currentPath.includes('home') ? 'active' : ''}">${lang === 'en' ? 'Home' : lang === 'es' ? 'Inicio' : 'Início'}</a>
         <a href="perfil.html" class="menu-link ${currentPath.includes('perfil') ? 'active' : ''}">${L.menu_profile}</a>
         <a href="index.html" class="menu-link ${currentPath.includes('index') || currentPath.endsWith('/') ? 'active' : ''}">${L.menu_new_test}</a>
-        <a href="biblioteca.html" class="menu-link ${currentPath.includes('biblioteca') ? 'active' : ''}">${L.menu_library || 'Biblioteca BDSM'}</a>
+        <a href="biblioteca.html" class="menu-link ${currentPath.includes('biblioteca') ? 'active' : ''}">${L.menu_library || 'Biblioteca Nebulosa'}</a>
         <a href="relacional-test.html" class="menu-link ${currentPath.includes('relacional') ? 'active' : ''}" style="color:#c084fc; border-color:rgba(124,92,252,0.3);">Mapa Relacional</a>
       </div>
 

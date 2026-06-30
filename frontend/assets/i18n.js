@@ -55,8 +55,8 @@ export const I18N = {
     menu_language: 'Idioma',
 
     // Login
-    login_title: 'BDSM Test',
-    login_subtitle: 'Gerencie sua conta e histórico de testes',
+    login_title: 'Nebulosa',
+    login_subtitle: 'Descubra. Conecte. Explore.',
     login_access: 'Acessar Conta',
     login_register: 'Registrar Nova Conta',
     login_id_label: 'Instagram (@) ou E-mail',
@@ -71,7 +71,7 @@ export const I18N = {
     login_lang_label: 'Escolha o idioma / Choose language / Elige el idioma',
 
     // Index
-    index_title: 'BDSM Test',
+    index_title: 'Nebulosa',
     index_subtitle: 'Descubra suas afinidades e fetiches',
     index_quick_access: 'Acesso Rápido',
     index_enter_btn: 'Entrar / Registrar',
@@ -87,7 +87,7 @@ export const I18N = {
     index_start_btn: 'Iniciar Novo Teste ➔',
 
     // Test
-    test_title: 'BDSM Test',
+    test_title: 'Nebulosa',
     test_level_prefix: 'Teste Nível:',
     test_loading: 'Carregando perguntas...',
     test_question_counter: 'Pergunta {current} de {total}',
@@ -187,8 +187,8 @@ export const I18N = {
     menu_language: 'Language',
 
     // Login
-    login_title: 'BDSM Test',
-    login_subtitle: 'Manage your account and test history',
+    login_title: 'Nebulosa',
+    login_subtitle: 'Discover. Connect. Explore.',
     login_access: 'Sign In',
     login_register: 'Create New Account',
     login_id_label: 'Instagram (@) or Email',
@@ -203,7 +203,7 @@ export const I18N = {
     login_lang_label: 'Choose language / Elige el idioma / Escolha o idioma',
 
     // Index
-    index_title: 'BDSM Test',
+    index_title: 'Nebulosa',
     index_subtitle: 'Discover your kinks and affinities',
     index_quick_access: 'Quick Access',
     index_enter_btn: 'Sign In / Register',
@@ -219,7 +219,7 @@ export const I18N = {
     index_start_btn: 'Start New Test ➔',
 
     // Test
-    test_title: 'BDSM Test',
+    test_title: 'Nebulosa',
     test_level_prefix: 'Test Level:',
     test_loading: 'Loading questions...',
     test_question_counter: 'Question {current} of {total}',
@@ -319,8 +319,8 @@ export const I18N = {
     menu_language: 'Idioma',
 
     // Login
-    login_title: 'BDSM Test',
-    login_subtitle: 'Gestiona tu cuenta e historial de tests',
+    login_title: 'Nebulosa',
+    login_subtitle: 'Descubre. Conecta. Explora.',
     login_access: 'Iniciar Sesión',
     login_register: 'Crear Nueva Cuenta',
     login_id_label: 'Instagram (@) o Email',
@@ -335,7 +335,7 @@ export const I18N = {
     login_lang_label: 'Elige el idioma / Choose language / Escolha o idioma',
 
     // Index
-    index_title: 'BDSM Test',
+    index_title: 'Nebulosa',
     index_subtitle: 'Descubre tus fetiches y afinidades',
     index_quick_access: 'Acceso Rápido',
     index_enter_btn: 'Entrar / Registrarse',
@@ -351,7 +351,7 @@ export const I18N = {
     index_start_btn: 'Iniciar Nuevo Test ➔',
 
     // Test
-    test_title: 'BDSM Test',
+    test_title: 'Nebulosa',
     test_level_prefix: 'Nivel del Test:',
     test_loading: 'Cargando preguntas...',
     test_question_counter: 'Pregunta {current} de {total}',

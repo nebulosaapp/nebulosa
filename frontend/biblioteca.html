@@ -398,6 +398,7 @@
 
     async function carregarDicionario() {
       const userId = localStorage.getItem('bdsm_user_id');
+      const token = localStorage.getItem('bdsm_auth_token');
       try {
         // Carrega dicionário
         const res = await fetch(`${API_URL}/wiki/dicionario`);

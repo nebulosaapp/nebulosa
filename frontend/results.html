@@ -323,9 +323,9 @@
             datasets: [{
               label: lang === 'en' ? 'Your Affinity' : lang === 'es' ? 'Tu Afinidad' : 'Sua Afinidade',
               data: scoresPilares,
-              backgroundColor: 'rgba(255, 51, 51, 0.2)',
-              borderColor: '#ff3333',
-              pointBackgroundColor: '#ff3333',
+              backgroundColor: 'rgba(168, 85, 247, 0.2)',
+              borderColor: '#a855f7',
+              pointBackgroundColor: '#ec4899',
               borderWidth: 2
             }]
           },
@@ -539,10 +539,14 @@
       let ok = 0;
       for (const item of _scoresParaImportar) {
         const nivel = scoreParaNivel(item.score);
+        const token = localStorage.getItem('bdsm_auth_token');
         try {
           await fetch(`${API_URL}/user/${userId}/limits`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
             body: JSON.stringify({ termo: item.name, nivel, observacao: '' })
           });
           ok++;
