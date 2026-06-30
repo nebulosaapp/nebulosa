@@ -110,19 +110,13 @@
 <body>
 
   <!-- Splash Screen Animada -->
-  <div id="splash-screen" class="splash-screen">
-    <img src="logos/logo simples.png" alt="Nebulosa Logo" class="splash-logo">
-    <h1 class="splash-title">Nebulosa</h1>
-    <p class="splash-subtitle">Descubra. Conecte. Explore.</p>
-  </div>
+  
 
   <div class="app-container">
     
     <!-- Cabeçalho Global Padronizado -->
     <div class="global-header">
-      <div class="header-logo-container">
-        <img src="logos/logo com nome.png" alt="Nebulosa" class="header-logo-img">
-      </div>
+      <h1 style="font-size: 1.5rem; font-weight: 800; background: linear-gradient(135deg, #df9eff 0%, #a855f7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; font-family: 'Outfit', sans-serif;">Nebulosa</h1>
       <button class="menu-trigger" id="menuOpenBtn">☰</button>
     </div>
 
@@ -223,13 +217,7 @@
 
     aplicarTraducoes();
 
-    // Fechar Splash Screen
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const splash = document.getElementById('splash-screen');
-        if (splash) splash.classList.add('fade-out');
-      }, 1000);
-    });
+    
   </script>
 </body>
 </html>

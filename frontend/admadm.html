@@ -153,11 +153,7 @@
 <body>
 
   <!-- Splash Screen -->
-  <div id="splash-screen" class="splash-screen">
-    <img src="logos/logo simples.png" alt="Nebulosa Logo" class="splash-logo">
-    <h1 class="splash-title">Nebulosa</h1>
-    <p class="splash-subtitle">Controle & Métricas</p>
-  </div>
+  
 
   <!-- TELA DE LOGIN DO ADMIN -->
   <div id="loginSection" class="admin-container admin-login-box" style="display: none;">
@@ -414,13 +410,7 @@
     // Inicializar verificação
     checkAuthAdmin();
 
-    // Fechar Splash Screen
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const splash = document.getElementById('splash-screen');
-        if (splash) splash.classList.add('fade-out');
-      }, 1000);
-    });
+    
   </script>
 </body>
 </html>
