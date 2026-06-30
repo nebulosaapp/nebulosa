@@ -25,6 +25,9 @@ app.use(cors());
 app.use(express.json());
 
 // Servir arquivos estáticos do frontend
+app.get('/', (req, res) => {
+  res.redirect('/login.html');
+});
 app.use(express.static(path.join(__dirname, '../../../frontend')));
 
 const dbPath = path.resolve(__dirname, '../../../database/bdsm_completo.db');
