@@ -5,7 +5,7 @@
   "description": "BDSM Test V4.0 - App com internacionalização, radar de pilares e download de diagnóstico.",
   "main": "backend/src/domain/server.js",
   "scripts": {
-    "start": "node backend/src/domain/server.js",
+    "start": "npm install && node database/migrate.js && node backend/src/domain/server.js",
     "dev": "node backend/src/domain/server.js",
     "migrate": "node database/migrate.js"
   },

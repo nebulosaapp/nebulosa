@@ -362,15 +362,16 @@
     window.responder = function(valor) {
       const q = perguntas[currentIndex];
       respostas[q.id] = valor;
-
+ 
       // Feedback visual antes de avançar
+      document.querySelectorAll('.likert-option').forEach(el => el.classList.remove('selected'));
       const el = document.querySelector(`.likert-option[data-value="${valor}"]`);
       if (el) el.classList.add('selected');
-
+ 
       setTimeout(() => {
         currentIndex++;
         exibirPergunta();
-      }, 200);
+      }, 250);
     };
 
     window.voltarPergunta = function() {
