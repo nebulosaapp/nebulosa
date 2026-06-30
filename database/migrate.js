@@ -121,7 +121,6 @@ async function runMigrate() {
       }
     }
     await dbApp3.close();
-  }
 
   // 3. Migrar bdsm_wiki.db (Wiki) - A Wiki permanece local e offline no SQLite para mÃ¡xima performance
   const dbWiki = await open({ filename: dbWikiPath, driver: sqlite3.Database });
