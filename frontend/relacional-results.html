@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Seu Mapa Relacional — Resultado</title>
+  <meta name="description" content="Veja seu perfil relacional: Mono-Estrutural, Poliamor, Explorador Fluido e muito mais.">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --rel-accent: #7c5cfc;
+      --rel-gradient: linear-gradient(135deg, #7c5cfc, #c084fc);
+      --rel-soft: rgba(124, 92, 252, 0.12);
+    }
+
+    /* ── CARD DE PERFIL PRINCIPAL ── */
+    .perfil-card {
+      border: 2px solid #7c5cfc;
+      background: linear-gradient(145deg, rgba(124,92,252,0.06), rgba(192,132,252,0.03));
+      border-radius: 20px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .perfil-emoji {
+      font-size: 3.5rem;
+      display: block;
+      margin-bottom: 0.75rem;
+      filter: drop-shadow(0 0 12px rgba(124,92,252,0.5));
+      animation: pulseEmoji 2.5s ease-in-out infinite;
+    }
+    @keyframes pulseEmoji {
+      0%,100% { transform: scale(1); }
+      50%      { transform: scale(1.07); }
+    }
+    .perfil-nome {
+      font-size: 1.65rem;
+      font-weight: 800;
+      background: var(--rel-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.4rem;
+    }
+    .perfil-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      font-style: italic;
+      margin-bottom: 0;
+    }
+
+    /* ── EIXOS / RADAR LABELS ── */
+    .eixo-bar-row {
+      margin-bottom: 1.2rem;
+    }
+    .eixo-bar-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+    .eixo-bar-label { color: #dfdfe8; }
+    .eixo-bar-pct   { color: #c084fc; font-weight: 800; }
+    
+    /* Barra Divergente (Centro = 50) */
+    .eixo-track-wrapper {
+      position: relative;
+      width: 100%;
+      height: 10px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 5px;
+      margin-bottom: 0.4rem;
+    }
+    .eixo-center-line {
+      position: absolute;
+      left: 50%;
+      top: -3px;
+      bottom: -3px;
+      width: 2px;
+      background: rgba(255,255,255,0.15);
+      z-index: 2;
+    }
+    .eixo-fill {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      border-radius: 5px;
+      transition: width 0.9s ease, left 0.9s ease, right 0.9s ease;
+      z-index: 1;
+    }
+
+    /* Textos Polos */
+    .eixo-polos {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Caixa de Explicação do Eixo */
+    .eixo-human-desc {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 0.75rem;
+      font-size: 0.82rem;
+      color: #b0b4c4;
+      line-height: 1.5;
+    }
+    .eixo-human-desc strong { color: #dfdfe8; }
+    .eixo-human-desc .exemplo {
+      margin-top: 0.5rem;
+      padding-top: 0.5rem;
+      border-top: 1px dashed rgba(255,255,255,0.1);
+      font-style: italic;
+      color: #9ca3af;
+    }
+
+    /* ── DIAGNÓSTICO ── */
+    .diag-text {
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: #dfdfe8;
+      text-align: justify;
+    }
+
+    /* ── TOKEN / COMPARTILHAR ── */
+    .share-card {
+      background: rgba(124,92,252,0.05);
+      border: 1px solid rgba(124,92,252,0.2);
+      border-radius: 14px;
+      padding: 1rem 1.25rem;
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+    .share-token {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #c084fc;
+      letter-spacing: 2px;
+      display: block;
+      margin: 0.4rem 0;
+    }
+    .btn-download {
+      width: 100%;
+      padding: 0.9rem;
+      border-radius: 12px;
+      border: 1.5px solid rgba(124,92,252,0.4);
+      background: rgba(124,92,252,0.07);
+      color: #c084fc;
+      font-size: 0.95rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      margin-top: 0.75rem;
+      transition: all 0.2s ease;
+    }
+    .btn-download:active { opacity: 0.8; transform: scale(0.98); }
+
+    /* ── COMPARATIVO DE PERFIS ── */
+    .perfis-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+    }
+    .perfil-mini {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 0.75rem;
+      text-align: center;
+      transition: border-color 0.2s;
+    }
+    .perfil-mini.ativo {
+      border-color: #7c5cfc;
+      background: rgba(124,92,252,0.08);
+    }
+    .perfil-mini-emoji { font-size: 1.4rem; display: block; margin-bottom: 0.25rem; }
+    .perfil-mini-nome  { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); }
+    .perfil-mini.ativo .perfil-mini-nome { color: #c084fc; }
+
+    /* ── RADAR ── */
+    .radar-container {
+      position: relative;
+      height: 280px;
+      margin: 1rem auto;
+    }
+
+    /* ── TABS ── */
+    .tab-bar {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 0.65rem 0.5rem;
+      border-radius: 10px;
+      border: 1.5px solid var(--border-color);
+      background: none;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+    .tab-btn.active {
+      border-color: #7c5cfc;
+      background: rgba(124,92,252,0.1);
+      color: #c084fc;
+    }
+
+    .btn-refazer {
+      width: 100%;
+      padding: 0.85rem;
+      border-radius: 12px;
+      border: none;
+      background: var(--rel-gradient);
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- Cabeçalho -->
+    <div class="global-header">
+      <header style="text-align: left; margin: 0;">
+        <h1 style="background:linear-gradient(135deg,#7c5cfc,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Mapa Relacional</h1>
+        <p id="userNameDisplay" style="color:var(--text-muted); font-size:0.85rem;">Seu resultado</p>
+      </header>
+      <button class="menu-trigger" id="menuOpenBtn">☰</button>
+    </div>
+
+    <!-- TABs -->
+    <div class="tab-bar">
+      <button class="tab-btn active" id="tabRelBtn" onclick="switchTab('rel')">🧭 Perfil</button>
+      <button class="tab-btn" id="tabAxesBtn" onclick="switchTab('axes')">📊 Eixos</button>
+      <button class="tab-btn" id="tabDiagBtn" onclick="switchTab('diag')">💬 Diagnóstico</button>
+    </div>
+
+    <!-- TAB 1: Perfil -->
+    <div id="tabRelContent">
+
+      <!-- Card do Perfil -->
+      <div class="perfil-card" id="perfilCard">
+        <span class="perfil-emoji" id="perfilEmoji">⏳</span>
+        <div class="perfil-nome" id="perfilNome">Calculando...</div>
+        <div class="perfil-desc" id="perfilDesc"></div>
+      </div>
+
+      <!-- Radar dos 5 Eixos -->
+      <div class="card" style="margin-bottom:1.5rem;">
+        <h2 class="card-title" style="background:var(--rel-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Seus 5 Eixos Relacionais</h2>
+        <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:0.75rem;">Cada eixo mede uma dimensão emocional distinta do seu estilo de vínculo.</p>
+        <div class="radar-container">
+          <canvas id="radarRelacional"></canvas>
+        </div>
+      </div>
+
+      <!-- Todos os Perfis -->
+      <div class="card" style="margin-bottom:1.5rem;">
+        <h2 class="card-title">Os 6 Perfis Relacionais</h2>
+        <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:0.9rem;">Seu perfil em destaque.</p>
+        <div class="perfis-grid" id="perfisGrid"></div>
+      </div>
+
+      <!-- Compartilhar -->
+      <div class="share-card">
+        <span class="input-label">Token de Compartilhamento</span>
+        <span class="share-token" id="tokenDisplay">--------</span>
+        <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:0.5rem;">Compartilhe com parceiros para comparar estilos relacionais.</p>
+        <button class="btn-refazer" onclick="window.location.href='relacional-test.html'">🔄 Refazer Teste</button>
+      </div>
+
+    </div>
+
+    <!-- TAB 2: Eixos Detalhados -->
+    <div id="tabAxesContent" style="display:none;">
+      <div class="card">
+        <h2 class="card-title" style="background:var(--rel-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Detalhamento dos Eixos</h2>
+        <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:1rem;">
+          Scores acima de 50 indicam tendência para multiplicidade/flexibilidade.<br>
+          Scores abaixo de 50 indicam tendência para exclusividade/estrutura.
+        </p>
+        <div id="eixosDetalhados"></div>
+      </div>
+
+    </div>
+
+    <!-- TAB 3: Diagnóstico -->
+    <div id="tabDiagContent" style="display:none;">
+      <div class="card">
+        <h2 class="card-title" style="background:var(--rel-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;" id="diagTitle">Diagnóstico</h2>
+        <div class="diag-text" id="diagText">Carregando diagnóstico...</div>
+      </div>
+      <div class="share-card" style="margin-top:1.5rem;">
+        <button class="btn-refazer" onclick="window.location.href='relacional-test.html'">🔄 Refazer Teste</button>
+        <button class="btn-download" onclick="window.location.href='index.html'" style="margin-top:0.5rem;">← Voltar ao Início</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module">
+    import { injetarMenuGlobal } from './assets/menu.js';
+
+    const API_URL  = 'http://localhost:3001/api';
+    const token    = localStorage.getItem('relacional_last_token');
+    const userName = localStorage.getItem('bdsm_user_name') || 'Explorador(a)';
+
+    injetarMenuGlobal();
+    document.getElementById('userNameDisplay').innerText = `Perfil de: ${userName}`;
+
+    // ── TODOS OS PERFIS (para o grid) ──────────────────────────────────────
+    const todosOsPerfis = [
+      { id: 'mono-estrutural',  emoji: '👑', nome: 'Mono-Estrutural' },
+      { id: 'aberto-controlado',emoji: '🔓', nome: 'Aberto Controlado' },
+      { id: 'poliamor',         emoji: '💞', nome: 'Poliamor' },
+      { id: 'explorador',       emoji: '🌪️', nome: 'Explorador Fluido' },
+      { id: 'anarquico',        emoji: '🧭', nome: 'Anárquico' },
+      { id: 'hibrido',          emoji: '⚖️', nome: 'Híbrido' },
+    ];
+
+    // ── CORES E TEXTOS DOS EIXOS (VERSÃO HUMANA) ───────────────────────────
+    const eixosConfig = [
+      { key: 'exclusividade', label: 'Exclusividade',  color: '#7c5cfc', poloMin: 'Mono-cêntrico', poloMax: 'Multiplicidade', 
+        desc: 'Quantas conexões você consegue sustentar emocionalmente ao mesmo tempo.', 
+        exemplo: 'Você sente necessidade de “ser o principal” de alguém ou consegue existir como parte de uma rede afetiva?' },
+      { key: 'seguranca',     label: 'Segurança',      color: '#00d084', poloMin: 'Controle',       poloMax: 'Fluidez', 
+        desc: 'Quanto você precisa de previsibilidade emocional pra se sentir bem.', 
+        exemplo: 'Se a relação muda regras ou ritmo, isso te tranquiliza ou te desestabiliza?' },
+      { key: 'estrutura',     label: 'Estrutura',      color: '#c084fc', poloMin: 'Regras fixas',   poloMax: 'Flexibilidade', 
+        desc: 'Quanto você gosta de regras claras vs combinações flexíveis.', 
+        exemplo: 'Você prefere “definir tudo de início” ou ir ajustando conforme vive?' },
+      { key: 'posse',         label: 'Posse',          color: '#ffb347', poloMin: 'Possessivo',     poloMax: 'Autônomo(a)', 
+        desc: 'Quanto você associa vínculo com exclusividade de controle ou liberdade.', 
+        exemplo: 'Você sente necessidade de “ter” a pessoa ou consegue amar sem controlar?' },
+      { key: 'rede',          label: 'Rede Afetiva',   color: '#ff6b6b', poloMin: 'Um centro',      poloMax: 'Rede múltipla', 
+        desc: 'Como você organiza suas relações: centralizadas ou distribuídas.', 
+        exemplo: 'Você tem “uma pessoa principal” ou várias conexões importantes ao mesmo tempo?' }
+    ];
+
+    // ── TABS ────────────────────────────────────────────────────────────────
+    window.switchTab = function(tab) {
+      ['rel','axes','diag'].forEach(t => {
+        document.getElementById(`tab${t.charAt(0).toUpperCase()+t.slice(1)}Content`).style.display = 'none';
+        document.getElementById(`tab${t.charAt(0).toUpperCase()+t.slice(1)}Btn`).classList.remove('active');
+      });
+      // fix ids
+      document.getElementById('tabRelContent').style.display  = tab === 'rel'  ? 'block' : 'none';
+      document.getElementById('tabAxesContent').style.display = tab === 'axes' ? 'block' : 'none';
+      document.getElementById('tabDiagContent').style.display = tab === 'diag' ? 'block' : 'none';
+      document.getElementById('tabRelBtn').classList.toggle('active',  tab === 'rel');
+      document.getElementById('tabAxesBtn').classList.toggle('active', tab === 'axes');
+      document.getElementById('tabDiagBtn').classList.toggle('active', tab === 'diag');
+    };
+
+    // ── CARREGAR RESULTADO ──────────────────────────────────────────────────
+    async function carregarResultado() {
+      if (!token) {
+        alert('Nenhum resultado encontrado. Faça o teste primeiro.');
+        window.location.href = 'relacional-test.html';
+        return;
+      }
+
+      try {
+        const res    = await fetch(`${API_URL}/relacional/resultado/${token}`);
+        const result = await res.json();
+        if (!result.success) throw new Error(result.error);
+
+        const { perfil, scores } = result;
+
+        // ── Token ──
+        document.getElementById('tokenDisplay').innerText = token.toUpperCase();
+
+        // ── Card do Perfil ──
+        document.getElementById('perfilEmoji').innerText = perfil.emoji;
+        document.getElementById('perfilNome').innerText  = perfil.nome;
+        document.getElementById('perfilDesc').innerText  = perfil.descricao;
+
+        // ── Diagnóstico ──
+        document.getElementById('diagTitle').innerText = `${perfil.emoji} ${perfil.nome}`;
+        document.getElementById('diagText').innerText  = perfil.diagnostico;
+
+        // ── Grid de Perfis ──
+        const grid = document.getElementById('perfisGrid');
+        grid.innerHTML = todosOsPerfis.map(p => `
+          <div class="perfil-mini ${p.id === result.perfilId ? 'ativo' : ''}">
+            <span class="perfil-mini-emoji">${p.emoji}</span>
+            <div class="perfil-mini-nome">${p.nome}</div>
+          </div>`).join('');
+
+        // ── Barras de Eixo (Tab 2) ──
+        const eixosDiv = document.getElementById('eixosDetalhados');
+        eixosDiv.innerHTML = eixosConfig.map(e => {
+          const val = scores[e.key] ?? 50;
+          
+          // Lógica da barra divergente centrada em 50%
+          let displayVal = 0;
+          let barLeft = '50%';
+          let barWidth = '0%';
+          
+          if (val < 50) {
+             // Vai para a esquerda (ex: 44% -> displayVal = 12%, width = 6%, left = 44%)
+             displayVal = Math.round(((50 - val) / 50) * 100);
+             barLeft = `${val}%`;
+             barWidth = `${50 - val}%`;
+          } else if (val > 50) {
+             // Vai para a direita (ex: 57% -> displayVal = 14%, width = 7%, left = 50%)
+             displayVal = Math.round(((val - 50) / 50) * 100);
+             barLeft = '50%';
+             barWidth = `${val - 50}%`;
+          }
+
+          return `
+            <div class="eixo-bar-row">
+              <div class="eixo-bar-header">
+                <span class="eixo-bar-label">${e.label}</span>
+                <span class="eixo-bar-pct" style="color:${e.color}">${displayVal}%</span>
+              </div>
+              <div class="eixo-track-wrapper">
+                <div class="eixo-center-line"></div>
+                <div class="eixo-fill" style="left:${barLeft}; width:${barWidth}; background:${e.color};"></div>
+              </div>
+              <div class="eixo-polos">
+                <span>${e.poloMin}</span><span>${e.poloMax}</span>
+              </div>
+              <div class="eixo-human-desc">
+                <strong>O que significa:</strong> ${e.desc}
+                <div class="exemplo">💡 <strong>Exemplo real:</strong> ${e.exemplo}</div>
+              </div>
+            </div>`;
+        }).join('');
+
+        // ── Radar Chart ──
+        const ctx = document.getElementById('radarRelacional').getContext('2d');
+        new Chart(ctx, {
+          type: 'radar',
+          data: {
+            labels: eixosConfig.map(e => e.label),
+            datasets: [{
+              label: 'Seu Mapa',
+              data:  eixosConfig.map(e => scores[e.key] ?? 50),
+              backgroundColor: 'rgba(124,92,252,0.18)',
+              borderColor: '#7c5cfc',
+              pointBackgroundColor: eixosConfig.map(e => e.color),
+              pointBorderColor: '#fff',
+              pointRadius: 5,
+              borderWidth: 2.5
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              r: {
+                angleLines: { color: 'rgba(255,255,255,0.08)' },
+                grid:       { color: 'rgba(255,255,255,0.08)' },
+                pointLabels: {
+                  color: '#dfdfe8',
+                  font: { family: 'Outfit', size: 11, weight: '700' }
+                },
+                ticks: { display: false },
+                suggestedMin: 0,
+                suggestedMax: 100
+              }
+            },
+            plugins: { legend: { display: false } }
+          }
+        });
+
+      } catch (err) {
+        console.error(err);
+        document.getElementById('perfilNome').innerText = 'Erro ao carregar resultado.';
+      }
+    }
+
+    carregarResultado();
+  </script>
+
+</body>
+</html>

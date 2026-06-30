@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Configurações de Ficha Cadastral</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- Cabeçalho -->
+    <div class="global-header">
+      <header style="text-align: left; margin: 0;">
+        <h1 id="lblConfigTitle">Configurações</h1>
+        <p style="color:var(--text-muted); font-size:0.85rem;" id="lblConfigSubtitle">Ficha Cadastral & Informações</p>
+      </header>
+      <button class="menu-trigger" id="menuOpenBtn">☰</button>
+    </div>
+
+    <!-- Card de Edição -->
+    <div class="card">
+      <h2 class="card-title" id="lblFormTitle">Editar Ficha Cadastral</h2>
+      
+      <div id="editFormContainer" style="margin-top: 1.5rem;">
+        <div class="input-group">
+          <label class="input-label" for="editNick" id="lblNick">Nick de Acesso (Insta ou Identificador)</label>
+          <input type="text" id="editNick" placeholder="@seu_perfil">
+        </div>
+        
+        <div class="input-group">
+          <label class="input-label" for="editPronome" id="lblPronome">Meu Pronome</label>
+          <select id="editPronome">
+            <option value="ele" id="optEle">Ele / Dele</option>
+            <option value="ela" id="optEla">Ela / Dela</option>
+            <option value="elu" id="optElu">Elu / Delu (Neutro)</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="editNome" id="lblNome">Nome Completo</label>
+          <input type="text" id="editNome" placeholder="Seu nome">
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="editIdade" id="lblIdade">Idade</label>
+          <input type="text" id="editIdade" placeholder="Ex: 24">
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="editCidade" id="lblCidade">Cidade / UF</label>
+          <input type="text" id="editCidade" placeholder="Ex: São Paulo - SP">
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="editEmail" id="lblEmail">E-mail</label>
+          <input type="text" id="editEmail" placeholder="seuemail@link.com">
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="editOrientacao" id="lblOrientacao">Orientação Sexual</label>
+          <select id="editOrientacao">
+            <option value="heterossexual" id="optHetero">Heterossexual</option>
+            <option value="bissexual" id="optBi">Bissexual</option>
+            <option value="homossexual" id="optHomo">Homossexual / Gay / Lésbica</option>
+            <option value="pansexual" id="optPan">Pansexual</option>
+            <option value="assexual" id="optAssex">Assexual</option>
+            <option value="outra" id="optOutra">Outra</option>
+            <option value="nao_declarar" id="optOrNaoDecl" selected>Prefiro não declarar</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="editGenero" id="lblGenero">Gênero</label>
+          <select id="editGenero">
+            <option value="cisgenero" id="optCis">Cisgênero</option>
+            <option value="transgenero" id="optTrans">Transgênero</option>
+            <option value="nao_binario" id="optNBin">Não-binário</option>
+            <option value="genero_fluido" id="optGFluid">Gênero Fluido</option>
+            <option value="outro" id="optOutroG">Outro</option>
+            <option value="nao_declarar" id="optGenNaoDecl" selected>Prefiro não declarar</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="editInstagram" id="lblInstagram">Instagram Adicional (URL ou @)</label>
+          <input type="text" id="editInstagram" placeholder="@perfil_secundario">
+        </div>
+
+        <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
+          <button class="btn-primary" id="btnSaveProfile" onclick="salvarPerfil()" style="flex: 2;">Salvar Alterações</button>
+          <button class="btn-primary" onclick="window.location.href='perfil.html'" style="flex: 1; background: rgba(255,255,255,0.05); border: 1.5px solid var(--border-color); color: var(--text-main);">Voltar</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module">
+    import { injetarMenuGlobal } from './assets/menu.js';
+    import { I18N, getLang } from './assets/i18n.js';
+
+    const API_URL = 'http://localhost:3001/api';
+    const userId = localStorage.getItem('bdsm_user_id');
+    const lang = getLang();
+    const L = I18N[lang] || I18N['pt'];
+
+    if (!userId) {
+      window.location.href = 'login.html';
+    }
+
+    function aplicarIdioma() {
+      document.getElementById('lblConfigTitle').innerText = L.menu_settings || 'Configurações';
+      document.getElementById('lblFormTitle').innerText = L.profile_form_title || 'Ficha Cadastral';
+      document.getElementById('lblNick').innerText = L.profile_nick || 'Nick de Acesso';
+      document.getElementById('lblPronome').innerText = L.profile_pronome || 'Meu Pronome';
+      document.getElementById('lblNome').innerText = L.profile_name || 'Nome Completo';
+      document.getElementById('lblIdade').innerText = L.profile_age || 'Idade';
+      document.getElementById('lblCidade').innerText = L.profile_city || 'Cidade / UF';
+      document.getElementById('lblEmail').innerText = L.profile_email || 'E-mail';
+      document.getElementById('lblOrientacao').innerText = L.profile_orientation || 'Orientação Sexual';
+      document.getElementById('lblGenero').innerText = L.profile_gender || 'Gênero';
+      document.getElementById('lblInstagram').innerText = L.profile_instagram || 'Instagram Adicional';
+      document.getElementById('btnSaveProfile').innerText = L.profile_save_btn || 'Salvar Alterações';
+
+      document.getElementById('optEle').innerText = L.pronome_ele || 'Ele / Dele';
+      document.getElementById('optEla').innerText = L.pronome_ela || 'Ela / Dela';
+      document.getElementById('optElu').innerText = L.pronome_elu || 'Elu / Delu';
+
+      if (lang === 'en') {
+        document.getElementById('optHetero').innerText = 'Heterosexual';
+        document.getElementById('optBi').innerText = 'Bisexual';
+        document.getElementById('optHomo').innerText = 'Homosexual / Gay / Lesbian';
+        document.getElementById('optPan').innerText = 'Pansexual';
+        document.getElementById('optAssex').innerText = 'Asexual';
+        document.getElementById('optOutra').innerText = 'Other';
+        document.getElementById('optOrNaoDecl').innerText = 'Prefer not to declare';
+        document.getElementById('optCis').innerText = 'Cisgender';
+        document.getElementById('optTrans').innerText = 'Transgender';
+        document.getElementById('optNBin').innerText = 'Non-binary';
+        document.getElementById('optGFluid').innerText = 'Gender Fluid';
+        document.getElementById('optOutroG').innerText = 'Other';
+        document.getElementById('optGenNaoDecl').innerText = 'Prefer not to declare';
+      } else if (lang === 'es') {
+        document.getElementById('optHetero').innerText = 'Heterosexual';
+        document.getElementById('optBi').innerText = 'Bisexual';
+        document.getElementById('optHomo').innerText = 'Homosexual / Gay / Lesbiana';
+        document.getElementById('optPan').innerText = 'Pansexual';
+        document.getElementById('optAssex').innerText = 'Asexual';
+        document.getElementById('optOutra').innerText = 'Otro/a';
+        document.getElementById('optOrNaoDecl').innerText = 'Prefiero no declarar';
+        document.getElementById('optCis').innerText = 'Cisgénero';
+        document.getElementById('optTrans').innerText = 'Transgénero';
+        document.getElementById('optNBin').innerText = 'No binario';
+        document.getElementById('optGFluid').innerText = 'Género fluido';
+        document.getElementById('optOutroG').innerText = 'Otro/a';
+        document.getElementById('optGenNaoDecl').innerText = 'Prefiero no declarar';
+      }
+    }
+
+    const token = localStorage.getItem('bdsm_auth_token');
+
+    async function buscarDadosUsuario() {
+      try {
+        const response = await fetch(`${API_URL}/user/${userId}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const result = await response.json();
+        if (result.success && result.user) {
+          const u = result.user;
+          document.getElementById('editNick').value = u.identificador || '';
+          document.getElementById('editPronome').value = u.pronome || 'elu';
+          document.getElementById('editNome').value = u.nome || '';
+          document.getElementById('editIdade').value = u.idade !== null ? u.idade : '';
+          document.getElementById('editCidade').value = u.cidade || '';
+          document.getElementById('editEmail').value = u.email || '';
+          document.getElementById('editOrientacao').value = u.orientacao_sexual || '';
+          document.getElementById('editGenero').value = u.genero || '';
+          document.getElementById('editInstagram').value = u.instagram || '';
+        }
+      } catch (err) {
+        alert(lang === 'en' ? 'Error fetching user data.' : lang === 'es' ? 'Error al obtener datos de usuario.' : 'Erro ao buscar dados cadastrais.');
+      }
+    }
+
+    window.salvarPerfil = async function() {
+      const nick = document.getElementById('editNick').value.trim();
+      const pronome = document.getElementById('editPronome').value;
+      const nome = document.getElementById('editNome').value.trim();
+      const idade = document.getElementById('editIdade').value.trim();
+      const cidade = document.getElementById('editCidade').value.trim();
+      const email = document.getElementById('editEmail').value.trim();
+      const orientacao = document.getElementById('editOrientacao').value;
+      const genero = document.getElementById('editGenero').value;
+      const instagram = document.getElementById('editInstagram').value.trim();
+
+      if (!nick) {
+        alert(lang === 'en' ? 'Handle/Instagram is required.' : lang === 'es' ? 'El apodo/Instagram es obligatorio.' : 'O Nick/Instagram de acesso é obrigatório.');
+        return;
+      }
+
+      const bodyData = {
+        identificador: nick,
+        pronome,
+        nome,
+        idade: idade ? parseInt(idade) : null,
+        cidade,
+        email,
+        orientacao_sexual: orientacao,
+        genero,
+        instagram
+      };
+
+      try {
+        const response = await fetch(`${API_URL}/user/${userId}`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(bodyData)
+        });
+        const result = await response.json();
+        if (result.success) {
+          localStorage.setItem('bdsm_user_name', nick);
+          alert(lang === 'en' ? 'Profile updated successfully!' : lang === 'es' ? '¡Perfil actualizado con éxito!' : 'Perfil atualizado com sucesso!');
+          window.location.href = 'perfil.html';
+        } else {
+          alert("Error: " + result.error);
+        }
+      } catch (err) {
+        alert(lang === 'en' ? 'Communication error when saving.' : lang === 'es' ? 'Error de comunicação al guardar.' : 'Erro ao salvar perfil.');
+      }
+    }
+
+    aplicarIdioma();
+    injetarMenuGlobal();
+    buscarDadosUsuario();
+  </script>
+
+</body>
+</html>

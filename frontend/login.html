@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>BDSM Test - Acesso</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  
+  <!-- Configurações PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#a855f7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+  
+  <style>
+    .toggle-link {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      text-align: center;
+      display: block;
+      margin-top: 1rem;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .lang-selector {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+    .lang-btn {
+      flex: 1;
+      padding: 0.7rem 0.5rem;
+      border-radius: 10px;
+      border: 1.5px solid var(--border-color);
+      background: rgba(255,255,255,0.02);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+    .lang-btn.active {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+      background: rgba(255,51,51,0.06);
+    }
+    .lang-label {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <header>
+      <h1 id="loginTitle">BDSM Test</h1>
+      <p id="loginSubtitle">Gerencie sua conta e histórico de testes</p>
+    </header>
+
+    <!-- Seletor de Idioma -->
+    <div>
+      <span class="lang-label" id="langLabel">Escolha o idioma / Choose language / Elige el idioma</span>
+      <div class="lang-selector">
+        <button class="lang-btn active" id="langPt" onclick="selecionarIdioma('pt')">🇧🇷 Português</button>
+        <button class="lang-btn" id="langEn" onclick="selecionarIdioma('en')">🇺🇸 English</button>
+        <button class="lang-btn" id="langEs" onclick="selecionarIdioma('es')">🇪🇸 Español</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title" id="cardTitle">Acessar Conta</h2>
+      
+      <div class="input-group">
+        <label class="input-label" for="userId" id="labelId">Instagram (@) ou E-mail</label>
+        <input type="text" id="userId" placeholder="Ex: @seu_perfil ou email@link.com" autocomplete="off">
+      </div>
+
+      <!-- Campo de Pronomes (Exibido apenas no Registro) -->
+      <div class="input-group" id="pronomeGroup" style="display: none;">
+        <label class="input-label" for="userPronome" id="labelPronome">Seu Pronome</label>
+        <select id="userPronome">
+          <option value="ele" id="opt_ele">Ele / Dele (Masculino)</option>
+          <option value="ela" id="opt_ela">Ela / Dela (Feminino)</option>
+          <option value="elu" selected id="opt_elu">Elu / Delu (Neutro / Inclusivo)</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" for="userPass" id="labelPass">Senha</label>
+        <input type="password" id="userPass" placeholder="Sua senha secreta">
+      </div>
+
+      <button class="btn-primary" id="submitBtn" onclick="processarAuth()">Entrar</button>
+
+      <span class="toggle-link" id="toggleLink" onclick="toggleMode()">Não tem uma conta? Crie uma aqui</span>
+    </div>
+
+  </div>
+
+  <!-- Modal do Termo de Consentimento e Usabilidade (Aviso Legal) -->
+  <div id="consentOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#050508; z-index:9999; display:flex; align-items:center; justify-content:center; padding:1rem;">
+    <div class="card" style="width:100%; max-width:440px; border-color:var(--accent-color); box-shadow: 0 0 20px rgba(255, 51, 51, 0.25);">
+      <h2 class="card-title" id="consentTitle" style="color:var(--accent-color); border-color:var(--accent-color); margin-bottom:0.75rem;">Aviso de Usabilidade</h2>
+      <div id="consentText" style="font-size:0.82rem; line-height:1.6; max-height:220px; overflow-y:auto; padding-right:0.25rem; color:#dfdfe8; margin-bottom:1.25rem; border-bottom:1px solid var(--border-color); padding-bottom:1rem;">
+        Este aplicativo é estritamente um teste de autoconhecimento voltado para casais. Todos os textos, práticas avaliadas, glossários e eixos relacionais apresentados passaram por constantes estudos, revisões e avaliações baseadas em psicometria kinky e relacionamento consensual. 
+        <br><br>
+        Ao prosseguir, você declara que compreende que:
+        <br>
+        1. Este teste possui caráter meramente educativo e reflexivo, não devendo ser considerado diagnóstico psicológico ou terapia médica.
+        <br>
+        2. Toda prática física discutida deve ser acordada em comum acordo mútuo, com uso obrigatório de Safewords (Sistema de Semáforo) e cuidados pós-cena (Aftercare).
+        <br>
+        3. O aplicativo não armazena logs de mensagens trocadas, focando estritamente na sincronia segura de consentimento do casal.
+      </div>
+      
+      <div style="display:flex; align-items:flex-start; gap:0.6rem; margin-bottom:1.25rem;">
+        <input type="checkbox" id="chkAgree" style="width:18px; height:18px; accent-color:var(--accent-color); cursor:pointer; margin-top:0.1rem;">
+        <label for="chkAgree" id="lblAgree" style="font-size:0.8rem; color:var(--text-muted); cursor:pointer; user-select:none;">Eu li e concordo com os termos de usabilidade e responsabilidade descritos acima.</label>
+      </div>
+
+      <button class="btn-primary" id="btnConsentSubmit" onclick="concordarTermo()" style="opacity:0.6; cursor:not-allowed;" disabled>Concordar e Continuar</button>
+    </div>
+  </div>
+
+  <script type="module">
+    import { I18N, getLang, setLang } from './assets/i18n.js';
+
+    let isRegisterMode = false;
+    let currentLang = getLang();
+
+    function aplicarIdioma() {
+      const L = I18N[currentLang] || I18N['pt'];
+      document.getElementById('loginTitle').innerText = L.login_title;
+      document.getElementById('loginSubtitle').innerText = L.login_subtitle;
+      document.getElementById('cardTitle').innerText = isRegisterMode ? L.login_register : L.login_access;
+      document.getElementById('submitBtn').innerText = isRegisterMode ? L.login_btn_register : L.login_btn;
+      document.getElementById('toggleLink').innerText = isRegisterMode ? L.login_toggle_to_login : L.login_toggle_to_register;
+      document.getElementById('labelId').innerText = L.login_id_label;
+      document.getElementById('userId').placeholder = L.login_id_placeholder;
+      document.getElementById('labelPronome').innerText = L.login_pronome_label;
+      document.getElementById('labelPass').innerText = L.login_pass_label;
+      document.getElementById('userPass').placeholder = L.login_pass_placeholder;
+      document.getElementById('opt_ele').innerText = L.pronome_ele;
+      document.getElementById('opt_ela').innerText = L.pronome_ela;
+      document.getElementById('opt_elu').innerText = L.pronome_elu;
+
+      // Atualizar botões de idioma
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById('lang' + currentLang.charAt(0).toUpperCase() + currentLang.slice(1));
+      if (activeBtn) activeBtn.classList.add('active');
+
+      // Atualizar html lang
+      document.documentElement.lang = currentLang === 'pt' ? 'pt-BR' : currentLang;
+    }
+
+    window.selecionarIdioma = function(lang) {
+      currentLang = lang;
+      setLang(lang);
+      aplicarIdioma();
+      aplicarIdiomaTermos();
+    }
+
+    // Traduções para o modal do Termo de Consentimento (Juridicamente Blindado e Amplo)
+    const termosI18N = {
+      pt: {
+        title: 'Termo de Isenção de Responsabilidade e Usabilidade BDSM/Kink',
+        agree: 'Declaro que li, compreendo integralmente e aceito todos os termos de usabilidade, regras de consentimento e isenções jurídicas descritos acima.',
+        btn: 'Concordar e Acessar Plataforma',
+        text: `<strong>LEIA ATENTAMENTE ESTE DOCUMENTO ANTES DE ACESSAR O SISTEMA</strong>
+        <br><br>
+        Este ecossistema ("Plataforma") é uma ferramenta informativa e de autoconhecimento direcionada ao universo de práticas BDSM (Bondage, Disciplina, Dominação, Submissão, Sadismo e Masoquismo), fetiches, sexualidade alternativa e eixos relacionais diversos. Todos os textos explicativos, mapeamentos psicológicos, arquétipos e glossários foram desenvolvidos para fins exclusivamente educativos e reflexivos.
+        <br><br>
+        Ao assinar eletronicamente este termo através da seleção da caixa de consentimento e ao dar continuidade ao acesso, você declara, sob as penas da lei, compreender e acordar irrevogavelmente com os seguintes tópicos:
+        <br><br>
+        <strong>1. ISENÇÃO TOTAL DE RESPONSABILIDADE CIVIL E CRIMINAL:</strong> Os desenvolvedores, mantenedores, autores de conteúdo e colaboradores deste aplicativo eximem-se de qualquer responsabilidade civil, criminal ou indenizatória decorrente de danos físicos, psicológicos, emocionais, materiais ou morais que você ou terceiros possam sofrer ao tentar reproduzir, simular ou executar qualquer conceito, prática ou fetiche mencionado na plataforma.
+        <br><br>
+        <strong>2. RESPONSABILIDADE EXCLUSIVA DO USUÁRIO:</strong> A execução prática de amarras (bondage), restrições físicas, jogos de impacto (palmatórias, chicotes, palmadas), controle de respiração (breathplay), privação sensorial, jogos de dor, roleplays ou qualquer outra vertente kinky é de decisão livre, consciente, madura e de responsabilidade civil exclusiva dos envolvidos. Cabe exclusivamente aos praticantes avaliar os riscos de saúde física e mental inerentes.
+        <br><br>
+        <strong>3. PREMISSAS DE CONSENTIMENTO E SEGURANÇA (SSC / RACK / RYB):</strong> Você declara estar ciente de que toda prática física kinky deve ser balizada por protocolos estritos de segurança, com ênfase em:
+        <br>
+        - <em>SSC (Sano, Seguro e Consensual)</em> e <em>RACK (Consentimento com Risco Assumido e Informado)</em>.
+        <br>
+        - Uso obrigatório de <em>Safewords</em> (Palavras de Segurança) com base no sistema de semáforo (Verde, Amarelo, Vermelho).
+        <br>
+        - Cuidados físicos e psicológicos pós-cena (Aftercare) e atenção à integridade circulatória e neurológica em contenções.
+        <br><br>
+        <strong>4. CARÁTER NÃO MÉDICO E NÃO TERAPÊUTICO:</strong> Os relatórios gerados e os baldes de diagnóstico são cálculos estatísticos de afinidade subjetiva baseados em questionários. Este sistema não realiza diagnósticos psiquiátricos, aconselhamento psicológico profissional ou terapia médica. Se você necessita de suporte mental ou emocional, procure profissionais habilitados.
+        <br><br>
+        <strong>5. SEGURANÇA E PRIVACIDADE DE DADOS:</strong> A plataforma atua com absoluto respeito à privacidade. As informações de limites de fetiches e resultados de testes são confidenciais e sincronizadas apenas com base nas chaves de convite explicitamente compartilhadas por decisão livre do usuário. Não armazenamos logs de conversas ou informações íntimas que possam expor sua privacidade civil.`
+      },
+      en: {
+        title: 'Liability Disclaimer and BDSM/Kink Usability Terms',
+        agree: 'I declare that I have read, fully understand, and accept all the usability terms, consent rules, and legal disclaimers described above.',
+        btn: 'Agree & Access Platform',
+        text: `<strong>PLEASE READ THIS DOCUMENT CAREFULLY BEFORE ACCESSING THE SYSTEM</strong>
+        <br><br>
+        This ecosystem ("Platform") is an informational and self-knowledge tool directed at the BDSM universe (Bondage, Discipline, Dominance, Submission, Sadism, and Masochism), kinks, alternative sexuality, and diverse relational axes. All explanatory texts, psychological mappings, archetypes, and glossaries were developed exclusively for educational and reflective purposes.
+        <br><br>
+        By electronically signing this term through selecting the consent box and proceeding, you declare under penalty of law that you understand and irrevocably agree to the following:
+        <br><br>
+        <strong>1. TOTAL EXEMPTION OF CIVIL AND CRIMINAL LIABILITY:</strong> The developers, maintainers, content authors, and contributors of this application are exempt from any civil, criminal, or compensatory liability arising from physical, psychological, emotional, material, or moral damage that you or third parties may suffer when trying to reproduce, simulate, or perform any concept, practice, or kink mentioned on the platform.
+        <br><br>
+        <strong>2. EXCLUSIVE RESPONSIBILITY OF THE USER:</strong> The physical execution of rope work (bondage), physical restraints, impact play, breath control (breathplay), sensory deprivation, pain play, roleplay, or any other kinky activity is a free, conscious, mature decision and the exclusive civil responsibility of those involved. It is up to the practitioners to evaluate the inherent physical and mental health risks.
+        <br><br>
+        <strong>3. CONSENT AND SAFETY PROTOCOLS (SSC / RACK):</strong> You declare that you are aware that all physical kink practices must be guided by strict safety protocols, with emphasis on:
+        <br>
+        - <em>SSC (Safe, Sane, and Consensual)</em> and <em>RACK (Risk-Aware Consensual Kink)</em>.
+        <br>
+        - Mandatory use of <em>Safewords</em> based on the traffic light system (Green, Yellow, Red).
+        <br>
+        - Post-scene physical and psychological care (Aftercare) and attention to circulatory and neurological integrity in restraints.
+        <br><br>
+        <strong>4. NON-MEDICAL AND NON-THERAPEUTIC NATURE:</strong> The reports and diagnoses generated are statistical calculations of subjective affinity based on questionnaires. This system does not perform psychiatric diagnoses, professional psychological counseling, or medical therapy.
+        <br><br>
+        <strong>5. DATA SECURITY AND PRIVACY:</strong> Kink limits and test results are confidential and only synchronized based on the invite keys explicitly shared by the user's free choice.`
+      },
+      es: {
+        title: 'Descargo de Responsabilidad y Términos de Usabilidad de BDSM/Kink',
+        agree: 'Declaro que he leído, comprendo plenamente y acepto todos los términos de usabilidad, reglas de consentimiento y descargos legales descritos anteriormente.',
+        btn: 'Aceptar y Acceder a la Plataforma',
+        text: `<strong>LEA ATENTAMENTE ESTE DOCUMENTO ANTES DE ACCEDER AL SISTEMA</strong>
+        <br><br>
+        Este ecosistema ("Plataforma") es una herramienta informativa y de autoconocimiento dirigida al universo BDSM (Bondage, Disciplina, Dominación, Sumisión, Sadismo y Masoquismo), fetiches, sexualidad alternativa y diversos ejes de relación.
+        <br><br>
+        Al firmar electrónicamente este término al seleccionar la casilla de consentimiento y proceder, declaras bajo pena de ley que entiendes y aceptas irrevocablemente lo siguiente:
+        <br><br>
+        <strong>1. EXENCIÓN TOTAL DE RESPONSABILIDAD CIVIL Y PENAL:</strong> Los desarrolladores, mantenedores, autores de contenido y colaboradores de esta aplicación están exentos de cualquier responsabilidad civil, penal o indemnizatoria derivada de daños físicos, psicológicos, emocionales, materiales o morales que tú o terceros puedan sufrir al intentar reproducir, simular o realizar cualquier concepto, práctica o fetiche mencionado en la plataforma.
+        <br><br>
+        <strong>2. RESPONSABILIDAD EXCLUSIVA DEL USUARIO:</strong> La ejecución física de ataduras (bondage), restricciones físicas, juegos de impacto, control de la respiración (breathplay), privación sensorial, juegos de dolor, juegos de rol o cualquier otra actividad kinky es una decisión libre, consciente, madura y de exclusiva responsabilidad civil de los involucrados.
+        <br><br>
+        <strong>3. PROTOCOLOS DE CONSENTIMIENTO Y SEGURIDAD (SSC / RACK):</strong> Declaras conocer que toda práctica física kinky debe guiarse por estrictos protocolos de seguridad:
+        <br>
+        - <em>SSC (Sano, Seguro y Consensual)</em> y <em>RACK (Consentimiento con Riesgo Asumido e Informado)</em>.
+        <br>
+        - Uso obligatorio de <em>Safewords</em> (Verde, Amarillo, Rojo).
+        <br>
+        - Cuidado posterior físico y psicológico (Aftercare).
+        <br><br>
+        <strong>4. NATURALEZA NO MÉDICA NI TERAPÉUTICA:</strong> Este sistema no realiza diagnósticos psiquiátricos, asesoramiento psicológico profesional ni terapia médica.
+        <br><br>
+        <strong>5. SEGURIDAD Y PRIVACIDAD DE DATOS:</strong> Los límites kink y los resultados de las pruebas son confidenciales y solo se sincronizan según las claves de invitación compartidas explícitamente.`
+      }
+    };
+
+    function aplicarIdiomaTermos() {
+      const T = termosI18N[currentLang] || termosI18N['pt'];
+      document.getElementById('consentTitle').innerText = T.title;
+      document.getElementById('lblAgree').innerText = T.agree;
+      document.getElementById('btnConsentSubmit').innerText = T.btn;
+      document.getElementById('consentText').innerHTML = T.text;
+    }
+
+    // Monitorar a checkbox
+    const chkAgree = document.getElementById('chkAgree');
+    const btnSubmit = document.getElementById('btnConsentSubmit');
+    chkAgree.addEventListener('change', function() {
+      if (this.checked) {
+        btnSubmit.disabled = false;
+        btnSubmit.style.opacity = '1';
+        btnSubmit.style.cursor = 'pointer';
+      } else {
+        btnSubmit.disabled = true;
+        btnSubmit.style.opacity = '0.6';
+        btnSubmit.style.cursor = 'not-allowed';
+      }
+    });
+
+    window.concordarTermo = function() {
+      if (chkAgree.checked) {
+        localStorage.setItem('nebulosa_termos_aceitos', 'true');
+        document.getElementById('consentOverlay').style.display = 'none';
+        document.body.style.overflow = ''; // Destrava rolagem
+      }
+    };
+
+    // Verificar se já aceitou antes
+    if (localStorage.getItem('nebulosa_termos_aceitos') === 'true') {
+      document.getElementById('consentOverlay').style.display = 'none';
+      document.body.style.overflow = '';
+    } else {
+      aplicarIdiomaTermos();
+      document.body.style.overflow = 'hidden'; // Trava rolagem para evitar tremedeira
+    }
+
+    window.toggleMode = function() {
+      isRegisterMode = !isRegisterMode;
+      const pronomeGroup = document.getElementById('pronomeGroup');
+      pronomeGroup.style.display = isRegisterMode ? 'block' : 'none';
+      aplicarIdioma();
+    }
+
+    const API_URL = 'http://localhost:3001/api';
+
+    window.processarAuth = async function() {
+      const identificador = document.getElementById('userId').value.trim();
+      const senha = document.getElementById('userPass').value.trim();
+      const pronome = document.getElementById('userPronome').value;
+
+      if (!identificador || !senha) {
+        alert(currentLang === 'en' ? 'Fill in all fields.' : currentLang === 'es' ? 'Completa todos los campos.' : 'Preencha todos os campos.');
+        return;
+      }
+
+      const endpoint = isRegisterMode ? 'register' : 'login';
+      const bodyData = { identificador, senha };
+      if (isRegisterMode) bodyData.pronome = pronome;
+
+      try {
+        const response = await fetch(`${API_URL}/auth/${endpoint}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(bodyData)
+        });
+        const result = await response.json();
+
+        if (result.success) {
+          const uId = isRegisterMode ? result.userId : result.user.id;
+          const uIdent = isRegisterMode ? identificador : result.user.identificador;
+          localStorage.setItem('bdsm_user_id', uId);
+          localStorage.setItem('bdsm_user_name', uIdent);
+          localStorage.setItem('bdsm_auth_token', result.token);
+
+          // Tentar associar testes anônimos salvos localmente
+          const localBdsm = localStorage.getItem('bdsm_last_token');
+          const localRel = localStorage.getItem('relacional_last_token');
+          const tokens = [];
+          if (localBdsm) tokens.push(localBdsm);
+          if (localRel) tokens.push(localRel);
+
+          if (tokens.length > 0) {
+            try {
+              await fetch(`${API_URL}/auth/associate-tests`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId: uId, tokens })
+              });
+            } catch (e) { console.warn('Erro ao associar testes locais:', e); }
+          }
+
+          window.location.href = 'home.html';
+        } else {
+          alert(result.error);
+        }
+      } catch (err) {
+        alert('Erro de comunicação com o servidor.');
+      }
+    }
+
+    // Inicializar
+    const savedLang = getLang();
+    if (savedLang) currentLang = savedLang;
+    aplicarIdioma();
+
+    if (localStorage.getItem('bdsm_user_id')) {
+      window.location.href = 'home.html';
+    }
+
+    // Registrar Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then((reg) => console.log('Service Worker registrado a partir do Login:', reg.scope))
+          .catch((err) => console.error('Erro de registro no Login:', err));
+      });
+    }
+  </script>
+</body>
+</html>

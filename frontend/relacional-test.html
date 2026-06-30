@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Mapa Relacional — Qual é o seu estilo de amor?</title>
+  <meta name="description" content="Descubra seu estilo de relacionamento — Monogamia, Poliamor, Relação Aberta, Swing ou Anarquia Relacional.">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    :root {
+      --rel-accent: #7c5cfc;
+      --rel-gradient: linear-gradient(135deg, #7c5cfc, #c084fc);
+      --rel-soft: rgba(124, 92, 252, 0.12);
+    }
+
+    .question-box {
+      font-size: 1.15rem;
+      line-height: 1.65;
+      margin-bottom: 1.5rem;
+      color: #dfdfe8;
+      font-weight: 600;
+    }
+
+    .progress-bar-top {
+      height: 6px;
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .progress-fill-top {
+      height: 100%;
+      background: var(--rel-gradient);
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .progress-text {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .bloco-badge {
+      font-size: 0.72rem;
+      background: var(--rel-soft);
+      color: #c084fc;
+      border: 1px solid rgba(192,132,252,0.25);
+      border-radius: 20px;
+      padding: 0.2rem 0.6rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* Likert roxo para o teste relacional */
+    .likert-option {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      padding: 0.85rem 1rem;
+      border-radius: 14px;
+      border: 1.5px solid var(--border-color);
+      background: rgba(255,255,255,0.015);
+      margin-bottom: 0.6rem;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .likert-option:active { transform: scale(0.98); }
+
+    .likert-option.selected,
+    .likert-option:hover {
+      border-color: #7c5cfc;
+      background: rgba(124,92,252,0.1);
+    }
+
+    .likert-circle {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.25);
+      flex-shrink: 0;
+      transition: all 0.18s ease;
+    }
+
+    .likert-option.selected .likert-circle {
+      background: #7c5cfc;
+      border-color: #7c5cfc;
+      box-shadow: 0 0 10px rgba(124,92,252,0.5);
+    }
+
+    .likert-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .likert-option.selected .likert-label {
+      color: #e2d9fc;
+    }
+
+    /* Cores distintas por nível de resposta */
+    .concordo-6  .likert-circle { border-color: #00d084; }
+    .concordo-5  .likert-circle { border-color: #34c27a; }
+    .concordo-4  .likert-circle { border-color: #6eb5ff; }
+    .neutro-3    .likert-circle { border-color: #8888aa; }
+    .discordo-2  .likert-circle { border-color: #ffb347; }
+    .discordo-1  .likert-circle { border-color: #ff6b6b; }
+    .discordo-0  .likert-circle { border-color: #ff3333; }
+
+    .concordo-6.selected  .likert-circle { background:#00d084; border-color:#00d084; box-shadow:0 0 10px rgba(0,208,132,0.5); }
+    .concordo-5.selected  .likert-circle { background:#34c27a; border-color:#34c27a; }
+    .concordo-4.selected  .likert-circle { background:#6eb5ff; border-color:#6eb5ff; }
+    .neutro-3.selected    .likert-circle { background:#8888aa; border-color:#8888aa; }
+    .discordo-2.selected  .likert-circle { background:#ffb347; border-color:#ffb347; }
+    .discordo-1.selected  .likert-circle { background:#ff6b6b; border-color:#ff6b6b; }
+    .discordo-0.selected  .likert-circle { background:#ff3333; border-color:#ff3333; box-shadow:0 0 10px rgba(255,51,51,0.5); }
+
+    .btn-secondary {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 12px;
+      border: 1.5px solid rgba(124,92,252,0.3);
+      background: rgba(124,92,252,0.05);
+      color: #c084fc;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: all 0.18s ease;
+    }
+    .btn-secondary:active { opacity: 0.7; }
+
+    /* Header roxo para diferenciar */
+    .rel-header-accent {
+      width: 3px;
+      height: 100%;
+      background: var(--rel-gradient);
+      border-radius: 2px;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    .intro-screen {
+      text-align: center;
+      padding: 1rem 0;
+    }
+    .intro-emoji {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .intro-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      background: var(--rel-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.75rem;
+    }
+    .intro-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 1.5rem;
+    }
+    .intro-perfis {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+    .intro-perfis span {
+      font-size: 0.8rem;
+      background: var(--rel-soft);
+      border: 1px solid rgba(124,92,252,0.2);
+      border-radius: 20px;
+      padding: 0.3rem 0.75rem;
+      color: #c084fc;
+      font-weight: 600;
+    }
+    .btn-iniciar {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 14px;
+      border: none;
+      background: var(--rel-gradient);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: opacity 0.2s;
+    }
+    .btn-iniciar:active { opacity: 0.85; }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- Cabeçalho -->
+    <div class="global-header">
+      <header style="text-align: left; margin: 0;">
+        <h1 style="background: linear-gradient(135deg,#7c5cfc,#c084fc); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">Mapa Relacional</h1>
+        <p id="subTitle" style="color:var(--text-muted); font-size:0.85rem;">Qual é o seu estilo de amor?</p>
+      </header>
+      <button class="menu-trigger" id="menuOpenBtn">☰</button>
+    </div>
+
+    <!-- Tela de Intro -->
+    <div class="card" id="introScreen">
+      <div class="intro-screen">
+        <span class="intro-emoji">🧭</span>
+        <div class="intro-title">Seu Mapa Relacional</div>
+        <p class="intro-desc">
+          Não existe certo ou errado — existe o que funciona para <strong>você</strong>.<br>
+          Este teste mede como você sente e vive vínculos afetivos em 5 dimensões emocionais.
+        </p>
+        <div class="intro-perfis">
+          <span>👑 Mono-Estrutural</span>
+          <span>🔓 Aberto Controlado</span>
+          <span>💞 Poliamor</span>
+          <span>🌪️ Explorador Fluido</span>
+          <span>🧭 Anárquico</span>
+          <span>⚖️ Híbrido</span>
+        </div>
+        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:1.25rem;">
+          ⏱ ~5 minutos &nbsp;·&nbsp; 60 perguntas &nbsp;·&nbsp; Responda com honestidade
+        </p>
+        <button class="btn-iniciar" onclick="iniciarTeste()">Iniciar Mapa Relacional →</button>
+      </div>
+    </div>
+
+    <!-- Tela do Teste -->
+    <div class="card" id="testScreen" style="display:none;">
+      <div class="progress-text">
+        <span id="progressText">Pergunta 1 de 60</span>
+        <span class="bloco-badge" id="blocoNome">Visão sobre Amor</span>
+      </div>
+      <div class="progress-bar-top">
+        <div class="progress-fill-top" id="progressFill"></div>
+      </div>
+
+      <div class="question-box" id="questionText">Carregando...</div>
+
+      <div id="likertContainer">
+        <div class="likert-option concordo-6" data-value="6" onclick="responder(6)">
+          <div class="likert-circle"></div>
+          <span class="likert-label">Concordo Totalmente</span>
+        </div>
+        <div class="likert-option concordo-5" data-value="5" onclick="responder(5)">
+          <div class="likert-circle"></div>
+          <span class="likert-label">Concordo</span>
+        </div>
+        <div class="likert-option concordo-4" data-value="4" onclick="responder(4)">
+          <div class="likert-circle"></div>
+          <span class="likert-label">Concordo Parcialmente</span>
+        </div>
+        <div class="likert-option neutro-3" data-value="3" onclick="responder(3)">
+          <div class="likert-circle"></div>
+          <span class="likert-label">Neutro / Indiferente / Ambos iguais</span>
+        </div>
+        <div class="likert-option discordo-2" data-value="2" onclick="responder(2)">
+          <div class="likert-circle"></div>
+          <span class="likert-label">Discordo Parcialmente</span>
+        </div>
+        <div class="likert-option discordo-1" data-value="1" onclick="responder(1)">
+          <div class="likert-circle"></div>
+          <span class="likert-label">Discordo</span>
+        </div>
+        <div class="likert-option discordo-0" data-value="0" onclick="responder(0)">
+          <div class="likert-circle"></div>
+          <span class="likert-label">Discordo Totalmente</span>
+        </div>
+      </div>
+
+      <button class="btn-secondary" id="btnVoltar" style="display:none;" onclick="voltarPergunta()">← Voltar</button>
+    </div>
+
+    <!-- Tela de Loading -->
+    <div class="card" id="loadingScreen" style="display:none; text-align:center; padding:2.5rem 1rem;">
+      <div style="font-size:2.5rem; margin-bottom:1rem;">🧭</div>
+      <div style="font-size:1.05rem; font-weight:800; background:linear-gradient(135deg,#7c5cfc,#c084fc); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">Calculando seu Mapa...</div>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0.5rem;">Analisando seus padrões emocionais</p>
+    </div>
+
+  </div>
+
+  <script type="module">
+    import { injetarMenuGlobal } from './assets/menu.js';
+
+    const API_URL = 'http://localhost:3001/api';
+    let perguntas = [];
+    let currentIndex = 0;
+    let respostas = {};
+
+    // Inicializar menu
+    injetarMenuGlobal();
+
+    window.iniciarTeste = async function() {
+      document.getElementById('introScreen').style.display = 'none';
+      document.getElementById('testScreen').style.display = 'block';
+      await carregarPerguntas();
+    };
+
+    async function carregarPerguntas() {
+      try {
+        const res = await fetch(`${API_URL}/relacional/perguntas`);
+        const result = await res.json();
+        if (!result.success) throw new Error(result.error);
+        perguntas = result.perguntas;
+        exibirPergunta();
+      } catch (err) {
+        alert('Erro ao carregar perguntas. Verifique se o servidor está ativo.');
+        console.error(err);
+      }
+    }
+
+    window.exibirPergunta = function() {
+      if (currentIndex >= perguntas.length) {
+        finalizarTeste();
+        return;
+      }
+
+      const q = perguntas[currentIndex];
+
+      document.getElementById('questionText').innerText = q.texto;
+      document.getElementById('blocoNome').innerText = q.bloco_nome.replace(/_/g, ' ');
+      document.getElementById('btnVoltar').style.display = currentIndex > 0 ? 'block' : 'none';
+
+      // Progresso
+      const pct = (currentIndex / perguntas.length) * 100;
+      document.getElementById('progressFill').style.width = `${pct}%`;
+      document.getElementById('progressText').innerText = `Pergunta ${currentIndex + 1} de ${perguntas.length}`;
+
+      // Resetar seleção
+      document.querySelectorAll('.likert-option').forEach(el => el.classList.remove('selected'));
+
+      // Restaurar resposta anterior se existir
+      const prev = respostas[q.id];
+      if (prev !== undefined) {
+        const el = document.querySelector(`.likert-option[data-value="${prev}"]`);
+        if (el) el.classList.add('selected');
+      }
+    };
+
+    window.responder = function(valor) {
+      const q = perguntas[currentIndex];
+      respostas[q.id] = valor;
+
+      // Feedback visual antes de avançar
+      const el = document.querySelector(`.likert-option[data-value="${valor}"]`);
+      if (el) el.classList.add('selected');
+
+      setTimeout(() => {
+        currentIndex++;
+        exibirPergunta();
+      }, 200);
+    };
+
+    window.voltarPergunta = function() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        exibirPergunta();
+      }
+    };
+
+    async function finalizarTeste() {
+      document.getElementById('testScreen').style.display = 'none';
+      document.getElementById('loadingScreen').style.display = 'block';
+
+      const userId = localStorage.getItem('bdsm_user_id');
+
+      try {
+        const res = await fetch(`${API_URL}/relacional/resultado`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ respostas, userId: userId || null })
+        });
+        const result = await res.json();
+
+        if (!result.success) throw new Error(result.error);
+
+        localStorage.setItem('relacional_last_token', result.token);
+        window.location.href = 'relacional-results.html';
+      } catch (err) {
+        alert('Erro ao calcular resultado. Tente novamente.');
+        document.getElementById('loadingScreen').style.display = 'none';
+        document.getElementById('testScreen').style.display = 'block';
+        console.error(err);
+      }
+    }
+  </script>
+
+</body>
+</html>

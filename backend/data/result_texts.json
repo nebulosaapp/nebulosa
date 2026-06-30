@@ -1,0 +1,152 @@
+{
+  "Dominant": {
+    "1": "Estar no comando não é muito a sua praia. Você se sente mais à vontade dividindo as decisões de forma igualitária ou deixando o parceiro guiar o ritmo das coisas.",
+    "2": "Você gosta de tomar a iniciativa de vez em quando para esquentar o clima, mas prefere não carregar a responsabilidade de liderar a dinâmica o tempo todo.",
+    "3": "Estar no comando te dá bastante prazer! Você se sente confortável guiando as interações e decidindo os rumos do casal, oferecendo segurança para o parceiro se entregar.",
+    "4": "A liderança é a sua essência. Você sente uma realização profunda ao assumir a responsabilidade total pelas interações e se sente muito seguro(a) comandando a cena."
+  },
+  "Submissive": {
+    "1": "Você não sente atração em ceder o controle. Para você, o prazer está em ter voz ativa ou liderar as decisões e a direção dos momentos a dois.",
+    "2": "Você acha interessante abrir mão do controle em alguns momentos para relaxar, mas gosta de manter sua autonomia na maior parte do tempo.",
+    "3": "A entrega é um pilar muito importante para o seu prazer. Você encontra um alívio mental delicioso e muita excitação ao se deixar guiar por alguém de sua confiança.",
+    "4": "A entrega total é o seu porto seguro. Abrir mão de qualquer poder de decisão e confiar plenamente no comando do outro te proporciona um relaxamento e prazer profundos."
+  },
+  "Master/Mistress": {
+    "1": "Dinâmicas muito rígidas, protocolos ou rituais formais de autoridade não fazem sentido para você. O seu estilo é muito mais informal e descontraído.",
+    "2": "Você acha divertido brincar com ordens e regras na cama de vez em quando, mas sem a necessidade de manter uma postura formalizada ou rituais rígidos.",
+    "3": "Você curte a estética e a estrutura de uma dinâmica formal. Gosta de estabelecer regras de comportamento claras e se sente bem sendo respeitado(a) nessa posição.",
+    "4": "A autoridade formal é o seu ideal. Você sente enorme realização em criar protocolos, ditar regras estruturadas de convivência e guiar o submisso com disciplina e carinho."
+  },
+  "Slave": {
+    "1": "A ideia de servir formalmente ou viver sob regras estritas de obediência não te agrada. Você prefere uma relação de parceria sem hierarquias rígidas.",
+    "2": "Você gosta de agradar e realizar desejos do parceiro como um carinho especial, mas não se vê assumindo uma postura de servidão formal.",
+    "3": "Servir traz um sentido especial para o seu prazer. Você se sente realizado(a) ao seguir protocolos formais e rituais que demonstram seu respeito e devoção.",
+    "4": "A servidão consensual é a sua maior expressão de amor e prazer. Colocar a vontade do outro no centro da sua vida e seguir regras protocolares te faz sentir completo(a)."
+  },
+  "Owner": {
+    "1": "A ideia de 'possuir' outra pessoa ou assumir a responsabilidade total pela rotina dela não combina com o seu desejo de liberdade mútua.",
+    "2": "Você é protetor(a) e gosta de cuidar de quem ama, mas prefere que cada um mantenha sua independência e espaço pessoal bem definidos.",
+    "3": "Você curte a sensação de posse simbólica. Gosta de saber que o parceiro se entrega a você e assume com prazer a responsabilidade de cuidar dele integralmente.",
+    "4": "Você tem um forte instinto de posse e cuidado. Assumir a gerência e a responsabilidade total sobre o bem-estar da outra pessoa é natural e muito prazeroso para você."
+  },
+  "Pet": {
+    "1": "Brincadeiras que envolvem se comportar como um animal de estimação (Pet Play) não fazem parte do seu leque de interesses.",
+    "2": "Você acha a ideia lúdica ou fofa e estaria aberto(a) a brincadeiras leves com coleiras ou carinhos, mas de forma muito casual.",
+    "3": "O Pet Play te atrai bastante! Você encontra muito prazer em brincar de ser um animalzinho carinhoso (cão, gato, etc.), respondendo a comandos simples de forma leve.",
+    "4": "Agir como um pet consensual é uma das suas maiores fontes de diversão e relaxamento. A dinâmica lúdica de afeto físico sem as preocupações humanas te liberta."
+  },
+  "Rigger": {
+    "1": "O universo das cordas e nós complexos não te chama a atenção. Você prefere restrições mais simples ou outras formas de contato físico.",
+    "2": "Você acha bonito o visual do Bondage e gosta de imobilizar o parceiro de forma simples, mas não tem foco em aprender amarrações técnicas ou nós complexos.",
+    "3": "Você adora a arte de amarrar! Dedica tempo para aprender nós seguros, curte o contato das cordas e sente prazer ao imobilizar o parceiro com técnica e beleza.",
+    "4": "O Shibari/Bondage é a sua grande paixão. Você se expressa através das cordas, criando amarrações complexas que unem arte, segurança e conexão íntima."
+  },
+  "Rope bunny": {
+    "1": "Ficar imobilizado(a) por cordas ou nós não te atrai. Você prefere ter total liberdade de movimentos na hora do prazer.",
+    "2": "Você curte uma restrição leve nas mãos ou pés para dar um frio na barriga, mas prefere não ficar totalmente preso(a) por muito tempo.",
+    "3": "Ser amarrado(a) te traz um relaxamento incrível! A sensação das cordas apertando o corpo de forma segura te ajuda a desligar a mente e se entregar ao momento.",
+    "4": "Ficar completamente contido(a) pelas cordas é o seu ápice. Você entra em um estado quase meditativo de confiança e paz ao ser envolvido(a) em amarrações complexas."
+  },
+  "Sadist": {
+    "1": "Causar qualquer tipo de dor física não te dá prazer. O seu foco está em carinhos suaves e interações confortáveis.",
+    "2": "Você está aberto(a) a dar tapinhas leves ou puxões de cabelo consensuais se o parceiro pedir, mas isso não é o que te motiva.",
+    "3": "Provocar dor consensual (tapas, palmadas, etc.) te excita bastante! Você gosta de dosar a intensidade e ver as reações físicas de prazer de quem recebe.",
+    "4": "A dor consensual é o seu principal combustível erótico. Você sente enorme prazer em aplicar técnicas de impacto ou outras formas de dor, sempre respeitando os limites."
+  },
+  "Masochist": {
+    "1": "A dor física na cama quebra o clima para você. Você prefere interações focadas em carinho e sensações puramente prazerosas.",
+    "2": "Você curte uma pegada mais forte, como mordidinhas ou palmadas leves de vez em quando, mas sem que a dor seja o foco da relação.",
+    "3": "Receber dor consensual te dá muita energia e excitação! A sensação física intensa te ajuda a focar no presente e desperta muito prazer no seu corpo.",
+    "4": "Você encontra o seu maior prazer na dor consensual. A intensidade de palmadas fortes, cera quente ou outras práticas te leva a um estado de êxtase físico e mental."
+  },
+  "Degrader": {
+    "1": "Falar palavras rudes ou humilhar o parceiro não combina em nada com o seu estilo de demonstrar afeto e tesão.",
+    "2": "Você topa usar palavras um pouco mais ousadas ou uma 'sujeira' verbal leve na cama, mas prefere manter a dinâmica amigável.",
+    "3": "Fazer jogos de humilhação consensual e usar palavras fortes te excita bastante. Você curte colocar o parceiro em posições de submissão verbal intensa.",
+    "4": "A degradação consensual é o seu pilar de poder. Fazer o parceiro realizar atos submissos extremos ou chamá-lo por nomes humilhantes te dá muito prazer."
+  },
+  "Degradee": {
+    "1": "Ser xingado(a) ou humilhado(a) corta o seu tesão imediatamente. Você precisa de respeito e palavras afetuosas para se sentir bem.",
+    "2": "Você acha excitante quando o parceiro assume uma postura um pouco mais mandona ou usa palavras mais picantes, mas sem passar do ponto.",
+    "3": "Ser humilhado(a) consensualmente te dá muito tesão! Ouvir palavras rudes ou ser colocado(a) em posições de pouco caso te faz sentir muito submisso(a) e excitado(a).",
+    "4": "Você encontra prazer máximo na humilhação erótica extrema. Sentir-se usado(a), rebaixado(a) ou exposto(a) de forma segura é o seu maior gatilho de prazer."
+  },
+  "Brat tamer": {
+    "1": "Você não tem paciência para joguinhos de provocação na cama. Prefere que o parceiro colabore e obedeça sem fazer manha.",
+    "2": "Você acha engraçadinho quando o parceiro faz uma birra leve, mas prefere restabelecer o controle rapidamente sem muita disputa.",
+    "3": "Você adora o desafio! Ver o parceiro te desobedecer de forma provocativa te dá muito tesão, e você se diverte em mostrar quem é que manda no final.",
+    "4": "A dinâmica de 'domar' é a sua favorita. O jogo de contornar a desobediência do parceiro e fazê-lo ceder às suas ordens é o que mais te excita."
+  },
+  "Brat": {
+    "1": "Você prefere cooperar e obedecer prontamente às instruções do parceiro, sem criar resistência ou disputas lúdicas.",
+    "2": "Você gosta de fazer uma brincadeira ou pirraça leve de vez em quando para chamar a atenção, mas cede com facilidade.",
+    "3": "Você adora provocar! Desobedecer e desafiar o dominante de forma brincalhona é a sua maneira favorita de pedir atenção e impor um limite lúdico.",
+    "4": "A provocação é a sua marca registrada. Você precisa desafiar a autoridade do parceiro e ver o esforço dele para te controlar para realmente sentir prazer."
+  },
+  "Daddy/Mommy": {
+    "1": "Papéis que envolvam dinâmicas de cuidado parental ou grande disparidade de maturidade não fazem parte dos seus interesses íntimos.",
+    "2": "Você gosta de dar carinho e proteger o parceiro de forma calorosa, mas sem adotar títulos como 'papai' ou 'mamãe'.",
+    "3": "Você se sente muito confortável no papel de cuidador(a). Gosta de acolher, dar colo, orientar e mimar o parceiro em dinâmicas de carinho estruturadas.",
+    "4": "O papel de provedor(a) de carinho e autoridade amorosa é a sua essência. Proteger, cuidar e mimar o parceiro de forma paternal/maternal te realiza por completo."
+  },
+  "Little": {
+    "1": "Você prefere manter uma postura totalmente adulta e independente em suas relações, sem atração por regressão ou cuidados infantis.",
+    "2": "Você curte ser mimado(a) e receber um colo de vez em quando para relaxar do estresse diário, mas de forma bem sutil.",
+    "3": "A regressão lúdica (Little) te atrai muito! Você encontra um espaço seguro de paz ao agir de forma mais jovem, sendo cuidado(a) e protegido(a) por quem confia.",
+    "4": "Sentir-se pequeno(a) e sob cuidados parentais consensuais é o seu maior refúgio. Livrar-se das pressões adultas e ser mimado(a) te traz imensa felicidade."
+  },
+  "Primal (Hunter)": {
+    "1": "Você prefere interações mais calmas e estruturadas na cama, sem espaço para disputas físicas brutas ou instintivas.",
+    "2": "Você curte uma pegada mais forte e selvagem com arranhões leves de vez em quando, mas prefere manter o controle técnico da cena.",
+    "3": "O instinto primal fala alto em você! Você ama a sensação de perseguir, lutar fisicamente e subjugar o parceiro usando rosnados e pegada bruta.",
+    "4": "Você é um(a) caçador(a) nato(a) na cama. A interação íntima para você é um combate físico instintivo e selvagem de captura e posse do outro."
+  },
+  "Primal (Presa)": {
+    "1": "Disputas físicas brutas ou ser tratado(a) de forma selvagem não te atraem. Você prefere carinho e movimentos mais suaves.",
+    "2": "Você gosta de uma pegada mais firme e de ser segurado(a) com força na cama de vez em quando, mas sem entrar em um clima de caça.",
+    "3": "Sentir-se como uma presa te excita muito! A adrenalina de ser caçado(a), segurado(a) com força e dominado(a) de forma animal desperta o seu tesão.",
+    "4": "Sua sexualidade é guiada pelo instinto de ser capturado(a). Lutar fisicamente e ser subjulgada(o) pela força selvagem do parceiro é o seu ápice de prazer."
+  },
+  "Voyeur": {
+    "1": "Você não sente atração em apenas observar o prazer dos outros. O seu negócio é estar no centro da ação.",
+    "2": "Você acha interessante assistir a um filme erótico ou ver o parceiro se tocando para esquentar o clima, mas prefere participar logo.",
+    "3": "Observar te dá muito prazer! Você curte a posição de espectador(a), assistindo a outras pessoas consensuais ou ao parceiro interagindo intimamente.",
+    "4": "O voyeurismo é o seu principal canal de excitação. Espiar, assistir e contemplar o prazer dos outros de forma segura te satisfaz mais do que atuar."
+  },
+  "Exhibitionist": {
+    "1": "A ideia de expor sua intimidade ou ser visto(a) por terceiros te causa desconforto. Você prefere total privacidade.",
+    "2": "Você curte se produzir, tirar fotos sensuais para o parceiro ou mandar mensagens picantes, mas mantém tudo em segredo absoluto.",
+    "3": "Exibir-se te dá muita adrenalina! Você gosta de mandar fotos ousadas, usar roupas provocantes ou transar em locais onde há um risco controlado de ser visto(a).",
+    "4": "O exibicionismo é a sua grande fonte de excitação. A sensação de expor o próprio corpo ou os atos íntimos para outras pessoas verem te gera um tesão absurdo."
+  },
+  "Ageplayer": {
+    "1": "Interpretações que envolvem idades diferentes ou dinâmicas geracionais não despertam o seu interesse íntimo.",
+    "2": "Você acha engraçadinho brincar com roupas escolares ou fantasias temáticas casuais, mas sem focar em regressão profunda.",
+    "3": "Brincar com idades simbólicas te atrai bastante. Você curte adotar comportamentos mais jovens ou assumir o papel de tutor mais experiente.",
+    "4": "O Ageplay é o seu principal universo de roleplay. Explorar as diferenças de maturidade e dinâmicas de comportamento de outras idades te realiza muito."
+  },
+  "Non-monogamist": {
+    "1": "A monogamia é fundamental para você. Você se sente seguro(a) e realizado(a) dedicando-se exclusivamente a um único parceiro por vez.",
+    "2": "Você tem curiosidade sobre relações abertas ou trios casuais, mas precisaria de muita segurança e conversa para colocar em prática.",
+    "3": "A não-monogamia faz todo o sentido para você. Você enxerga com naturalidade a possibilidade de amar ou sentir atração por várias pessoas de forma consensual.",
+    "4": "Relações livres e abertas são a sua forma natural de viver. Compartilhar afeto, amor ou sexo com múltiplos parceiros é essencial para a sua felicidade."
+  },
+  "Experimentalist": {
+    "1": "Você se sente confortável com o que já conhece e prefere manter uma rotina estável e segura na cama, sem inventar muito.",
+    "2": "Você está aberto(a) a testar novidades leves de vez em quando para não cair na rotina, mas prefere coisas que não sejam muito bizarras.",
+    "3": "Você adora novidades! Está sempre pesquisando sobre fetiches, brinquedos novos e práticas incomuns, adorando trazer surpresas para a cama.",
+    "4": "Experimentar é a sua regra de ouro. Uma rotina sexual te entedia rapidamente; você precisa testar novos limites e práticas excêntricas constantemente."
+  },
+  "Vanilla": {
+    "1": "O sexo convencional não te satisfaz. Você precisa de dinâmicas de poder, fetiches ou intensidade física para realmente se sentir conectado(a).",
+    "2": "Você curte brincadeiras kinky, mas também aprecia momentos de sexo tradicional focado em carinho e intimidade romântica simples.",
+    "3": "Você prefere interações mais suaves e convencionais. Embora possa experimentar algo leve, o seu porto seguro é o sexo romântico tradicional.",
+    "4": "Você é 100% Vanilla. Práticas kinky, dor, amarras ou dinâmicas de poder não te atraem em nada; seu prazer está na simplicidade e no afeto convencional."
+  },
+  "Switch": {
+    "1": "Você tem um papel muito bem definido (ou 100% ativo ou 100% passivo) e não sente atração em inverter as posições na cama.",
+    "2": "Você prefere ficar na sua posição principal na maior parte do tempo, mas não se importaria em brincar com o papel oposto em ocasiões especiais.",
+    "3": "Você é um(a) Switcher de carteirinha! Adora a versatilidade de dar ordens em um dia e se entregar totalmente no outro, dependendo do clima.",
+    "4": "A fluidez total é a sua essência. Você não consegue se fixar em apenas um papel; transitar livremente entre o comando e a entrega é essencial para o seu prazer."
+  }
+}

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Nebulosa - Descubra. Conecte. Explore.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  
+  <!-- Configurações PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#a855f7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+  
+  <style>
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 15px rgba(168, 85, 247, 0.15); }
+      50% { box-shadow: 0 0 25px rgba(236, 72, 153, 0.35); }
+      100% { box-shadow: 0 0 15px rgba(168, 85, 247, 0.15); }
+    }
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+      100% { transform: translateY(0px); }
+    }
+    @keyframes rotateConstellation {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .constellation-bg {
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, rgba(99, 102, 241, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
+      animation: rotateConstellation 40s linear infinite;
+    }
+
+    .welcome-banner {
+      position: relative;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.12) 0%, rgba(236, 72, 153, 0.06) 50%, rgba(99, 102, 241, 0.04) 100%);
+      border: 1.5px solid rgba(168, 85, 247, 0.35);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 1.75rem;
+      animation: pulseGlow 5s ease-in-out infinite;
+      overflow: hidden;
+    }
+    .welcome-banner h2 {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: #df9eff;
+      text-shadow: 0 2px 10px rgba(168, 85, 247, 0.3);
+      margin: 0 0 0.5rem 0;
+    }
+    .welcome-banner p {
+      font-size: 0.9rem;
+      color: #dfdfe8;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* Info explicativa lúdica */
+    .intro-info-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px dashed rgba(168, 85, 247, 0.25);
+      border-radius: 16px;
+      padding: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .intro-info-card h4 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #ec4899;
+      margin-bottom: 0.5rem;
+      font-weight: 800;
+    }
+    .intro-info-card p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .page-card {
+      background-color: var(--card-bg);
+      border: 1.5px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.25rem;
+      margin-bottom: 1.1rem;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      display: flex;
+      gap: 1.1rem;
+      align-items: flex-start;
+      animation: float 6s ease-in-out infinite;
+    }
+    .page-card:nth-child(2n) {
+      animation-delay: 1.5s;
+    }
+    .page-card:nth-child(3n) {
+      animation-delay: 3s;
+    }
+    .page-card:hover {
+      border-color: #ec4899;
+      box-shadow: 0 8px 25px rgba(236, 72, 153, 0.15);
+      transform: translateY(-3px);
+    }
+    .page-icon {
+      font-size: 2rem;
+      padding: 0.6rem;
+      background: rgba(168, 85, 247, 0.06);
+      border-radius: 12px;
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 52px;
+      height: 52px;
+      flex-shrink: 0;
+      transition: all 0.25s ease;
+    }
+    .page-card:hover .page-icon {
+      background: rgba(236, 72, 153, 0.1);
+      border-color: #ec4899;
+    }
+    .page-info {
+      flex: 1;
+    }
+    .page-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 0.35rem;
+    }
+    .page-desc {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="constellation-bg"></div>
+
+  <div class="app-container" style="position: relative; z-index: 10;">
+    
+    <!-- Cabeçalho Global Padronizado -->
+    <div class="global-header">
+      <header style="text-align: left; margin: 0;">
+        <h1 id="homeTitle" style="font-weight: 800; background: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #6366f1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 2rem;">Nebulosa</h1>
+        <p id="homeSubtitle" style="font-size: 0.85rem; font-weight: 800; color: #a855f7; letter-spacing: 0.5px;">Descubra. Conecte. Explore.</p>
+      </header>
+      <button class="menu-trigger" id="menuOpenBtn">☰</button>
+    </div>
+
+    <!-- Boas-vindas Dinâmico -->
+    <div class="welcome-banner" id="welcomeBanner">
+      <h2 id="welcomeText">Olá!</h2>
+      <p id="welcomeDesc">Preparado(a) para explorar suas constelações de desejos?</p>
+    </div>
+
+    <!-- Info Explicativa Lúdica do Projeto -->
+    <div class="intro-info-card">
+      <h4 id="lblEntenda">✨ O que é a Nebulosa?</h4>
+      <p id="lblEntendaDesc">Nebulosa é um ecossistema seguro e interativo para exploração kinky e sexualidade consensual. Através de mapeamentos dinâmicos e do Semáforo de Consentimento, ajudamos você a identificar preferências eróticas, documentar limites confortáveis e testar compatibilidade relacional, garantindo conversas maduras e prazerosas.</p>
+    </div>
+
+    <h3 style="font-size: 0.9rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; margin-bottom: 0.9rem; margin-top: 1rem; letter-spacing: 0.5px;" id="lblExplore">Explore o Ecossistema</h3>
+
+    <!-- Links de Navegação Explicativos -->
+    <div class="page-card" onclick="window.location.href='index.html'">
+      <div class="page-icon">📝</div>
+      <div class="page-info">
+        <div class="page-title" id="lblTestTitle">Novo Teste BDSM</div>
+        <div class="page-desc" id="lblTestDesc">Responda ao questionário adaptado para pronomes dinâmicos com 30, 60 ou 100 perguntas. Descubra sua persona erótica e seus percentuais em tempo real.</div>
+      </div>
+    </div>
+
+    <div class="page-card" onclick="window.location.href='biblioteca.html'">
+      <div class="page-icon">📚</div>
+      <div class="page-info">
+        <div class="page-title" id="lblLibTitle">Biblioteca & Semáforo</div>
+        <div class="page-desc" id="lblLibDesc">Explore o glossário de fetiches com significados revisados e ajuste o seu semáforo de limites (Quero, Talvez, Não Quero) com observações em tempo real.</div>
+      </div>
+    </div>
+
+    <div class="page-card" onclick="window.location.href='relacional-test.html'">
+      <div class="page-icon">🧭</div>
+      <div class="page-info">
+        <div class="page-title" id="lblRelTitle">Mapa Relacional</div>
+        <div class="page-desc" id="lblRelDesc">Calcule e mapeie a dinâmica relacional do casal através das polaridades e do questionário Vanilla reverso de compatibilidade.</div>
+      </div>
+    </div>
+
+    <div class="page-card" onclick="window.location.href='perfil.html'">
+      <div class="page-icon">👤</div>
+      <div class="page-info">
+        <div class="page-title" id="lblProfileTitle">Perfil & Histórico</div>
+        <div class="page-desc" id="lblProfileDesc">Gerencie seus dados cadastrais, confira seus resultados de testes anteriores e ative conexões de relacionamento.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module">
+    import { injetarMenuGlobal } from './assets/menu.js';
+    import { I18N, getLang } from './assets/i18n.js';
+
+    // Roteador de Segurança: Exigir login
+    const token = localStorage.getItem('bdsm_auth_token');
+    const userId = localStorage.getItem('bdsm_user_id');
+    const userName = localStorage.getItem('bdsm_user_name') || '';
+
+    if (!token || !userId) {
+      window.location.href = 'login.html';
+    }
+
+    injetarMenuGlobal();
+
+    const homeI18N = {
+      pt: {
+        welcome: `Olá, <span style="color:#df9eff; font-weight:800;">${userName}</span>!`,
+        welcomeDesc: 'Seja muito bem-vindo(a) à Nebulosa. Sua jornada de autoconhecimento kinky e consentimento começa aqui.',
+        explore: 'Navegação do Ecossistema',
+        entenda: '✨ O que é a Nebulosa?',
+        entendaDesc: 'Nebulosa é um ecossistema seguro e interativo para exploração kinky e sexualidade consensual. Através de mapeamentos dinâmicos e do Semáforo de Consentimento, ajudamos você a identificar preferências eróticas, documentar limites confortáveis e testar compatibilidade relacional, garantindo conversas maduras e prazerosas.',
+        testTitle: 'Fazer Novo Teste BDSM',
+        testDesc: 'Inicie ou refaça o questionário principal para calcular suas afinidades sobre fetiches e categorizar sua Persona erótica.',
+        libTitle: 'Dicionário & Limites',
+        libDesc: 'Consulte o glossário de práticas sexuais e estabeleça seu semáforo de consentimento (Verde, Amarelo, Vermelho) com notas detalhadas.',
+        relTitle: 'Polaridade & Mapa Relacional',
+        relDesc: 'Analise o modelo relacional de dominância/submissão e o teste de compatibilidade Vanilla reverso.',
+        profileTitle: 'Meu Perfil & Conexões',
+        profileDesc: 'Acesse seus dados de cadastro, gerencie conexões de casal e confira seus relatórios e diagnósticos passados.'
+      },
+      en: {
+        welcome: `Hello, <span style="color:#df9eff; font-weight:800;">${userName}</span>!`,
+        welcomeDesc: 'Welcome to Nebulosa. Your journey of kinky self-knowledge and consent starts here.',
+        explore: 'Ecosystem Navigation',
+        entenda: '✨ What is Nebulosa?',
+        entendaDesc: 'Nebulosa is a secure and interactive ecosystem for kink exploration and consensual sexuality. Through dynamic mappings and the Consent Traffic Light, we help you identify erotic preferences, document comfortable boundaries, and test relational compatibility, ensuring mature and pleasurable conversations.',
+        testTitle: 'Take BDSM Test',
+        testDesc: 'Start or retake the main questionnaire to map your kink affinities and identify your erotic Persona.',
+        libTitle: 'Dictionary & Limits',
+        libDesc: 'Check the kinky terms dictionary and customize your individual consent traffic lights (Green, Yellow, Red) with notes.',
+        relTitle: 'Polarity & Relationship Map',
+        relDesc: 'Analyze the relational models of dominance/surrender and the compatibility test.',
+        profileTitle: 'My Profile & Connections',
+        profileDesc: 'Edit your account details, manage couple connections, and check all previous reports.'
+      },
+      es: {
+        welcome: `¡Hola, <span style="color:#df9eff; font-weight:800;">${userName}</span>!`,
+        welcomeDesc: 'Te damos la bienvenida a Nebulosa. Tu viaje de autoconocimiento kink y consentimiento comienza aquí.',
+        explore: 'Navegación del Ecosistema',
+        entenda: '✨ ¿Qué es Nebulosa?',
+        entendaDesc: 'Nebulosa es un ecosistema seguro e interactivo para la exploración kink y la sexualidad consensual. A través de mapeos dinámicos y el Semáforo de Consentimiento, te ayudamos a identificar preferencias eróticas, documentar límites cómodos y probar la compatibilidad relacional, garantizando conversaciones maduras y placenteras.',
+        testTitle: 'Hacer Test BDSM',
+        testDesc: 'Inicia o repite el cuestionario principal para calcular tus afinidades kink y categorizar tu Persona erótica.',
+        libTitle: 'Diccionario y Límites',
+        libDesc: 'Consulta el glosario de términos eróticos y personaliza tu semáforo de consentimiento individual (Verde, Amarillo, Rojo) con notas.',
+        relTitle: 'Polaridad y Mapa Relacional',
+        relDesc: 'Analiza los modelos relacionales de dominación/sumisión y las pruebas de compatibilidad.',
+        profileTitle: 'Mi Perfil y Conexiones',
+        profileDesc: 'Modifica los datos de tu cuenta, administra las conexiones de pareja y revisa todos tus diagnósticos anteriores.'
+      }
+    };
+
+    function aplicarIdioma() {
+      const lang = getLang();
+      const T = homeI18N[lang] || homeI18N.pt;
+
+      document.getElementById('welcomeText').innerHTML = T.welcome;
+      document.getElementById('welcomeDesc').innerText = T.welcomeDesc;
+      document.getElementById('lblExplore').innerText = T.explore;
+      document.getElementById('lblEntenda').innerText = T.entenda;
+      document.getElementById('lblEntendaDesc').innerText = T.entendaDesc;
+      
+      document.getElementById('lblTestTitle').innerText = T.testTitle;
+      document.getElementById('lblTestDesc').innerText = T.testDesc;
+
+      document.getElementById('lblLibTitle').innerText = T.libTitle;
+      document.getElementById('lblLibDesc').innerText = T.libDesc;
+
+      document.getElementById('lblRelTitle').innerText = T.relTitle;
+      document.getElementById('lblRelDesc').innerText = T.relDesc;
+
+      document.getElementById('lblProfileTitle').innerText = T.profileTitle;
+      document.getElementById('lblProfileDesc').innerText = T.profileDesc;
+    }
+
+    aplicarIdioma();
+
+    // ─── REGISTRO DO SERVICE WORKER E PROMPT DE INSTALAÇÃO PWA ───────────────────
+    
+    // Registrar o Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then((reg) => console.log('Service Worker registrado com sucesso:', reg.scope))
+          .catch((err) => console.error('Falha ao registrar Service Worker:', err));
+      });
+    }
+
+    // Gerenciar prompt de instalação customizado
+    let deferredPrompt;
+    const installBanner = document.createElement('div');
+    installBanner.id = 'pwaInstallBanner';
+    installBanner.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(150px);
+      width: calc(100% - 2rem);
+      max-width: 440px;
+      background: linear-gradient(135deg, #16112c 0%, #0e0b19 100%);
+      border: 1.5px solid #a855f7;
+      box-shadow: 0 8px 32px rgba(168, 85, 247, 0.3);
+      border-radius: 16px;
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      z-index: 99999;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    `;
+
+    const bannerText = getLang() === 'en' 
+      ? 'Install Nebulosa App on your screen' 
+      : getLang() === 'es' 
+        ? 'Instalar la App Nebulosa en tu pantalla' 
+        : 'Instalar o App Nebulosa no seu celular';
+
+    const bannerBtnText = getLang() === 'en' ? 'Install' : getLang() === 'es' ? 'Instalar' : 'Instalar';
+
+    installBanner.innerHTML = `
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <div style="font-size:1.8rem; background:rgba(168, 85, 247, 0.1); border-radius:8px; padding:0.25rem; width:42px; height:42px; display:flex; align-items:center; justify-content:center;">🔮</div>
+        <span style="font-size:0.85rem; font-weight:700; color:#f8fafc;">${bannerText}</span>
+      </div>
+      <div style="display:flex; gap:0.5rem;">
+        <button id="btnPwaClose" style="background:none; border:none; color:#94a3b8; font-size:0.8rem; padding:0.5rem; cursor:pointer;">✕</button>
+        <button id="btnPwaInstall" style="background:var(--accent-gradient); border:none; border-radius:10px; color:#fff; font-size:0.8rem; font-weight:800; padding:0.5rem 1rem; cursor:pointer;">${bannerBtnText}</button>
+      </div>
+    `;
+
+    document.body.appendChild(installBanner);
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // Impede o prompt padrão do Chrome/Android
+      e.preventDefault();
+      deferredPrompt = e;
+      // Exibe nosso banner customizado
+      installBanner.style.transform = 'translateX(-50%) translateY(0)';
+    });
+
+    document.getElementById('btnPwaInstall').addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`Escolha de instalação do usuário: ${outcome}`);
+        deferredPrompt = null;
+        installBanner.style.transform = 'translateX(-50%) translateY(150px)';
+      }
+    });
+
+    document.getElementById('btnPwaClose').addEventListener('click', () => {
+      installBanner.style.transform = 'translateX(-50%) translateY(150px)';
+    });
+
+    window.addEventListener('appinstalled', () => {
+      console.log('Nebulosa App instalado com sucesso!');
+      installBanner.style.transform = 'translateX(-50%) translateY(150px)';
+    });
+  </script>
+</body>
+</html>

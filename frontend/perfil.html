@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>BDSM Test - Perfil</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    .profile-info {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+    .test-history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .history-item {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 1.25rem;
+    }
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.6rem;
+    }
+    .history-token {
+      font-weight: 800;
+      color: #ff3333;
+      font-size: 1.05rem;
+    }
+    .history-date {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .history-tags {
+      font-size: 0.85rem;
+      color: #dfdfe8;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    .history-actions {
+      display: flex;
+      gap: 0.6rem;
+    }
+    .btn-action {
+      flex: 1;
+      padding: 0.6rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: none;
+      color: var(--text-main);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-action.view {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-color: transparent;
+    }
+    .btn-action.delete {
+      color: #ff3333;
+      border-color: rgba(255, 51, 51, 0.2);
+      background-color: rgba(255, 51, 51, 0.02);
+    }
+    /* Modal de Limites por Nível */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 1000;
+      align-items: flex-end;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-sheet {
+      width: 100%;
+      max-height: 85vh;
+      background: #12121a;
+      border-radius: 20px 20px 0 0;
+      padding: 1.5rem 1.25rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      animation: slideUp 0.25s ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to   { transform: translateY(0); }
+    }
+    .modal-handle {
+      width: 40px; height: 4px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 2px;
+      margin: 0 auto 1.25rem;
+    }
+    .modal-title {
+      font-size: 1.05rem; font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 1rem;
+    }
+    .modal-list {
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .modal-limit-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 0.55rem 0.75rem;
+    }
+    .modal-limit-name { flex:1; font-size:0.85rem; font-weight:600; color:var(--text-main); }
+    .modal-level-btns { display:flex; gap:0.3rem; }
+    .modal-lvl-btn {
+      font-size:1rem; background:none; border:none; cursor:pointer;
+      opacity:0.35; transition:opacity 0.15s; padding:0.1rem 0.15rem;
+      border-radius:4px;
+    }
+    .modal-lvl-btn.sel { opacity:1; background:rgba(255,255,255,0.08); }
+  </style>
+</head>
+<body>
+
+  <!-- Modal Bottom Sheet de Listagem de Limites por Nível -->
+  <div class="modal-overlay" id="limitModalOverlay" onclick="fecharModal(event)">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-title" id="modalTitle">🟢 Práticas que Quero</div>
+      <div class="modal-list" id="modalLimitList"></div>
+    </div>
+  </div>
+
+  <div class="app-container">
+    
+    <!-- Cabeçalho Global Padronizado -->
+    <div class="global-header">
+      <header style="text-align: left; margin: 0;">
+        <h1 id="lblProfileTitle">Meu Perfil</h1>
+        <p id="identificadorDisplay">@carregando...</p>
+      </header>
+      <button class="menu-trigger" id="menuOpenBtn">☰</button>
+    </div>
+
+    <!-- Seção de Ações -->
+    <div class="card">
+      <h2 class="card-title" id="lblCardNewTest">Fazer o Teste BDSM</h2>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;" id="lblCardNewTestDesc">
+        Você pode realizar um novo questionário a qualquer momento para atualizar seu perfil kinky.
+      </p>
+      <button class="btn-primary" id="btnNewTest" onclick="irParaConfig()">Novo Teste ➔</button>
+    </div>
+
+    <!-- Atalho para Configurações de Ficha Cadastral -->
+    <div class="card" style="margin-top: 1.5rem;">
+      <h2 class="card-title" id="lblFormTitle">Ficha Cadastral</h2>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+        Gerencie suas informações pessoais, pronome e redes de contato.
+      </p>
+      <button class="btn-primary" onclick="window.location.href='configuracao.html'" style="background: rgba(255,255,255,0.02); border: 1.5px solid var(--border-color); color: var(--text-main);">
+        ⚙️ Editar Informações ➔
+      </button>
+    </div>
+
+    <!-- Dashboard de Consentimento -->
+    <div class="card" style="margin-top: 1.5rem;">
+      <h2 class="card-title">Dashboard de Consentimento</h2>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+        Seu progresso de autoconhecimento kinky — quanto você já avaliou.
+      </p>
+
+      <!-- Barra de Progresso Geral -->
+      <div style="margin-bottom: 1.25rem;">
+        <div style="display:flex; justify-content:space-between; font-size:0.78rem; font-weight:700; margin-bottom:0.4rem;">
+          <span style="color:var(--text-muted);">Práticas Avaliadas</span>
+          <span id="dashProgPercent" style="color:var(--accent-color);">0%</span>
+        </div>
+        <div style="height:10px; background-color:rgba(255,255,255,0.04); border-radius:5px; overflow:hidden;">
+          <div id="dashProgBar" style="width:0%; height:100%; background:linear-gradient(90deg, #cf2e2e, #ff6900); border-radius:5px; transition:width 0.8s ease;"></div>
+        </div>
+      </div>
+
+      <!-- Grid de Contadores clicáveis -->
+      <div class="limit-stats-container" style="gap:0.5rem;">
+        <div class="limit-stat-box" onclick="abrirModalLimites('verde')" style="cursor:pointer; transition:opacity 0.15s;" onmousedown="this.style.opacity='0.7'" onmouseup="this.style.opacity='1'">
+          <div class="limit-stat-val verde" id="statVerdes">0</div>
+          <div class="limit-stat-lbl">🟢 Quero</div>
+        </div>
+        <div class="limit-stat-box" onclick="abrirModalLimites('amarelo')" style="cursor:pointer; transition:opacity 0.15s;" onmousedown="this.style.opacity='0.7'" onmouseup="this.style.opacity='1'">
+          <div class="limit-stat-val amarelo" id="statAmarelos">0</div>
+          <div class="limit-stat-lbl">🟡 Talvez</div>
+        </div>
+        <div class="limit-stat-box" onclick="abrirModalLimites('vermelho')" style="cursor:pointer; transition:opacity 0.15s;" onmousedown="this.style.opacity='0.7'" onmouseup="this.style.opacity='1'">
+          <div class="limit-stat-val vermelho" id="statVermelhos">0</div>
+          <div class="limit-stat-lbl">🔴 Limites</div>
+        </div>
+      </div>
+
+      <!-- Histórico de Mudanças de Limites -->
+      <div style="margin-top: 1.25rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+        <h3 style="font-size: 0.9rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.75rem;">🕓 Sua Evolução de Opiniões</h3>
+        <div id="limitHistoryList" style="display:flex; flex-direction:column; gap:0.5rem;">
+          <div style="color:var(--text-muted); font-size:0.82rem;">Carregando histórico...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seção de Sinergia e Compatibilidade Consensual -->
+    <div class="card" style="margin-top: 1.5rem;">
+      <h2 class="card-title">Sinergia & Compatibilidade</h2>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+        Conecte-se com seu parceiro através de um código seguro para cruzar seus limites de consentimento.
+      </p>
+      
+      <!-- Bloco de Gerar Código -->
+      <div style="background-color: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem; text-align: center;">
+        <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; margin-bottom: 0.5rem;">Gerar Meu Código de Convite</div>
+        <button class="btn-primary" id="btnGerarConvite" onclick="gerarCodigoConvite()" style="width: auto; padding: 0.5rem 1.5rem;">Gerar Código ➔</button>
+        <div id="conviteTokenDisplay" style="display: none; font-size: 1.8rem; font-weight: 800; color: var(--accent-color); margin-top: 0.75rem; letter-spacing: 2px;">XXXX-XXXX</div>
+      </div>
+
+      <!-- Bloco de Inserir Código -->
+      <div class="input-group">
+        <label class="input-label" for="inviteTokenInput">Inserir Código do Parceiro</label>
+        <input type="text" id="inviteTokenInput" placeholder="Ex: 8YKD-2A9P" style="text-align: center; text-transform: uppercase; letter-spacing: 1px;">
+      </div>
+      <button class="btn-primary" onclick="conectarParceiroComToken()">Conectar Parceiro ➔</button>
+      
+      <!-- Resultados do Cruzamento Consensual -->
+      <div id="sinergiaResultContainer" style="display: none; margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+          <div style="font-size: 0.9rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Nossa Compatibilidade</div>
+          <div style="font-size: 3rem; font-weight: 800; color: var(--accent-color); margin: 0.5rem 0;" id="compatibilidadePorcentagem">0%</div>
+          <div style="font-size: 0.85rem; color: var(--text-muted);" id="sinergiaSummaryText">Cruzamento realizado</div>
+        </div>
+
+        <div style="margin-bottom: 1rem;">
+          <h3 style="font-size: 0.95rem; color: #00d084; margin-bottom: 0.5rem;">🟢 Práticas em Comum (Ambos Verdes)</h3>
+          <ul id="listaPraticasComuns" style="font-size: 0.9rem; color: var(--text-main); padding-left: 1.2rem; line-height: 1.6;">
+            <!-- Renderizado dinamicamente -->
+          </ul>
+        </div>
+
+        <!-- Nova Seção: Afinidades por Categoria -->
+        <div style="margin-bottom: 1rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+          <h3 style="font-size: 0.95rem; color: var(--accent-color); margin-bottom: 0.6rem;">📊 Afinidades por Categoria</h3>
+          <div id="categoriasAfinidadeGrid" style="display:flex; flex-direction:column; gap:0.5rem;">
+            <!-- Renderizado dinamicamente -->
+          </div>
+        </div>
+
+        <!-- Nova Seção: Leitura e Segurança Recomendada -->
+        <div style="margin-bottom: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+          <h3 style="font-size: 0.95rem; color: #9b51e0; margin-bottom: 0.5rem;">📚 Recomendações de Leitura & Segurança</h3>
+          <div id="listaGuiasRecomendados" style="display:flex; flex-direction:column; gap:0.5rem;">
+            <!-- Renderizado dinamicamente -->
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1rem;">
+          <h3 style="font-size: 0.95rem; color: #ff6900; margin-bottom: 0.5rem;">🟡 Pontos para Conversar (Flexíveis)</h3>
+          <ul id="listaPraticasNegociar" style="font-size: 0.9rem; color: var(--text-main); padding-left: 1.2rem; line-height: 1.6;">
+            <!-- Renderizado dinamicamente -->
+          </ul>
+        </div>
+
+        <div style="background-color: rgba(255, 51, 51, 0.05); border: 1px dashed rgba(255, 51, 51, 0.2); border-radius: 8px; padding: 0.75rem; font-size: 0.82rem; color: #ff3333; line-height: 1.4;">
+          🛡️ <strong>Segurança do Consentimento:</strong> Práticas marcadas como limites rígidos por qualquer uma das partes foram totalmente omitidas deste painel por privacidade e respeito.
+        </div>
+      </div>
+    </div>
+
+    <!-- Seção de Histórico de Testes Anteriores -->
+    <div class="card" style="margin-top: 1.5rem;">
+      <h2 class="card-title" id="lblHistoryTitle">Resultados Anteriores</h2>
+      
+      <div class="test-history-list" id="historyList">
+        <p style="font-size: 0.9rem; color: var(--text-muted); text-align: center; padding: 1.5rem 0;" id="lblNoHistory">
+          Nenhum teste concluído localizado.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module">
+    import { injetarMenuGlobal } from './assets/menu.js';
+    import { I18N, getLang, translateArchetype } from './assets/i18n.js';
+
+    const API_URL = 'http://localhost:3001/api';
+    const userId = localStorage.getItem('bdsm_user_id');
+    const lang = getLang();
+    const L = I18N[lang] || I18N['pt'];
+
+    if (!userId) {
+      window.location.href = 'login.html';
+    } else {
+      document.getElementById('identificadorDisplay').innerText = localStorage.getItem('bdsm_user_name');
+    }
+
+    function aplicarIdioma() {
+      // Títulos e Labels
+      document.getElementById('lblProfileTitle').innerText = L.profile_title || 'Meu Perfil';
+      document.getElementById('lblCardNewTest').innerText = L.profile_new_test || 'Fazer o Teste BDSM';
+      document.getElementById('lblCardNewTestDesc').innerText = L.profile_new_test_desc || 'Você pode realizar um novo questionário a qualquer momento.';
+      document.getElementById('btnNewTest').innerText = L.profile_new_test_btn || 'Novo Teste ➔';
+      document.getElementById('lblFormTitle').innerText = L.profile_form_title || 'Ficha Cadastral';
+      document.getElementById('lblHistoryTitle').innerText = L.profile_history || 'Resultados Anteriores';
+      document.getElementById('lblNoHistory').innerText = L.profile_no_tests || 'Nenhum teste concluído localizado.';
+
+      document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang;
+    }
+
+    window.irParaConfig = function() {
+      window.location.href = 'index.html';
+    }
+
+    const token = localStorage.getItem('bdsm_auth_token');
+
+    window.buscarHistorico = async function() {
+      try {
+        const response = await fetch(`${API_URL}/user/${userId}/tests`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const result = await response.json();
+
+        const list = document.getElementById('historyList');
+        if (result.tests && result.tests.length > 0) {
+          list.innerHTML = ''; // limpa o placeholder
+          result.tests.forEach(test => {
+            const dateStr = new Date(test.finalizado_em).toLocaleDateString(lang === 'pt' ? 'pt-BR' : lang === 'es' ? 'es-ES' : 'en-US', {
+              day: '2-digit', month: 'short', year: 'numeric'
+            });
+
+            let topCats = '';
+            let labelTipo = '';
+            let styleTipo = '';
+            if (test.tipo_teste === 'relacional') {
+              labelTipo = '🧭 Mapa Relacional';
+              styleTipo = 'background: rgba(124,92,252,0.12); color: #c084fc; border: 1px solid rgba(124,92,252,0.25);';
+              topCats = `Perfil: <strong>${test.profile_declarado || 'Híbrido'}</strong>`;
+            } else {
+              labelTipo = '🔥 Teste BDSM';
+              styleTipo = 'background: rgba(255,51,51,0.08); color: #ff3333; border: 1px solid rgba(255,51,51,0.15);';
+              const scores = JSON.parse(test.scores_json);
+              topCats = Object.entries(scores)
+                .map(([name, score]) => ({ name, score }))
+                .sort((a, b) => b.score - a.score)
+                .slice(0, 3)
+                .map(item => `${item.score}% ${translateArchetype(item.name)}`)
+                .join('<br>');
+            }
+
+            const item = document.createElement('div');
+            item.className = 'history-item';
+            item.innerHTML = `
+              <div class="history-header">
+                <span class="history-token">${test.token}</span>
+                <span class="history-date">${dateStr}</span>
+              </div>
+              <div style="font-size:0.7rem; font-weight:700; text-transform:uppercase; border-radius:12px; padding:0.2rem 0.6rem; width:fit-content; margin-bottom:0.5rem; ${styleTipo}">
+                ${labelTipo}
+              </div>
+              <div class="history-tags">
+                ${topCats}
+              </div>
+              <div class="history-actions">
+                <button class="btn-action view" onclick="verTeste('${test.token}', '${test.tipo_teste}')">${L.profile_view || 'Visualizar'}</button>
+                <button class="btn-action delete" onclick="excluirTeste('${test.token}')">${L.profile_delete || 'Remover'}</button>
+              </div>
+            `;
+            list.appendChild(item);
+          });
+        } else {
+          list.innerHTML = '<p style="font-size: 0.9rem; color: var(--text-muted); text-align: center; padding: 1.5rem 0;">Nenhum teste concluído localizado.</p>';
+        }
+      } catch (err) {
+        console.error('Erro ao buscar histórico.');
+        const list = document.getElementById('historyList');
+        list.innerHTML = '<p style="font-size: 0.9rem; color: var(--text-muted); text-align: center; padding: 1.5rem 0;">Erro ao carregar histórico.</p>';
+      }
+    }
+
+    window.verTeste = function(token, tipo) {
+      if (tipo === 'relacional') {
+        localStorage.setItem('relacional_last_token', token);
+        window.location.href = 'relacional-results.html';
+      } else {
+        localStorage.setItem('bdsm_last_token', token);
+        window.location.href = 'results.html';
+      }
+    }
+
+    window.excluirTeste = async function(tokenToDel) {
+      const confirmMsg = lang === 'en' 
+        ? `Do you really want to remove test ${tokenToDel}?` 
+        : lang === 'es' 
+          ? `¿Realmente deseas eliminar el test ${tokenToDel}?` 
+          : `Deseja realmente remover o teste ${tokenToDel}?`;
+
+      if (!confirm(confirmMsg)) return;
+
+      try {
+        const response = await fetch(`${API_URL}/result/${tokenToDel}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const result = await response.json();
+        if (result.success) {
+          buscarHistorico();
+        } else {
+          alert(lang === 'en' ? 'Could not delete.' : lang === 'es' ? 'No se pudo eliminar.' : 'Não foi possível excluir.');
+        }
+      } catch (err) {
+        alert(lang === 'en' ? 'Error connecting.' : lang === 'es' ? 'Error al conectar.' : 'Erro ao conectar.');
+      }
+    }
+
+    // Dashboard: Estatísticas de Limites de Consentimento
+    async function buscarEstatisticasLimites() {
+      try {
+        const res = await fetch(`${API_URL}/user/${userId}/limits/stats`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const result = await res.json();
+        if (result.success && result.stats) {
+          const verde = result.stats.verde || 0;
+          const amarelo = result.stats.amarelo || 0;
+          const vermelho = result.stats.vermelho || 0;
+          const total = verde + amarelo + vermelho;
+          const TOTAL_PRATICAS = 134; // Total de práticas na base
+
+          document.getElementById('statVerdes').innerText = verde;
+          document.getElementById('statAmarelos').innerText = amarelo;
+          document.getElementById('statVermelhos').innerText = vermelho;
+
+          // Atualizar barra de progresso de autoconhecimento
+          const pct = Math.min(Math.round((total / TOTAL_PRATICAS) * 100), 100);
+          document.getElementById('dashProgPercent').innerText = `${pct}%`;
+          document.getElementById('dashProgBar').style.width = `${pct}%`;
+        }
+      } catch (err) {
+        console.error("Erro ao buscar estatísticas de limites.");
+      }
+      
+      // Buscar histórico de mudanças
+      buscarHistoricoLimites();
+    }
+
+    // Histórico de Mudanças de Limites (ex: 🟡 → 🟢 em "Wax Play")
+    async function buscarHistoricoLimites() {
+      const emojiNivel = { verde: '🟢', amarelo: '🟡', vermelho: '🔴', null: '⚪' };
+      const nomeNivel  = { verde: 'Quero', amarelo: 'Talvez', vermelho: 'Não quero', null: 'Novo' };
+      try {
+        const res = await fetch(`${API_URL}/user/${userId}/limits/history`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const result = await res.json();
+        const container = document.getElementById('limitHistoryList');
+        if (result.success && result.history && result.history.length > 0) {
+          container.innerHTML = result.history.map(h => {
+            const antes = h.nivel_anterior ? `${emojiNivel[h.nivel_anterior]} ${nomeNivel[h.nivel_anterior]}` : '⚪ Novo';
+            const depois = `${emojiNivel[h.nivel_novo]} ${nomeNivel[h.nivel_novo]}`;
+            const data = new Date(h.mudado_em).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
+            return `
+              <div style="display:flex; align-items:center; gap:0.6rem; background:rgba(255,255,255,0.02); border:1px solid var(--border-color); border-radius:10px; padding:0.6rem 0.8rem;">
+                <div style="flex:1; font-size:0.83rem; font-weight:700; color:var(--text-main);">${h.pratica}</div>
+                <div style="font-size:0.78rem; color:var(--text-muted); white-space:nowrap;">${antes} → ${depois}</div>
+                <div style="font-size:0.72rem; color:var(--text-muted); white-space:nowrap;">${data}</div>
+              </div>`;
+          }).join('');
+        } else {
+          container.innerHTML = '<div style="color:var(--text-muted); font-size:0.82rem;">Nenhuma mudança registrada ainda. Avalie práticas na Biblioteca!</div>';
+        }
+      } catch (err) {
+        console.error('Erro ao buscar histórico de limites.');
+        const container = document.getElementById('limitHistoryList');
+        if (container) container.innerHTML = '<div style="color:var(--text-muted); font-size:0.82rem;">Nenhuma mudança registrada ainda.</div>';
+      }
+    }
+
+
+    // Gerar Código de Convite Único
+    window.gerarCodigoConvite = async function() {
+      try {
+        const res = await fetch(`${API_URL}/relationship/invite`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ senderId: userId })
+        });
+        const result = await res.json();
+        if (result.success && result.token) {
+          const display = document.getElementById('conviteTokenDisplay');
+          display.innerText = result.token;
+          display.style.display = 'block';
+        }
+      } catch (err) {
+        alert('Erro ao gerar código de convite.');
+      }
+    }
+
+    // Aceitar convite digitado e carregar compatibilidade consensual
+    window.conectarParceiroComToken = async function() {
+      const token = document.getElementById('inviteTokenInput').value.trim();
+      if (!token) {
+        alert(lang === 'en' ? 'Please enter the invite token.' : lang === 'es' ? 'Por favor, introduce el código de invitación.' : 'Por favor, insira o código de convite.');
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_URL}/relationship/accept`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ receiverId: userId, token })
+        });
+        const result = await res.json();
+        if (result.success) {
+          alert(result.message);
+          // Executar cálculo da compatibilidade consensual usando o ID retornado do parceiro
+          window.calcularCompatibilidadeDireta(result.parceiroId);
+        } else {
+          alert('Erro: ' + result.error);
+        }
+      } catch (e) {
+        alert('Código de convite inválido ou expirado.');
+      }
+    }
+
+    window.calcularCompatibilidadeDireta = async function(parceiroId) {
+      try {
+        const res = await fetch(`${API_URL}/user/compare-limits`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ meuId: userId, parceiroId })
+        });
+        const result = await res.json();
+        if (result.success) {
+          const container = document.getElementById('sinergiaResultContainer');
+          container.style.display = 'block';
+          
+          document.getElementById('compatibilidadePorcentagem').innerText = `${result.compatibilidade}%`;
+          document.getElementById('sinergiaSummaryText').innerText = `${result.comunsCount} práticas comuns encontradas.`;
+
+          // Práticas Comuns
+          const comunsList = document.getElementById('listaPraticasComuns');
+          comunsList.innerHTML = '';
+          if (result.verdes.length === 0) {
+            comunsList.innerHTML = '<li style="color:var(--text-muted);">Nenhuma prática verde em comum encontrada.</li>';
+          } else {
+            result.verdes.forEach(p => {
+              comunsList.innerHTML += `
+                <li style="margin-bottom:0.4rem;">
+                  <strong>${p.nome}</strong> 
+                  ${p.obs_A || p.obs_B ? `<div style="font-size:0.78rem; color:var(--text-muted); padding-left:0.5rem;">↳ Observações: ${p.obs_A || p.obs_B}</div>` : ''}
+                </li>
+              `;
+            });
+          }
+
+          // Práticas para Conversar
+          const conversarList = document.getElementById('listaPraticasNegociar');
+          conversarList.innerHTML = '';
+          if (result.conversar.length === 0) {
+            conversarList.innerHTML = '<li style="color:var(--text-muted);">Nenhum ponto amarelo para negociação.</li>';
+          } else {
+            result.conversar.forEach(p => {
+              const papelA = p.nivel_A === 'verde' ? '🟢 Quero' : p.nivel_A === 'amarelo' ? '🟡 Talvez' : '⚪ Não avaliado';
+              const papelB = p.nivel_B === 'verde' ? '🟢 Quero' : p.nivel_B === 'amarelo' ? '🟡 Talvez' : '⚪ Não avaliado';
+              conversarList.innerHTML += `
+                <li style="margin-bottom:0.4rem;">
+                  <strong>${p.nome}</strong> 
+                  <span style="font-size:0.8rem; color:var(--text-muted);">(${papelA} vs ${papelB})</span>
+                  ${p.obs_A || p.obs_B ? `<div style="font-size:0.78rem; color:var(--text-muted); padding-left:0.5rem;">↳ Notas: ${p.obs_A || p.obs_B}</div>` : ''}
+                </li>
+              `;
+            });
+          }
+
+          // Renderizar Afinidades por Categoria
+          const afinidadeGrid = document.getElementById('categoriasAfinidadeGrid');
+          afinidadeGrid.innerHTML = '';
+          if (result.categorias && Object.keys(result.categorias).length > 0) {
+            for (const [catName, score] of Object.entries(result.categorias)) {
+              afinidadeGrid.innerHTML += `
+                <div>
+                  <div style="display:flex; justify-content:between; align-items:center; font-size:0.8rem; font-weight:700; margin-bottom:0.2rem;">
+                    <span>${catName}</span>
+                    <span style="margin-left:auto; color:var(--accent-color);">${score}%</span>
+                  </div>
+                  <div class="bar-track" style="height:8px; background-color:rgba(255,255,255,0.03); border-radius:4px; overflow:hidden;">
+                    <div class="bar-fill" style="width:${score}%; height:100%; background:linear-gradient(90deg, #cf2e2e 0%, #ff6900 100%); border-radius:4px;"></div>
+                  </div>
+                </div>
+              `;
+            }
+          } else {
+            afinidadeGrid.innerHTML = '<div style="color:var(--text-muted); font-size:0.82rem;">Sem dados categóricos suficientes.</div>';
+          }
+
+          // Renderizar Guias de Segurança Recomendados
+          const guiasContainer = document.getElementById('listaGuiasRecomendados');
+          guiasContainer.innerHTML = '';
+          if (result.guiasRecomendados && result.guiasRecomendados.length > 0) {
+            result.guiasRecomendados.forEach(g => {
+              guiasContainer.innerHTML += `
+                <div style="background-color:rgba(255,255,255,0.02); border:1px solid var(--border-color); border-radius:10px; padding:0.75rem; display:flex; justify-content:between; align-items:center;">
+                  <div>
+                    <div style="font-size:0.85rem; font-weight:700; color:var(--text-main);">${g.titulo}</div>
+                    <div style="font-size:0.75rem; color:var(--text-muted);">${g.categoria} • ${g.tempo_leitura_min} min de leitura</div>
+                  </div>
+                  <button class="btn-action view" style="margin-left:auto; width:auto; padding:0.4rem 0.8rem;" onclick="window.location.href='biblioteca.html?tab=fundamentos'">Ler</button>
+                </div>
+              `;
+            });
+          } else {
+            guiasContainer.innerHTML = `
+              <div style="background-color:rgba(0, 208, 132, 0.03); border:1px solid rgba(0, 208, 132, 0.2); border-radius:10px; padding:0.75rem; font-size:0.82rem; color:#00d084;">
+                🛡️ Nenhuma prática de alta complexidade detectada em comum. Recomenda-se leitura geral de segurança na Biblioteca.
+              </div>
+            `;
+          }
+        }
+      } catch (e) {
+        console.error('Erro ao calcular compatibilidade consensual.');
+      }
+    }
+
+    // ─── Modal de Listagem de Limites por Nível ───────────────────────────
+    const modalTitles = {
+      verde:    '🟢 Práticas que Quero',
+      amarelo:  '🟡 Que Talvez Eu Aceite',
+      vermelho: '🔴 Meus Limites Rígidos'
+    };
+
+    window.abrirModalLimites = async function(nivel) {
+      document.getElementById('modalTitle').innerText = modalTitles[nivel];
+      const lista = document.getElementById('modalLimitList');
+      lista.innerHTML = '<div style="color:var(--text-muted); font-size:0.82rem; text-align:center; padding:1rem;">Carregando...</div>';
+      document.getElementById('limitModalOverlay').classList.add('open');
+
+      try {
+        const res = await fetch(`${API_URL}/user/${userId}/limits/by-nivel?nivel=${nivel}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const result = await res.json();
+
+        if (!result.success || result.limites.length === 0) {
+          lista.innerHTML = '<div style="color:var(--text-muted); font-size:0.82rem; text-align:center; padding:1rem;">Nenhuma prática nesta categoria ainda.</div>';
+          return;
+        }
+
+        lista.innerHTML = result.limites.map(l => `
+          <div class="modal-limit-item" id="mitem-${l.pratica_id}">
+            <span class="modal-limit-name">${l.nome}</span>
+            <div class="modal-level-btns">
+              <button class="modal-lvl-btn ${l.nivel === 'verde' ? 'sel' : ''}" onclick="mudarNivelModal(${l.pratica_id}, '${l.nome}', 'verde', this)">🟢</button>
+              <button class="modal-lvl-btn ${l.nivel === 'amarelo' ? 'sel' : ''}" onclick="mudarNivelModal(${l.pratica_id}, '${l.nome}', 'amarelo', this)">🟡</button>
+              <button class="modal-lvl-btn ${l.nivel === 'vermelho' ? 'sel' : ''}" onclick="mudarNivelModal(${l.pratica_id}, '${l.nome}', 'vermelho', this)">🔴</button>
+            </div>
+          </div>`).join('');
+      } catch (e) {
+        lista.innerHTML = '<div style="color:#ff3333; font-size:0.82rem;">Erro ao carregar limites.</div>';
+      }
+    };
+
+    window.mudarNivelModal = async function(praticaId, nome, novoNivel, btn) {
+      // Atualizar visual imediato
+      const item = document.getElementById(`mitem-${praticaId}`);
+      item.querySelectorAll('.modal-lvl-btn').forEach(b => b.classList.remove('sel'));
+      btn.classList.add('sel');
+
+      try {
+        await fetch(`${API_URL}/user/${userId}/limits`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ termo: nome, nivel: novoNivel, observacao: '' })
+        });
+        // Atualizar contadores
+        buscarEstatisticasLimites();
+      } catch (e) { /* silencioso */ }
+    };
+
+    window.fecharModal = function(e) {
+      if (e.target === document.getElementById('limitModalOverlay')) {
+        document.getElementById('limitModalOverlay').classList.remove('open');
+      }
+    };
+
+    // Inicializar
+    aplicarIdioma();
+    injetarMenuGlobal();
+    buscarHistorico();
+    buscarEstatisticasLimites();
+  </script>
+</body>
+</html>

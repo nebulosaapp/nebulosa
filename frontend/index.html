@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>BDSM Test</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Cabeçalho Global Padronizado -->
+    <div class="global-header">
+      <header style="text-align: left; margin: 0;">
+        <h1 id="idxTitle">BDSM Test</h1>
+        <p id="idxSubtitle">Descubra suas afinidades e fetiches</p>
+      </header>
+      <button class="menu-trigger" id="menuOpenBtn" style="display: none;">☰</button>
+    </div>
+
+    <!-- Card de Acesso -->
+    <div class="card" id="authCard">
+      <h2 class="card-title" id="idxQuickAccess">Acesso Rápido</h2>
+      
+      <div class="input-group">
+        <label class="input-label" for="userId" id="idxIdLabel">Instagram (@) ou E-mail</label>
+        <input type="text" id="userId" placeholder="Ex: @seu_perfil ou email@link.com" autocomplete="off">
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" for="userPass" id="idxPassLabel">Senha de Acesso</label>
+        <input type="password" id="userPass" placeholder="Sua senha secreta">
+      </div>
+
+      <button class="btn-primary" id="idxEnterBtn" onclick="iniciarAcesso()">Entrar / Registrar</button>
+    </div>
+
+    <!-- Card de Opções do Teste -->
+    <div class="card" id="setupCard" style="display: none;">
+      <h2 class="card-title" id="idxConfigure">Configurar Teste</h2>
+
+      <div class="input-group">
+        <label class="input-label" for="testLevel" id="idxLevelLabel">Tamanho do Questionário</label>
+        <select id="testLevel" onchange="atualizarInfoExplicativa()">
+          <option value="basico" id="idxLevelBasic">Nível Básico (30 Perguntas)</option>
+          <option value="medio" id="idxLevelMedium">Nível Médio (60 Perguntas)</option>
+          <option value="completo" selected id="idxLevelFull">Nível Completo (100 Perguntas)</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" for="userProfile" id="idxProfileLabel">Você se considera atualmente...</label>
+        <select id="userProfile" onchange="atualizarInfoExplicativa()">
+          <option value="nao_sabe" id="idxProfileNotsure">Não sei / Quero descobrir</option>
+          <option value="dominante" id="idxProfileDom">Mais Dominante</option>
+          <option value="submisso" id="idxProfileSub">Mais Submisso(a)</option>
+        </select>
+      </div>
+
+      <div class="info-box" id="configInfoBox">
+        Selecione as opções acima para ver os detalhes do questionário.
+      </div>
+
+      <button class="btn-primary" id="idxStartBtn" onclick="irParaOTeste()">Iniciar Novo Teste ➔</button>
+    </div>
+
+  </div>
+
+  <script type="module">
+    import { injetarMenuGlobal } from './assets/menu.js';
+    import { I18N, getLang } from './assets/i18n.js';
+
+    const API_URL = 'http://localhost:3001/api';
+
+    function aplicarIdioma() {
+      const lang = getLang();
+      const L = I18N[lang] || I18N['pt'];
+      document.getElementById('idxTitle').innerText = L.index_title;
+      document.getElementById('idxSubtitle').innerText = L.index_subtitle;
+      document.getElementById('idxQuickAccess').innerText = L.index_quick_access;
+      document.getElementById('idxIdLabel').innerText = L.login_id_label;
+      document.getElementById('idxPassLabel').innerText = L.login_pass_label;
+      document.getElementById('idxEnterBtn').innerText = L.index_enter_btn;
+      document.getElementById('idxConfigure').innerText = L.index_configure;
+      document.getElementById('idxLevelLabel').innerText = L.index_level_label;
+      document.getElementById('idxLevelBasic').innerText = L.index_level_basic;
+      document.getElementById('idxLevelMedium').innerText = L.index_level_medium;
+      document.getElementById('idxLevelFull').innerText = L.index_level_full;
+      document.getElementById('idxProfileLabel').innerText = L.index_profile_label;
+      document.getElementById('idxProfileNotsure').innerText = L.index_profile_notsure;
+      document.getElementById('idxProfileDom').innerText = L.index_profile_dom;
+      document.getElementById('idxProfileSub').innerText = L.index_profile_sub;
+      document.getElementById('idxStartBtn').innerText = L.index_start_btn;
+      document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang;
+    }
+
+    window.iniciarAcesso = async function() {
+      const identificador = document.getElementById('userId').value.trim();
+      const senha = document.getElementById('userPass').value.trim();
+
+      if (!identificador || !senha) {
+        alert('Preencha todos os campos para acessar.');
+        return;
+      }
+
+      try {
+        let response = await fetch(`${API_URL}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ identificador, senha })
+        });
+        let result = await response.json();
+
+        if (result.success) {
+          localStorage.setItem('bdsm_user_id', result.user.id);
+          localStorage.setItem('bdsm_user_name', result.user.identificador);
+          mostrarOpcoes();
+        } else {
+          if (confirm('Identificador não encontrado. Deseja criar uma conta com esses dados?')) {
+            response = await fetch(`${API_URL}/auth/register`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ identificador, senha })
+            });
+            result = await response.json();
+            if (result.success) {
+              localStorage.setItem('bdsm_user_id', result.userId);
+              localStorage.setItem('bdsm_user_name', identificador);
+              mostrarOpcoes();
+            } else {
+              alert(result.error);
+            }
+          }
+        }
+      } catch (err) {
+        alert('Não foi possível conectar ao servidor backend.');
+      }
+    }
+
+    window.mostrarOpcoes = function() {
+      document.getElementById('authCard').style.display = 'none';
+      document.getElementById('setupCard').style.display = 'block';
+      document.getElementById('menuOpenBtn').style.display = 'block';
+      injetarMenuGlobal();
+      atualizarInfoExplicativa();
+    }
+
+    window.atualizarInfoExplicativa = function() {
+      const lang = getLang();
+      const level = document.getElementById('testLevel').value;
+      const profile = document.getElementById('userProfile').value;
+
+      const texts = {
+        pt: {
+          basico: 'O <strong>Nível Básico</strong> contém 30 perguntas rápidas. É ideal para uma visão geral e direta das suas preferências principais.',
+          medio: 'O <strong>Nível Médio</strong> conta com 60 perguntas. Proporciona um equilíbrio excelente entre tempo de resposta e precisão dos arquétipos secundários.',
+          completo: 'O <strong>Nível Completo</strong> possui 100 perguntas. É o modelo recomendado para mapear com fidelidade matemática absoluta todas as 25 vertentes kinky do seu perfil.',
+          dominante: '<br><br><strong>Foco Dominante:</strong> A ordem das perguntas será priorizada para trazer afirmações de autoridade, liderança e Sadismo logo no começo do teste.',
+          submisso: '<br><br><strong>Foco Submisso:</strong> A ordem priorizará afirmações de entrega, restrição e Masoquismo logo no início do questionário.'
+        },
+        en: {
+          basico: 'The <strong>Basic Level</strong> has 30 quick questions. Ideal for a direct overview of your main preferences.',
+          medio: 'The <strong>Medium Level</strong> has 60 questions. Great balance between response time and accuracy of secondary archetypes.',
+          completo: 'The <strong>Full Level</strong> has 100 questions. The recommended model for a mathematically precise mapping of all 25 kink profiles.',
+          dominante: '<br><br><strong>Dominant Focus:</strong> Questions related to authority, leadership and Sadism will be prioritized at the start.',
+          submisso: '<br><br><strong>Submissive Focus:</strong> Questions related to surrender, restraint and Masochism will appear first.'
+        },
+        es: {
+          basico: 'El <strong>Nivel Básico</strong> tiene 30 preguntas rápidas. Ideal para una visión general de tus preferencias principales.',
+          medio: 'El <strong>Nivel Medio</strong> tiene 60 preguntas. Excelente equilibrio entre tiempo de respuesta y precisión de arquetipos secundarios.',
+          completo: 'El <strong>Nivel Completo</strong> tiene 100 preguntas. El modelo recomendado para un mapeo matemático preciso de los 25 perfiles kink.',
+          dominante: '<br><br><strong>Enfoque Dominante:</strong> Las preguntas de autoridad, liderazgo y Sadismo se priorizarán al inicio.',
+          submisso: '<br><br><strong>Enfoque Sumiso:</strong> Las preguntas de entrega, restricción y Masoquismo aparecerán primero.'
+        }
+      };
+
+      const T = texts[lang] || texts.pt;
+      const profileText = profile === 'dominante' ? T.dominante : profile === 'submisso' ? T.submisso : '';
+      document.getElementById('configInfoBox').innerHTML = T[level] + profileText;
+    }
+
+    window.irParaOTeste = function() {
+      const level = document.getElementById('testLevel').value;
+      const profile = document.getElementById('userProfile').value;
+      localStorage.setItem('bdsm_test_level', level);
+      localStorage.setItem('bdsm_test_profile', profile);
+      window.location.href = 'test.html';
+    }
+
+    aplicarIdioma();
+    if (localStorage.getItem('bdsm_user_id')) {
+      mostrarOpcoes();
+    }
+  </script>
+</body>
+</html>

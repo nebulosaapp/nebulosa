@@ -1,0 +1,6 @@
+{
+  "wiki": "database/bdsm_wiki.db",
+  "app": "database/bdsm_completo.db",
+  "version": "2.0",
+  "backup_dir": "database/backups"
+}

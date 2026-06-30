@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>BDSM Test - Questionário</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    .question-box {
+      font-size: 1.15rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      color: #dfdfe8;
+      font-weight: 600;
+    }
+    .progress-bar-top {
+      height: 6px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+    .progress-fill-top {
+      height: 100%;
+      background: var(--accent-gradient);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    .progress-text {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Cabeçalho Global Padronizado -->
+    <div class="global-header">
+      <header style="text-align: left; margin: 0;">
+        <h1 id="testTitle">BDSM Test</h1>
+        <p id="levelTitle">Carregando...</p>
+      </header>
+      <button class="menu-trigger" id="menuOpenBtn">☰</button>
+    </div>
+
+    <div class="card">
+      <span class="progress-text" id="progressText">Pergunta 0 de 0</span>
+      <div class="progress-bar-top">
+        <div class="progress-fill-top" id="progressFill"></div>
+      </div>
+
+      <!-- Caixa de Pergunta -->
+      <div class="question-box" id="questionText">
+        Carregando perguntas...
+      </div>
+
+      <!-- Respostas Likert Fáceis para Dedo (Toque Mobile) -->
+      <div class="likert-container" id="likertContainer">
+        <div class="likert-option concordo-6" data-value="6" onclick="responder(6)">
+          <div class="likert-circle"></div>
+          <span class="likert-label" id="lik6">Concordo Totalmente</span>
+        </div>
+        <div class="likert-option concordo-5" data-value="5" onclick="responder(5)">
+          <div class="likert-circle"></div>
+          <span class="likert-label" id="lik5">Concordo</span>
+        </div>
+        <div class="likert-option concordo-4" data-value="4" onclick="responder(4)">
+          <div class="likert-circle"></div>
+          <span class="likert-label" id="lik4">Concordo Parcialmente</span>
+        </div>
+        <div class="likert-option neutro-3" data-value="3" onclick="responder(3)">
+          <div class="likert-circle"></div>
+          <span class="likert-label" id="lik3">Neutro</span>
+        </div>
+        <div class="likert-option discordo-2" data-value="2" onclick="responder(2)">
+          <div class="likert-circle"></div>
+          <span class="likert-label" id="lik2">Discordo Parcialmente</span>
+        </div>
+        <div class="likert-option discordo-1" data-value="1" onclick="responder(1)">
+          <div class="likert-circle"></div>
+          <span class="likert-label" id="lik1">Discordo</span>
+        </div>
+        <div class="likert-option discordo-0" data-value="0" onclick="responder(0)">
+          <div class="likert-circle"></div>
+          <span class="likert-label" id="lik0">Discordo Totalmente</span>
+        </div>
+      </div>
+
+      <!-- Botão Voltar Pergunta -->
+      <button class="btn-secondary" id="btnVoltar" onclick="voltarPergunta()" style="display: none; margin-top: 1.5rem;">⬅ Voltar Pergunta</button>
+    </div>
+
+  </div>
+
+  <script type="module">
+    import { injetarMenuGlobal } from './assets/menu.js';
+    import { I18N, getLang } from './assets/i18n.js';
+
+    const API_URL = 'http://localhost:3001/api';
+    let questions = [];
+    let currentIndex = 0;
+    let answers = {};
+    let userPronome = 'elu';
+    const lang = getLang();
+    const L = I18N[lang] || I18N['pt'];
+
+    // Aplicar idioma na interface
+    function aplicarIdioma() {
+      document.getElementById('testTitle').innerText = L.test_title;
+      document.getElementById('lik6').innerText = L.likert_6;
+      document.getElementById('lik5').innerText = L.likert_5;
+      document.getElementById('lik4').innerText = L.likert_4;
+      document.getElementById('lik3').innerText = L.likert_3;
+      document.getElementById('lik2').innerText = L.likert_2;
+      document.getElementById('lik1').innerText = L.likert_1;
+      document.getElementById('lik0').innerText = L.likert_0;
+      document.getElementById('btnVoltar').innerText = L.test_back_btn;
+      document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang;
+    }
+
+    async function carregarPronomeUsuario() {
+      const userId = localStorage.getItem('bdsm_user_id');
+      if (userId) {
+        try {
+          const response = await fetch(`${API_URL}/user/${userId}`);
+          const result = await response.json();
+          if (result.success && result.user.pronome) {
+            userPronome = result.user.pronome;
+          }
+        } catch(e) {}
+      }
+    }
+
+    // Flexão de pronome nas perguntas
+    function aplicarPronome(texto) {
+      if (userPronome === 'ele') {
+        return texto
+          .replace(/guiado\(a\)/g, 'guiado').replace(/parceiro\(a\)/g, 'parceiro')
+          .replace(/meu\(minha\)/g, 'meu').replace(/submetido\(a\)/g, 'submetido')
+          .replace(/imobilizado\(a\)/g, 'imobilizado').replace(/observado\(a\)/g, 'observado')
+          .replace(/excitado\(a\)/g, 'excitado').replace(/pequeno\(a\)/g, 'pequeno')
+          .replace(/nu\(a\)/g, 'nu').replace(/amarrado\(a\)/g, 'amarrado')
+          .replace(/liderado\(a\)/g, 'liderado').replace(/adaptável/g, 'adaptável')
+          .replace(/rendido\(a\)/g, 'rendido').replace(/tratado\(a\)/g, 'tratado')
+          .replace(/colocado\(a\)/g, 'colocado').replace(/pego\(a\)/g, 'pego')
+          .replace(/envelopado/g, 'envelopado').replace(/usado\(a\)/g, 'usado')
+          .replace(/gravado\(a\)/g, 'gravado').replace(/sentir-me/g, 'sentir-me')
+          .replace(/contornar/g, 'contornar').replace(/exitar-me-ia/gi, 'Exitar-me-ia');
+      } else if (userPronome === 'ela') {
+        return texto
+          .replace(/guiado\(a\)/g, 'guiada').replace(/parceiro\(a\)/g, 'parceira')
+          .replace(/meu\(minha\)/g, 'minha').replace(/submetido\(a\)/g, 'submetida')
+          .replace(/imobilizado\(a\)/g, 'imobilizada').replace(/observado\(a\)/g, 'observada')
+          .replace(/excitado\(a\)/g, 'excitada').replace(/pequeno\(a\)/g, 'pequena')
+          .replace(/nu\(a\)/g, 'nua').replace(/amarrado\(a\)/g, 'amarrada')
+          .replace(/liderado\(a\)/g, 'liderada').replace(/rendido\(a\)/g, 'rendida')
+          .replace(/tratado\(a\)/g, 'tratada').replace(/colocado\(a\)/g, 'colocada')
+          .replace(/pego\(a\)/g, 'pega').replace(/usado\(a\)/g, 'usada')
+          .replace(/gravado\(a\)/g, 'gravada').replace(/exitar-me-ia/gi, 'Exitar-me-ia');
+      } else {
+        return texto
+          .replace(/guiado\(a\)/g, 'guiade').replace(/parceiro\(a\)/g, 'parceire')
+          .replace(/meu\(minha\)/g, 'meu/minha').replace(/submetido\(a\)/g, 'submetide')
+          .replace(/imobilizado\(a\)/g, 'imobilizade').replace(/observado\(a\)/g, 'observade')
+          .replace(/excitado\(a\)/g, 'excitade').replace(/pequeno\(a\)/g, 'pequene')
+          .replace(/nu\(a\)/g, 'nue').replace(/amarrado\(a\)/g, 'amarrade')
+          .replace(/liderado\(a\)/g, 'liderade').replace(/rendido\(a\)/g, 'rendide')
+          .replace(/tratado\(a\)/g, 'tratade').replace(/colocado\(a\)/g, 'colocade')
+          .replace(/pego\(a\)/g, 'pege').replace(/usado\(a\)/g, 'usade')
+          .replace(/gravado\(a\)/g, 'gravade').replace(/exitar-me-ia/gi, 'Exitar-me-ia');
+      }
+    }
+
+    // Selecionar texto da pergunta no idioma correto
+    function getQuestionText(q) {
+      if (lang === 'en' && q.text_en) return q.text_en;
+      if (lang === 'es' && q.text_es) return q.text_es;
+      return aplicarPronome(q.text); // PT usa flexão de pronome
+    }
+
+    window.carregarPerguntas = async function() {
+      await carregarPronomeUsuario();
+      const level = localStorage.getItem('bdsm_test_level') || 'completo';
+      const profile = localStorage.getItem('bdsm_test_profile') || 'nao_sabe';
+
+      const levelLabel = {
+        basico: L.index_level_basic || 'Básico',
+        medio: L.index_level_medium || 'Médio',
+        completo: L.index_level_full || 'Completo'
+      };
+      document.getElementById('levelTitle').innerText = `${L.test_level_prefix || 'Nível:'} ${levelLabel[level] || level.toUpperCase()}`;
+
+      try {
+        const response = await fetch(`${API_URL}/start`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ level, profile, lang })
+        });
+        const result = await response.json();
+        questions = result.questions;
+        exibirPergunta();
+      } catch (err) {
+        alert('Erro ao buscar questionário.');
+      }
+    }
+
+    window.exibirPergunta = function() {
+      if (currentIndex >= questions.length) {
+        finalizarTeste();
+        return;
+      }
+
+      const q = questions[currentIndex];
+      document.getElementById('questionText').innerText = getQuestionText(q);
+
+      const btnVoltar = document.getElementById('btnVoltar');
+      btnVoltar.style.display = currentIndex > 0 ? 'block' : 'none';
+
+      // Resetar seleção visual
+      document.querySelectorAll('.likert-option').forEach(el => el.classList.remove('selected'));
+
+      // Se já houver resposta gravada (voltar), destacar com Neon
+      const previousAns = answers[q.id];
+      if (previousAns !== undefined) {
+        const matchingEl = document.querySelector(`.likert-option[data-value="${previousAns}"]`);
+        if (matchingEl) matchingEl.classList.add('selected');
+      }
+
+      // Atualizar progresso
+      const progressPercent = (currentIndex / questions.length) * 100;
+      document.getElementById('progressFill').style.width = `${progressPercent}%`;
+      const counter = L.test_question_counter
+        .replace('{current}', currentIndex + 1)
+        .replace('{total}', questions.length);
+      document.getElementById('progressText').innerText = counter;
+    }
+
+    window.responder = function(valor) {
+      const q = questions[currentIndex];
+      answers[q.id] = valor;
+      currentIndex++;
+      exibirPergunta();
+    }
+
+    window.voltarPergunta = function() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        exibirPergunta();
+      }
+    }
+
+    window.finalizarTeste = async function() {
+      const userId = localStorage.getItem('bdsm_user_id');
+      const level = localStorage.getItem('bdsm_test_level');
+      const profile = localStorage.getItem('bdsm_test_profile') || 'nao_sabe';
+      const token = localStorage.getItem('bdsm_auth_token');
+
+      try {
+        const headers = { 'Content-Type': 'application/json' };
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`;
+        }
+        
+        const response = await fetch(`${API_URL}/calculate`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({ answers, userId, level, profile, lang })
+        });
+        const result = await response.json();
+        localStorage.setItem('bdsm_last_token', result.token);
+        window.location.href = 'results.html';
+      } catch (err) {
+        alert('Erro ao computar resultados.');
+      }
+    }
+
+    // Inicializar
+    aplicarIdioma();
+    injetarMenuGlobal();
+    carregarPerguntas();
+  </script>
+</body>
+</html>

@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Biblioteca BDSM</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Cabeçalho Global Padronizado -->
+    <div class="global-header">
+      <header style="text-align: left; margin: 0;">
+        <h1 id="libTitle">Biblioteca BDSM</h1>
+        <p id="libSubtitle">Educação, Segurança e Terminologia</p>
+      </header>
+      <button class="menu-trigger" id="menuOpenBtn">☰</button>
+    </div>
+
+    <!-- Navegação por Abas -->
+    <div class="tabs-navigation" style="grid-template-columns: 1fr 1fr 1fr; margin-bottom: 1rem;">
+      <button class="tab-btn active" id="tabFundamentosBtn" onclick="switchTab('fundamentos')">Fundamentos</button>
+      <button class="tab-btn" id="tabEixosBtn" onclick="switchTab('eixos')">Eixos & Papéis</button>
+      <button class="tab-btn" id="tabDicionarioBtn" onclick="switchTab('dicionario')">Fetiches A-Z</button>
+    </div>
+
+    <!-- ABA 1: FUNDAMENTOS -->
+    <div id="sectionFundamentos" class="tab-content">
+      <div id="guiasContainer">
+        <div style="text-align: center; color: var(--text-muted); padding: 2rem;">Carregando guias educativos...</div>
+      </div>
+    </div>
+
+    <!-- ABA 2: EIXOS & PAPÉIS -->
+    <div id="sectionEixos" class="tab-content" style="display: none;">
+      <div class="card">
+        <h2 class="card-title">Os Três Eixos de Poder</h2>
+        <div class="info-box">
+          O BDSM é decomposto em três eixos independentes. Você pode estar em qualquer posição de cada eixo, sem que um determine o outro.
+        </div>
+
+        <div class="eixos-grid">
+          <div class="eixo-card">
+            <div class="eixo-title">Eixo 1: Sensação</div>
+            <div class="eixo-bar-wrapper">
+              <span class="eixo-side" style="color: var(--top-color);">TOP (Dá a sensação)</span>
+              <span class="eixo-divider">◀──►</span>
+              <span class="eixo-side" style="color: var(--bottom-color);">BOTTOM (Recebe)</span>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">
+              Refere-se ao plano físico das sensações, como no Sadismo e Masoquismo.
+            </p>
+          </div>
+
+          <div class="eixo-card">
+            <div class="eixo-title">Eixo 2: Controle de Poder</div>
+            <div class="eixo-bar-wrapper">
+              <span class="eixo-side" style="color: var(--accent-color);">DOMINANTE</span>
+              <span class="eixo-divider">◀──►</span>
+              <span class="eixo-side" style="color: var(--text-main);">SUBMISSO(A)</span>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">
+              Diz respeito à autoridade comportamental negociada e regras de liderança/servidão.
+            </p>
+          </div>
+
+          <div class="eixo-card">
+            <div class="eixo-title">Eixo 3: Papel & Dinâmica</div>
+            <div class="eixo-bar-wrapper">
+              <span class="eixo-side" style="color: #9b51e0;">ATIVO (Cuidador/Dono)</span>
+              <span class="eixo-divider">◀──►</span>
+              <span class="eixo-side" style="color: #4cc9f0;">PASSIVO (Pet/Little)</span>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">
+              Envolve a encenação lúdica e cuidados no dia a dia do relacionamento.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 1.5rem;">
+        <h2 class="card-title">Dinâmicas Relacionais</h2>
+        
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <span>D/s — Dominação e Submissão</span>
+            <span class="accordion-icon">▼</span>
+          </div>
+          <div class="accordion-content">
+            <strong>Bedroom only / Scene-based / 24-7:</strong> Troca de controle geral e autoridade psicológica negociada. O parceiro ativo assume as diretrizes e regras, enquanto o submisso encontra alívio e prazer em seguir o controle. Costuma ser formalizada através de um ritual de <em>Collaring</em> (compromisso simbólico).
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <span>M/s — Master e Slave (Mestre/Escravo)</span>
+            <span class="accordion-icon">▼</span>
+          </div>
+          <div class="accordion-content">
+            Uma das dinâmicas mais formais e intensas, onde há entrega total de poder (TPE - Total Power Exchange) orientada por rituais, protocolos, regras de postura e vestimenta. O slave entrega sua autonomia de forma mais permanente em comparação com a dinâmica D/s clássica.
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <span>CGL — Caregiver e Little (Age Play)</span>
+            <span class="accordion-icon">▼</span>
+          </div>
+          <div class="accordion-content">
+            Dinâmica de cuidado afetivo e regressão à maturidade estética (apenas adultos), em que um parceiro assume o papel protetor (Daddy Dom, Mommy Domme) e o outro o papel de ser cuidado e mimado (Little) sob disciplina afetiva (regras de sono, alimentação, etc.).
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <span>Primal Play — Caçador e Presa</span>
+            <span class="accordion-icon">▼</span>
+          </div>
+          <div class="accordion-content">
+            Focado no instinto animal, lutas físicas corporais consensuais, perseguição e ausência de protocolos formais. É regido pela adrenalina, pegada selvagem, rosnados, mordidas leves e força física.
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <span>S/M — Sadomasoquismo Puro</span>
+            <span class="accordion-icon">▼</span>
+          </div>
+          <div class="accordion-content">
+            Focado inteiramente no plano físico das sensações extremas. O Sadista extrai excitação ao causar dor consensual no Bottom/Masoquista, o qual encontra prazer ou liberação emocional no estímulo recebido (fenômeno de <em>Subspace</em>). Não necessita obrigatoriamente de hierarquia de poder diária.
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <span>Findom — Dominação Financeira</span>
+            <span class="accordion-icon">▼</span>
+          </div>
+          <div class="accordion-content">
+            Dinâmica onde o dominante exerce controle sobre as finanças do sub (Pay Pig / Money Slave) como expressão de poder. O sub envia tributos financeiros consensuais como ato de rendição psicológica.
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <span>Bratting — A Submissão Rebelde</span>
+            <span class="accordion-icon">▼</span>
+          </div>
+          <div class="accordion-content">
+            Dinâmica baseada no desafio. O sub (Brat) expressa sua entrega provocando e desobedecendo de forma lúdica o dominante, exigindo que este (Brat Tamer) prove sua autoridade para "domá-lo".
+          </div>
+        </div>
+
+        <div class="accordion-item" style="border-color: rgba(0, 208, 132, 0.3); background-color: rgba(0, 208, 132, 0.02);">
+          <div class="accordion-header" onclick="toggleAccordion(this)" style="color: #00d084;">
+            <span>⚔️ Mapa de Combinações de Papéis</span>
+            <span class="accordion-icon">▼</span>
+          </div>
+          <div class="accordion-content" style="color: var(--text-main);">
+            <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.8rem;">
+              Cruzamento de Eixos e Afinidades Kinky (Sensação, Poder, Papéis) extraído da pasta banco:
+            </div>
+            <table class="safety-table">
+              <thead>
+                <tr>
+                  <th>Combinação</th>
+                  <th>Efeito Prático</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>DOMINANTE + TOP</strong></td>
+                  <td>Perfil clássico; comanda o andamento e executa os estímulos físicos.</td>
+                </tr>
+                <tr>
+                  <td><strong>DOMINANTE + BOTTOM</strong></td>
+                  <td>Dom que quer receber sensação mas conduz e dita todas as regras da cena.</td>
+                </tr>
+                <tr>
+                  <td><strong>SUBMISSO + TOP</strong></td>
+                  <td>sub que executa serviços e ordens ativas para agradar ao dominante.</td>
+                </tr>
+                <tr>
+                  <td><strong>SUBMISSO + BOTTOM</strong></td>
+                  <td>O modelo clássico de entrega física e mental total ao controle alheio.</td>
+                </tr>
+                <tr>
+                  <td><strong>SADISTA + DOMINANTE</strong></td>
+                  <td>Controle total sobre o parceiro aliado ao prazer de infligir dor física.</td>
+                </tr>
+                <tr>
+                  <td><strong>SADISTA + SUBMISSO</strong></td>
+                  <td>Sente prazer em causar dor física mas obedece à hierarquia e controle do parceiro.</td>
+                </tr>
+                <tr>
+                  <td><strong>MASOQUISTA + SUBMISSO</strong></td>
+                  <td>Entrega total do controle associada ao prazer erótico de receber dor consensual.</td>
+                </tr>
+                <tr>
+                  <td><strong>MASOQUISTA + DOMINANTE</strong></td>
+                  <td>Exige receber a dor sensorial mas dita as regras e limites das punições.</td>
+                </tr>
+                <tr>
+                  <td><strong>SWITCH + QUALQUER</strong></td>
+                  <td>Transição fluida e versátil que se adapta à química e desejos do casal.</td>
+                </tr>
+                <tr>
+                  <td><strong>DADDY DOM + LITTLE</strong></td>
+                  <td>CGL clássico baseado em afeto, cuidado e disciplina paterna lúdica.</td>
+                </tr>
+                <tr>
+                  <td><strong>MASTER + SLAVE</strong></td>
+                  <td>Relação cerimoniosa formal orientada por TPE e rituais diários de servidão.</td>
+                </tr>
+                <tr>
+                  <td><strong>HUNTER + PREY</strong></td>
+                  <td>Primal play instintivo baseado em caça física selvagem e adrenalina.</td>
+                </tr>
+                <tr>
+                  <td><strong>HANDLER + PET</strong></td>
+                  <td>Papéis de Pet Play (Puppy/Kitten) baseados em comandos lúdicos e mimos.</td>
+                </tr>
+                <tr>
+                  <td><strong>BRAT TAMER + BRAT</strong></td>
+                  <td>Jogo de resistência e provocação lúdica vs imposição de disciplina firme.</td>
+                </tr>
+                <tr>
+                  <td><strong>RIGGER + ROPE BUNNY</strong></td>
+                  <td>Arte de Shibari focada na entrega física às cordas e contorções.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABA 3: FETICHES A-Z -->
+    <div id="sectionDicionario" class="tab-content" style="display: none;">
+      <div class="card">
+        <h2 class="card-title" id="dictCardTitle">Glossário Kinky</h2>
+        
+        <div class="input-group">
+          <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="wikiSearchInput" class="search-input" placeholder="Buscar fetiche ou prática..." oninput="filtrarDicionario()">
+          </div>
+        </div>
+
+        <!-- Filtros por Tipo de Conteudo da Wiki -->
+        <div class="wiki-type-tabs">
+          <button class="wiki-type-btn active" onclick="filtrarPorTipo('todos', this)">📚 Todos</button>
+          <button class="wiki-type-btn" onclick="filtrarPorTipo('fetiche', this)">🔥 Fetiches</button>
+          <button class="wiki-type-btn" onclick="filtrarPorTipo('pratica', this)">⚙️ Práticas</button>
+          <button class="wiki-type-btn" onclick="filtrarPorTipo('papel', this)">👥 Papéis</button>
+          <button class="wiki-type-btn" onclick="filtrarPorTipo('tecnica', this)">🪢 Técnicas</button>
+          <button class="wiki-type-btn" onclick="filtrarPorTipo('conceito', this)">📖 Conceitos</button>
+          <button class="wiki-type-btn" onclick="filtrarPorTipo('protocolo', this)">🛡️ Protocolos</button>
+        </div>
+
+        <div id="dicionarioContainer">
+          <!-- Inserido dinamicamente -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module">
+    import { injetarMenuGlobal } from './assets/menu.js';
+    import { I18N, getLang } from './assets/i18n.js';
+
+    const API_URL = 'http://localhost:3001/api';
+
+    function aplicarIdioma() {
+      const lang = getLang();
+      const L = I18N[lang] || I18N['pt'];
+      
+      document.getElementById('libTitle').innerText = L.menu_library || 'Biblioteca BDSM';
+      document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang;
+    }
+
+    window.switchTab = function(tabName) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
+
+      if (tabName === 'fundamentos') {
+        document.getElementById('tabFundamentosBtn').classList.add('active');
+        document.getElementById('sectionFundamentos').style.display = 'block';
+      } else if (tabName === 'eixos') {
+        document.getElementById('tabEixosBtn').classList.add('active');
+        document.getElementById('sectionEixos').style.display = 'block';
+      } else if (tabName === 'dicionario') {
+        document.getElementById('tabDicionarioBtn').classList.add('active');
+        document.getElementById('sectionDicionario').style.display = 'block';
+      }
+    };
+
+    window.toggleAccordion = function(headerElement) {
+      const item = headerElement.parentElement;
+      const isActive = item.classList.contains('active');
+      
+      // Fecha outros do mesmo nível se necessário (opcional)
+      document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('active'));
+      
+      if (!isActive) {
+        item.classList.add('active');
+      }
+    };
+
+    async function carregarGuias() {
+      try {
+        const res = await fetch(`${API_URL}/wiki/guias`);
+        const data = await res.json();
+        if (data.success) {
+          const container = document.getElementById('guiasContainer');
+          container.innerHTML = '';
+          data.guias.forEach((guia, index) => {
+            const item = document.createElement('div');
+            item.className = 'accordion-item';
+            
+            // Tratamento simplificado de Markdown para renderizar tabelas e tópicos
+            let htmlConteudo = guia.conteudo_markdown
+              .replace(/\n\n/g, '<br/><br/>')
+              .replace(/\n\* /g, '<br/>• ')
+              .replace(/### (.*)/g, '<h3 style="margin-top:1.25rem; font-size:1.05rem; font-weight:700; color:var(--text-main);">$1</h3>')
+              .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--text-main); font-weight:700;">$1</strong>')
+              .replace(/❌/g, '<span style="color:#ff8c8c; margin-right: 0.25rem;">❌</span>');
+
+            // Renderização de tabela se houver
+            if (htmlConteudo.includes('|')) {
+              htmlConteudo = parseMarkdownTable(htmlConteudo);
+            }
+
+            item.innerHTML = `
+              <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div>
+                  <span style="font-weight: 800; color: var(--accent-color); margin-right: 0.5rem;">[Guia]</span>
+                  <span>${guia.titulo}</span>
+                </div>
+                <span class="accordion-icon">▼</span>
+              </div>
+              <div class="accordion-content">
+                <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:1rem; text-transform:uppercase; font-weight:600;">
+                  Categoria: <span class="lib-category-tag tag-seguranca">${guia.categoria}</span> • Leitura: ${guia.tempo_leitura_min} min
+                </div>
+                <div style="font-size:0.95rem; line-height:1.6; color:var(--text-muted);">${htmlConteudo}</div>
+              </div>
+            `;
+            container.appendChild(item);
+          });
+        }
+      } catch (err) {
+        document.getElementById('guiasContainer').innerHTML = '<div style="color: #ff8c8c; padding: 2rem; text-align:center;">Erro ao carregar guias do backend.</div>';
+      }
+    }
+
+    function parseMarkdownTable(text) {
+      const lines = text.split('<br/>');
+      let inTable = false;
+      let tableHtml = '<table class="safety-table"><thead>';
+      
+      for (let i = 0; i < lines.length; i++) {
+        let line = lines[i].trim();
+        if (line.startsWith('|') && line.endsWith('|')) {
+          const cells = line.split('|').map(c => c.trim()).filter((c, idx) => idx > 0 && idx < line.split('|').length - 1);
+          if (line.includes('---')) {
+            // Linha divisória do cabeçalho
+            continue;
+          }
+          if (!inTable) {
+            inTable = true;
+            tableHtml += '<tr>' + cells.map(c => `<th>${c}</th>`).join('') + '</tr></thead><tbody>';
+          } else {
+            tableHtml += '<tr>' + cells.map(c => {
+              if (c.includes('Verde')) return `<td><span class="badge-safety-green">${c}</span></td>`;
+              if (c.includes('Amarelo')) return `<td><span class="badge-safety-yellow">${c}</span></td>`;
+              if (c.includes('Vermelho')) return `<td><span class="badge-safety-red">${c}</span></td>`;
+              return `<td>${c}</td>`;
+            }).join('') + '</tr>';
+          }
+        } else {
+          if (inTable) {
+            inTable = false;
+            tableHtml += '</tbody></table>';
+            lines[i] = tableHtml + '<br/>' + lines[i];
+          }
+        }
+      }
+      return lines.join('<br/>');
+    }
+
+    let allTerms = [];
+    let userLimits = [];
+
+    async function carregarDicionario() {
+      const userId = localStorage.getItem('bdsm_user_id');
+      try {
+        // Carrega dicionário
+        const res = await fetch(`${API_URL}/wiki/dicionario`);
+        const data = await res.json();
+        
+        // Carrega limites salvos
+        if (userId && token) {
+          try {
+            const limRes = await fetch(`${API_URL}/user/${userId}/limits/all`, {
+              headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const limData = await limRes.json();
+            if (limData.success) {
+              userLimits = limData.limites;
+            }
+          } catch(e) { console.warn('Erro ao carregar limites salvos'); }
+        }
+
+        if (data.success) {
+          allTerms = data.terms;
+          renderDicionario(allTerms);
+        }
+      } catch (err) {
+        document.getElementById('dicionarioContainer').innerHTML = '<div style="color: #ff3333; padding: 1.5rem; text-align:center;">Erro ao carregar dicionário.</div>';
+      }
+    }
+
+    function renderDicionario(terms) {
+      const container = document.getElementById('dicionarioContainer');
+      container.innerHTML = '';
+      if (terms.length === 0) {
+        container.innerHTML = '<div style="color: var(--text-muted); padding: 1.5rem; text-align:center;">Nenhum termo encontrado.</div>';
+        return;
+      }
+
+      terms.forEach(term => {
+        const tagClass = `tag-${term.tags.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`;
+        const item = document.createElement('div');
+        item.className = 'accordion-item';
+        
+        const termSlug = term.termo.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '-');
+        
+        // Achar se essa prática já está salva
+        const saved = userLimits.find(l => l.nome.toLowerCase() === term.termo.toLowerCase());
+        const activeVerde = saved && saved.nivel === 'verde' ? 'active' : '';
+        const activeAmarelo = saved && saved.nivel === 'amarelo' ? 'active' : '';
+        const activeVermelho = saved && saved.nivel === 'vermelho' ? 'active' : '';
+        const observacaoSalva = saved ? saved.observacao : '';
+
+        item.innerHTML = `
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div style="display:flex; align-items:center; gap:0.6rem;">
+              <span>${term.termo}</span>
+              <span class="lib-category-tag ${tagClass}">${term.tags}</span>
+            </div>
+            <span class="accordion-icon">▼</span>
+          </div>
+          <div class="accordion-content">
+            ${term.termo_ingles ? `<div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.5rem; font-weight:600;">Equivalente em Inglês: <span style="color:var(--accent-color);">${term.termo_ingles}</span></div>` : ''}
+            <div style="line-height: 1.6; color:#dfdfe8; margin-bottom:1rem;">${term.significado}</div>
+            
+            <!-- Semáforo de Consentimento Avançado -->
+            <div style="border-top:1px solid var(--border-color); padding-top:1rem;">
+              <div style="font-size:0.78rem; font-weight:700; color:var(--text-main); margin-bottom:0.4rem;">Como você se sente sobre esta prática?</div>
+              <div class="limit-selector-group">
+                <button class="limit-badge-btn verde ${activeVerde}" onclick="definirLimite('${term.termo}', 'verde', this)">🟢 Quero</button>
+                <button class="limit-badge-btn amarelo ${activeAmarelo}" onclick="definirLimite('${term.termo}', 'amarelo', this)">🟡 Talvez</button>
+                <button class="limit-badge-btn vermelho ${activeVermelho}" onclick="definirLimite('${term.termo}', 'vermelho', this)">🔴 Não quero</button>
+              </div>
+              <div style="display:flex; gap:0.4rem; align-items:center; margin-top:0.4rem;">
+                <input type="text" class="limit-obs-input" id="obs-${termSlug}" value="${observacaoSalva}" placeholder="Adicionar observação (ex: apenas com cordas de algodão...)" style="flex:1; margin-top:0;">
+                <button class="limit-badge-btn" onclick="salvarNotaLimite('${term.termo}', document.getElementById('obs-${termSlug}'), this)" style="flex:none; width:45px; padding:0.6rem 0; font-size:1rem; border-color:#00d084; color:#00d084; background:rgba(0,208,132,0.06); display:flex; align-items:center; justify-content:center;">✓</button>
+              </div>
+              <div id="status-${termSlug}" style="font-size:0.7rem; color:#00d084; margin-top:0.35rem; display:none; font-weight:700;">✓ Salvo com sucesso!</div>
+            </div>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    const token = localStorage.getItem('bdsm_auth_token');
+
+    // Função de clique do semáforo
+    window.definirLimite = async function(termo, nivel, botao) {
+      const userId = localStorage.getItem('bdsm_user_id') || '1';
+      const parent = botao.parentElement;
+      
+      // Remover classe active dos irmãos
+      parent.querySelectorAll('.limit-badge-btn').forEach(btn => btn.classList.remove('active'));
+      botao.classList.add('active');
+
+      const termSlug = termo.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '-');
+      const obsValue = document.getElementById(`obs-${termSlug}`).value;
+
+      try {
+        await fetch(`${API_URL}/user/${userId}/limits`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ termo, nivel, observacao: obsValue })
+        });
+      } catch (e) {
+        console.error('Erro ao salvar limite:', e);
+      }
+    }
+
+    // Salvar notas adicionais ao mudar de input ou clicar no check
+    window.salvarNotaLimite = async function(termo, input, botao) {
+      const userId = localStorage.getItem('bdsm_user_id') || '1';
+      
+      // Buscar o nível que estiver ativo no acordeão pai
+      const accordionContent = input.closest('.accordion-content');
+      const activeBtn = accordionContent.querySelector('.limit-badge-btn.active');
+      const nivel = activeBtn ? (activeBtn.classList.contains('verde') ? 'verde' : activeBtn.classList.contains('amarelo') ? 'amarelo' : 'vermelho') : 'verde';
+
+      const termSlug = termo.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '-');
+      const statusEl = document.getElementById(`status-${termSlug}`);
+
+      try {
+        await fetch(`${API_URL}/user/${userId}/limits`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ termo, nivel, observacao: input.value })
+        });
+        
+        // Feedback visual
+        if (statusEl) {
+          statusEl.style.display = 'block';
+          setTimeout(() => {
+            statusEl.style.display = 'none';
+          }, 2000);
+        }
+      } catch (e) {
+        console.error('Erro ao salvar observação do limite:', e);
+      }
+    }
+
+    let currentTypeFilter = 'todos';
+
+    window.filtrarPorTipo = function(tipo, botao) {
+      // Gerenciar classe ativa nos botões de tipo
+      const container = botao.parentElement;
+      container.querySelectorAll('.wiki-type-btn').forEach(btn => btn.classList.remove('active'));
+      botao.classList.add('active');
+      
+      currentTypeFilter = tipo;
+      window.filtrarDicionario();
+    };
+
+    window.filtrarDicionario = function() {
+      const q = document.getElementById('wikiSearchInput').value.toLowerCase().trim();
+      
+      let filtered = allTerms;
+      
+      // 1. Filtrar por Tipo de Conteúdo (se não for 'todos')
+      if (currentTypeFilter !== 'todos') {
+        filtered = filtered.filter(t => t.tipo === currentTypeFilter);
+      }
+      
+      // 2. Filtrar por Termo de Busca
+      if (q) {
+        filtered = filtered.filter(t => 
+          t.termo.toLowerCase().includes(q) || 
+          (t.termo_ingles && t.termo_ingles.toLowerCase().includes(q)) || 
+          t.significado.toLowerCase().includes(q)
+        );
+      }
+      
+      renderDicionario(filtered);
+    };
+
+    aplicarIdioma();
+    injetarMenuGlobal();
+    carregarGuias();
+    carregarDicionario();
+  </script>
+</body>
+</html>

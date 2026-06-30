@@ -1,0 +1,1721 @@
+{
+  "metadata": {
+    "totalQuestions": 100,
+    "levels": {
+      "basico": 30,
+      "medio": 60,
+      "completo": 100
+    },
+    "profiles": [
+      "dominante",
+      "submisso",
+      "nao_sabe"
+    ]
+  },
+  "categories": [
+    {
+      "name": "Dominant",
+      "description": "Dominantes sentem profunda realização em guiar, ditar as regras e assumir o controle físico e mental nas interações. Eles prezam pela responsabilidade que acompanha a liderança e adaptam-se tanto a dinâmicas de obediência cega quanto a brincadeiras de resistência controlada.",
+      "compatibilities": [
+        "Submissive",
+        "Brat",
+        "Slave"
+      ]
+    },
+    {
+      "name": "Submissive",
+      "description": "Submissos sentem realização e alívio mental ao entregar o controle de suas ações ao parceiro. Envolve a abdicação voluntária do poder de decisão para focar na satisfação das vontades de quem comanda, encontrando nisso paz e relaxamento profundo.",
+      "compatibilities": [
+        "Dominant",
+        "Brat tamer"
+      ]
+    },
+    {
+      "name": "Master/Mistress",
+      "description": "Mestres e Senhoras procuram uma relação formalizada, ritualizada e focada em disciplina, ordens estruturadas e servidão respeitosa. Trata-se de uma dinâmica de liderança constante e altamente hierárquica.",
+      "compatibilities": [
+        "Slave"
+      ]
+    },
+    {
+      "name": "Slave",
+      "description": "Escravos buscam servir seu Mestre/Senhora em um contexto protocolar e cerimonioso. Enxergam na devoção diária, no respeito formal e na entrega total de si o seu propósito de prazer e conexão.",
+      "compatibilities": [
+        "Master/Mistress"
+      ]
+    },
+    {
+      "name": "Owner",
+      "description": "Donos procuram uma posse simbólica do parceiro. Muitas vezes associados a dinâmicas constantes 24/7 de cuidado integral, responsabilidade e posse amorosa total do outro.",
+      "compatibilities": [
+        "Pet",
+        "Slave"
+      ]
+    },
+    {
+      "name": "Pet",
+      "description": "Pets sentem prazer em assumir papéis animais (como cão, gato, pônei) em contexto lúdico (Pet Play). Focam em dinâmicas de afeto físico, obediência brincalhona e comandos não-verbal.",
+      "compatibilities": [
+        "Owner",
+        "Dominant"
+      ]
+    },
+    {
+      "name": "Rigger",
+      "description": "Riggers são entusiastas e artistas do Bondage, focados na técnica de envolver, imobilizar e criar belas amarrações usando cordas, nós e tensões estruturadas, prezando sempre pela segurança.",
+      "compatibilities": [
+        "Rope bunny"
+      ]
+    },
+    {
+      "name": "Rope bunny",
+      "description": "Rope Bunnies adoram a sensação de entrega física e mental ao serem amarrados. A restrição de movimentos gera uma entrega de confiança absoluta e relaxamento meditativo.",
+      "compatibilities": [
+        "Rigger"
+      ]
+    },
+    {
+      "name": "Sadist",
+      "description": "Sadistas extraem excitação psicológica ou física ao causar dor de forma consensual no parceiro, ajustando a intensidade ao limite combinado.",
+      "compatibilities": [
+        "Masochist"
+      ]
+    },
+    {
+      "name": "Masochist",
+      "description": "Masoquistas encontram prazer físico ou liberação emocional ao receber dor consensual no BDSM, sentindo o calor e o alívio que essa intensidade traz.",
+      "compatibilities": [
+        "Sadist"
+      ]
+    },
+    {
+      "name": "Degrader",
+      "description": "Humilhadores excitam-se ao diminuir verbalmente ou colocar o parceiro em situações eróticas de desvalorização e nojo consentido.",
+      "compatibilities": [
+        "Degradee"
+      ]
+    },
+    {
+      "name": "Degradee",
+      "description": "Humilhados sentem extrema excitação ao serem rebaixados verbalmente, expostos a situações de pouco respeito ou expostos de forma humilhante consensual.",
+      "compatibilities": [
+        "Degrader"
+      ]
+    },
+    {
+      "name": "Brat tamer",
+      "description": "Domadores adoram a brincadeira de desafiar limites. Divertem-se com a resistência provocadora do parceiro e têm prazer em 'domá-lo' e fazê-lo ceder no final.",
+      "compatibilities": [
+        "Brat"
+      ]
+    },
+    {
+      "name": "Brat",
+      "description": "Brat (pirracentos) expressam sua submissão provocando e desobedecendo de forma lúdica, querendo ver o esforço do dominante para impor controle.",
+      "compatibilities": [
+        "Brat tamer"
+      ]
+    },
+    {
+      "name": "Daddy/Mommy",
+      "description": "Daddy/Mommy assumem um papel acolhedor e protetor de cuidado integral, misturando afeto parental simbólico com liderança e orientação.",
+      "compatibilities": [
+        "Little"
+      ]
+    },
+    {
+      "name": "Little",
+      "description": "Littles buscam a regressão à infância (Age Play), desejando ser cuidados, mimados e livres das responsabilidades adultas de forma segura.",
+      "compatibilities": [
+        "Daddy/Mommy"
+      ]
+    },
+    {
+      "name": "Primal (Hunter)",
+      "description": "Caçadores Primal focam nos instintos animais de perseguição e captura, usando rosnados, mordidas e luta física natural sem formalidades.",
+      "compatibilities": [
+        "Primal (Presa)"
+      ]
+    },
+    {
+      "name": "Primal (Presa)",
+      "description": "Presas Primal adoram a adrenalina de serem perseguidas e subjulgadas fisicamente pela força instintiva de seu caçador.",
+      "compatibilities": [
+        "Primal (Hunter)"
+      ]
+    },
+    {
+      "name": "Voyeur",
+      "description": "Voyeurs excitam-se ao observar atos íntimos, nudez ou cenas kinky de terceiros, muitas vezes preferindo assistir do que atuar.",
+      "compatibilities": [
+        "Exhibitionist"
+      ]
+    },
+    {
+      "name": "Exhibitionist",
+      "description": "Exibicionistas têm prazer em expor sua nudez ou atos sexuais/kinky para parceiros, câmeras ou em locais com risco controlado de observação.",
+      "compatibilities": [
+        "Voyeur"
+      ]
+    },
+    {
+      "name": "Ageplayer",
+      "description": "Ageplayers gostam de interpretar idades diferentes da sua real cronológica, explorando dinâmicas infantis ou de grandes diferenças geracionais.",
+      "compatibilities": [
+        "Daddy/Mommy",
+        "Little"
+      ]
+    },
+    {
+      "name": "Non-monogamist",
+      "description": "Não-monogâmicos estão abertos a arranjos afetivos ou sexuais com múltiplas pessoas simultaneamente, priorizando transparência e poliamor.",
+      "compatibilities": [
+        "Non-monogamist",
+        "Experimentalist"
+      ]
+    },
+    {
+      "name": "Experimentalist",
+      "description": "Experimentalistas buscam novidades constantes no sexo e no BDSM. Estão sempre dispostos a testar novos brinquedos, dinâmicas e fetiches incomuns.",
+      "compatibilities": [
+        "Switch",
+        "Experimentalist"
+      ]
+    },
+    {
+      "name": "Vanilla",
+      "description": "Vanilla representa o gosto pelas práticas sexuais tradicionais e convencionais, sem a necessidade ou atração por fetiches, dor ou amarras.",
+      "compatibilities": [
+        "Vanilla"
+      ]
+    },
+    {
+      "name": "Switch",
+      "description": "Switches transitam entre o papel ativo e passivo dependendo da cena, do humor ou do parceiro, aproveitando o melhor de ambos os mundos.",
+      "compatibilities": [
+        "Switch",
+        "Dominant",
+        "Submissive"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "text": "Sinto atração em entregar o controle íntimo e ser guiado(a) por meu(minha) parceiro(a).",
+      "cats": [
+        "Submissive"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 2,
+      "text": "Sinto prazer erótico em RECEBER dor consensual (como palmadas ou mordidas) durante a relação.",
+      "cats": [
+        "Masochist"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 3,
+      "text": "Prefiro ser a pessoa que dita o ritmo e toma as decisões sexuais do casal.",
+      "cats": [
+        "Dominant"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 4,
+      "text": "Me agrada a ideia de contornar a teimosia lúdica de quem resiste às minhas ordens.",
+      "cats": [
+        "Brat tamer"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 5,
+      "text": "A imposição de limites e o domínio pleno sobre as reações de outra pessoa me atraem.",
+      "cats": [
+        "Dominant"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 6,
+      "text": "Considero relaxante e prazeroso abrir mão de escolhas e apenas obedecer.",
+      "cats": [
+        "Submissive"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 7,
+      "text": "Me agrada a possibilidade de viver o sexo com múltiplos parceiros de forma consensual.",
+      "cats": [
+        "Non-monogamist"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 8,
+      "text": "Sinto excitação ao saber que sou observado(a) em momentos íntimos ou de nudez.",
+      "cats": [
+        "Exhibitionist"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 9,
+      "text": "Gostaria de vivenciar uma dinâmica formal onde o outro obedece cegamente aos meus comandos.",
+      "cats": [
+        "Master/Mistress"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 10,
+      "text": "Tenho fantasias em que sou submetido(a) a situações de total rendição sem poder resistir.",
+      "cats": [
+        "Submissive"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 11,
+      "text": "Fazer meu(minha) parceiro(a) realizar atos desconfortáveis ou nojentos para me agradar me atrai.",
+      "cats": [
+        "Degrader"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 12,
+      "text": "Tenho grande curiosidade e disposição para testar novos limites e práticas kinky na cama.",
+      "cats": [
+        "Experimentalist"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 13,
+      "text": "A restrição de movimentos do parceiro usando cordas ou acessórios me desperta interesse.",
+      "cats": [
+        "Rigger"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 14,
+      "text": "Gosto de compartilhar imagens sensuais minhas com pessoas selecionadas.",
+      "cats": [
+        "Exhibitionist"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 15,
+      "text": "Estar imobilizado(a) e à mercê do outro me gera uma agradável sensação de entrega.",
+      "cats": [
+        "Submissive"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 16,
+      "text": "Sinto conforto e atração em ser cuidado(a) e mimado(a) como se fosse mais jovem.",
+      "cats": [
+        "Little"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 17,
+      "text": "Amo atuar no papel de parceiro mais experiente, maduro e protetor (como Daddy/Mommy) na cama.",
+      "cats": [
+        "Daddy/Mommy"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 18,
+      "text": "Palavras rudes ou humilhações consensuais vindas de mim excitam o clima íntimo.",
+      "cats": [
+        "Degrader"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 19,
+      "text": "Interpretar o papel de um animal de estimação mimado ou obediente me atrai.",
+      "cats": [
+        "Pet"
+      ],
+      "factor": 1,
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 20,
+      "text": "Sentir-me pequeno(a) e sob os cuidados de um parceiro protetor (Little/Baby) na cama me conforta.",
+      "cats": [
+        "Little"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 21,
+      "text": "Sinto prazer erótico ao ser provocado(a) verbalmente ou colocado(a) em posições de submissão humilhante.",
+      "cats": [
+        "Degradee"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 22,
+      "text": "A ideia de fazer sexo onde há possibilidade de ser visto acidentalmente me excita.",
+      "cats": [
+        "Exhibitionist"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 23,
+      "text": "Prefiro desafiar o parceiro e oferecer resistência só para ver sua reação de controle.",
+      "cats": [
+        "Brat"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 24,
+      "text": "Prefiro interações sexuais simples, convencionais e sem introdução de fetiches.",
+      "cats": [
+        "Vanilla"
+      ],
+      "factor": 1,
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 25,
+      "text": "Sinto atração pela ideia de treinar e disciplinar formalmente um parceiro submisso.",
+      "cats": [
+        "Master/Mistress"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 26,
+      "text": "A ideia de servir fielmente a um(a) Mestre(a) me traz enorme contentamento.",
+      "cats": [
+        "Slave"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 27,
+      "text": "Gostaria de entregar minha liberdade e viver sob a tutela e comando de outra pessoa.",
+      "cats": [
+        "Slave"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 28,
+      "text": "Estou constantemente em busca de inovações e novas fantasias eróticas para experimentar.",
+      "cats": [
+        "Experimentalist"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 29,
+      "text": "Aceitaria bem que meu parceiro se envolvesse intimamente com outras pessoas com meu consentimento.",
+      "cats": [
+        "Non-monogamist"
+      ],
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 30,
+      "text": "A restrição física por amarras de corda no meu corpo me gera relaxamento e excitação.",
+      "cats": [
+        "Rope bunny"
+      ],
+      "factor": 1,
+      "levels": [
+        "basico",
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 31,
+      "text": "Sinto-me excitado(a) ao me enxergar como uma presa sendo acuada por um predador.",
+      "cats": [
+        "Primal (Presa)"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 32,
+      "text": "O sexo convencional me satisfaz plenamente, sem necessidade de dinâmicas de poder.",
+      "cats": [
+        "Vanilla"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 33,
+      "text": "Sinto o desejo de pertencer simbolicamente a alguém em um regime de escravidão consensual.",
+      "cats": [
+        "Slave"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 34,
+      "text": "Gostaria de ficar completamente amarrado(a) e suspenso(a) sob o domínio do parceiro.",
+      "cats": [
+        "Rope bunny"
+      ],
+      "factor": 1,
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 35,
+      "text": "Gostaria de ser mantido(a) temporariamente em uma jaula ou espaço restrito como um pet.",
+      "cats": [
+        "Pet"
+      ],
+      "factor": 1,
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 36,
+      "text": "Sinto excitação ao ver marcas e reações físicas da dor consensual que causei no outro.",
+      "cats": [
+        "Sadist"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 37,
+      "text": "Ser provocado(a) e receber apelidos de cunho submissivo durante o ato me agrada.",
+      "cats": [
+        "Degradee"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 38,
+      "text": "Gosto de agir ou me vestir temporariamente de forma infantilizada em momentos a dois.",
+      "cats": [
+        "Ageplayer"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 39,
+      "text": "Me agrada a submissão total, em que minhas necessidades secundárias são decididas pelo dominante.",
+      "cats": [
+        "Slave"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 40,
+      "text": "Exitar-me-ia chamar meu(minha) parceiro(a) por nomes humilhantes ou depreciativos de forma consensual.",
+      "cats": [
+        "Degrader"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 41,
+      "text": "Ter que obedecer a regras e restrições rígidas no cotidiano me excita de forma kinky.",
+      "cats": [
+        "Submissive"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 42,
+      "text": "Gosto de usar acessórios de couro, algemas ou coleiras para imobilizar o parceiro.",
+      "cats": [
+        "Rigger"
+      ],
+      "factor": 0.5,
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 43,
+      "text": "Sinto que o BDSM e as dinâmicas de fetiche são indispensáveis para a minha satisfação erótica.",
+      "cats": [
+        "Experimentalist"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 44,
+      "text": "Acho estimulante quando meu parceiro brinca com objetos infantis em un contexto erótico ou de alívio.",
+      "cats": [
+        "Ageplayer"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 45,
+      "text": "Minha preferência íntima alterna facilmente entre dar ordens e recebê-las na cama.",
+      "cats": [
+        "Switch"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 46,
+      "text": "Sinto prazer em me exibir nu(a) de frente para janelas ou locais com risco moderado de exposição.",
+      "cats": [
+        "Exhibitionist"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 47,
+      "text": "A ideia de compartilhar um parceiro fixo amorosamente com outras pessoas me soa interessante.",
+      "cats": [
+        "Non-monogamist"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 48,
+      "text": "Gosto quando o parceiro demonstra certo desdém ou me trata como um objeto de prazer na cama.",
+      "cats": [
+        "Degradee"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 49,
+      "text": "A sensação de poder ao infligir dor física de forma controlada me excita.",
+      "cats": [
+        "Sadist"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 50,
+      "text": "Amo a posição de comandar e possuir uma pessoa que se intitula minha propriedade.",
+      "cats": [
+        "Master/Mistress"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 51,
+      "text": "Tenho o desejo de desbravar fantasias incomuns que muitos consideram tabus sexuais.",
+      "cats": [
+        "Experimentalist"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 52,
+      "text": "Amo a ideia de colocar uma coleira e guiar meu parceiro como meu animal de estimação.",
+      "cats": [
+        "Owner"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 53,
+      "text": "Sinto que o poliamor ou as relações abertas combinam muito mais com minha personalidade.",
+      "cats": [
+        "Non-monogamist"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 54,
+      "text": "Participar de trios ou dinâmicas grupais me atrai intensamente.",
+      "cats": [
+        "Non-monogamist"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 55,
+      "text": "Uivos, mordidas leves e pegada selvagem no sexo me atraem muito.",
+      "cats": [
+        "Primal (Presa)"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 56,
+      "text": "Gostaria de chamar meu parceiro de 'papai' ou 'mamãe' em dinâmicas de carinho e obediência.",
+      "cats": [
+        "Little"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 57,
+      "text": "Sinto atração em assistir a vídeos amadores ou outras pessoas reais tendo relações íntimas.",
+      "cats": [
+        "Voyeur"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 58,
+      "text": "Exijo o máximo de respeito e reverência de quem está sob minha autoridade erótica.",
+      "cats": [
+        "Master/Mistress"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 59,
+      "text": "Busco a sensação de pertencer e servir a um superior com reverência.",
+      "cats": [
+        "Submissive"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 60,
+      "text": "A ideia de ser gravado(a) durante o sexo me excita bastante.",
+      "cats": [
+        "Exhibitionist"
+      ],
+      "levels": [
+        "medio",
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 61,
+      "text": "A intensidade física de receber tapas ou palmadas fortes me agrada no sexo.",
+      "cats": [
+        "Masochist"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 62,
+      "text": "Treinamentos formais com punições simbólicas a um parceiro me atraem.",
+      "cats": [
+        "Slave"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 63,
+      "text": "Considero-me um porto seguro em termos de cuidado e orientações íntimas para quem submeto.",
+      "cats": [
+        "Submissive"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 64,
+      "text": "Gostaria de ver meu parceiro totalmente rendido sob as minhas ordens diárias.",
+      "cats": [
+        "Slave"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 65,
+      "text": "Sinto atração por forçar limites e gerar pequenas humilhações no outro de forma controlada.",
+      "cats": [
+        "Degrader"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 66,
+      "text": "Excita-me espiar frestas ou observar casais sem que eles necessariamente saibam.",
+      "cats": [
+        "Voyeur"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 67,
+      "text": "Gosto de impor regras para a alimentação e comportamento de meu parceiro em formato Pet Play.",
+      "cats": [
+        "Owner"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 68,
+      "text": "Estar no controle total dos impulsos do outro na cama é o meu ideal de intimidade.",
+      "cats": [
+        "Dominant"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 69,
+      "text": "A ideia de ser imobilizado(a) e sentir certo sofrimento físico me causa prazer erótico.",
+      "cats": [
+        "Masochist"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 70,
+      "text": "Amo ser colocado(a) em posições degradantes e receber comandos com pouco caso.",
+      "cats": [
+        "Degradee"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 71,
+      "text": "A submissão voluntária e sem questionamentos me desperta grande respeito pelo outro.",
+      "cats": [
+        "Submissive"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 72,
+      "text": "Impor dor consensual de forma física com uso de palmatórias ou chicotes me atrai.",
+      "cats": [
+        "Sadist"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 73,
+      "text": "Sinto que posso desempenhar ambos os papéis (dominante ou submisso) com a mesma facilidade.",
+      "cats": [
+        "Switch"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 74,
+      "text": "Considero erótico assumir o controle total da rotina de quem amo.",
+      "cats": [
+        "Dominant"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 75,
+      "text": "Sinto prazer ao rebaixar consensualmente as atitudes do parceiro na cama.",
+      "cats": [
+        "Degrader"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 76,
+      "text": "Sinto realização ao cuidar do parceiro de forma maternal ou paternal erotizada.",
+      "cats": [
+        "Daddy/Mommy"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 77,
+      "text": "A ideia de causar dor e domar a agressividade do outro me parece estimulante.",
+      "cats": [
+        "Sadist"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 78,
+      "text": "Encontro grande prazer em ser tratado(a) de forma grosseira durante a relação BDSM.",
+      "cats": [
+        "Degradee"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 79,
+      "text": "Gostaria de viver uma rotina 24/7 onde sirvo de forma submissa às vontades de meu Mestre.",
+      "cats": [
+        "Slave"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 80,
+      "text": "Assumir a propriedade e a gerência integral da vida de quem me serve me excita.",
+      "cats": [
+        "Master/Mistress"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 81,
+      "text": "Gosto de encenar papéis infantis erotizados ou brincar com disparidades geracionais.",
+      "cats": [
+        "Ageplayer"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 82,
+      "text": "A humilhação física consensual (como ser usado(a) como cinzeiro ou urinol) me excitaria na cama.",
+      "cats": [
+        "Degradee"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 83,
+      "text": "Sinto grande atração por caçar o parceiro em um ambiente selvagem simulado.",
+      "cats": [
+        "Primal (Hunter)"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 84,
+      "text": "Adoro ver o desespero brincalhão ou medo controlado de quem sabe que vai receber dor vinda de mim.",
+      "cats": [
+        "Sadist"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 85,
+      "text": "Restringir fisicamente o parceiro com mordaças ou capuzes me desperta excitação.",
+      "cats": [
+        "Rigger"
+      ],
+      "factor": 0.5,
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 86,
+      "text": "Ver meu parceiro com coleira andando de quatro no chão me atrai.",
+      "cats": [
+        "Owner"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 87,
+      "text": "Estar com os olhos vendados e amarrado(a) sem saber o próximo toque me excita enormemente.",
+      "cats": [
+        "Rope bunny"
+      ],
+      "factor": 1,
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 88,
+      "text": "Desejo que meu parceiro expresse atitudes animalescas como morder e arranhar na cama.",
+      "cats": [
+        "Primal (Presa)"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 89,
+      "text": "Sinto atração em fingir que sou o dono de um animalzinho que me deve carinho e obediência.",
+      "cats": [
+        "Owner"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 90,
+      "text": "Sou perfeitamente adaptável aos desejos do meu parceiro, seja para liderar ou ser liderado(a).",
+      "cats": [
+        "Switch"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 91,
+      "text": "Fazer sexo em locais abertos sob o risco iminente de ser pego me atrai muito.",
+      "cats": [
+        "Exhibitionist"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 92,
+      "text": "Gosto de focar na técnica de fazer nós complexos de shibari no corpo do outro.",
+      "cats": [
+        "Rigger"
+      ],
+      "factor": 1,
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 93,
+      "text": "Adoro o sentimento de alívio e a sensação de segurança trazida pelos cuidados pós-sessão (Aftercare).",
+      "cats": [
+        "Submissive"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 94,
+      "text": "Gosto de escutar o som das amarras apertando e o atrito das cordas na minha pele (sensorial de cordas).",
+      "cats": [
+        "Rope bunny"
+      ],
+      "factor": 1,
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 95,
+      "text": "Sinto atração em usar focinhos, máscaras ou adereços que limitem minha fala em formato Pet Play.",
+      "cats": [
+        "Pet"
+      ],
+      "factor": 1,
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 96,
+      "text": "A sensação física de suspensão parcial ou amarração corporal complexa com nós me atrai.",
+      "cats": [
+        "Rope bunny"
+      ],
+      "factor": 1,
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 97,
+      "text": "Para mim, comer em tigelas no chão ou ser guiado pela coleira é uma forma muito excitante de submissão.",
+      "cats": [
+        "Pet"
+      ],
+      "factor": 1,
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 98,
+      "text": "Gosto do fetiche de ser completamente envelopado em plástico filme, faixas ou látex (Mumificação).",
+      "cats": [
+        "Rope bunny"
+      ],
+      "factor": 0.5,
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 99,
+      "text": "A imposição de restrição sensorial completa (vendas, tampões de ouvido, mordaças) me atrai intensamente.",
+      "cats": [
+        "Submissive"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "submisso",
+        "nao_sabe"
+      ]
+    },
+    {
+      "id": 100,
+      "text": "Negar intencionalmente o orgasmo ao parceiro (Tease & Denial) para aumentar sua tensão e submissão me dá enorme prazer.",
+      "cats": [
+        "Dominant"
+      ],
+      "levels": [
+        "completo"
+      ],
+      "profiles": [
+        "dominante",
+        "nao_sabe"
+      ]
+    }
+  ]
+}

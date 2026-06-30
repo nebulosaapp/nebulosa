@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Resultados BDSM</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <style>
+    .report-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #dfdfe8;
+      text-align: justify;
+    }
+    .report-text p { margin-bottom: 1.25rem; }
+    .highlight-kink { color: #ff6a00; font-weight: 600; }
+
+    /* Token Card — pequeno, discreto, no final */
+    .token-card-bottom {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 1rem 1.25rem;
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+    .badge-token-small {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #ff3333;
+      letter-spacing: 1px;
+      display: block;
+      margin: 0.4rem 0;
+    }
+    .compat-result-card {
+      background: rgba(255, 51, 51, 0.05);
+      border: 1px dashed var(--accent-color);
+      border-radius: 14px;
+      padding: 1.25rem;
+      margin-top: 1.5rem;
+      display: none;
+    }
+    .compat-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #ff3333;
+      margin-bottom: 0.5rem;
+    }
+    .btn-download {
+      width: 100%;
+      padding: 0.9rem;
+      border-radius: 12px;
+      border: 1.5px solid rgba(255,106,0,0.5);
+      background: rgba(255,106,0,0.07);
+      color: #ff6a00;
+      font-size: 0.95rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: all 0.2s ease;
+    }
+    .btn-download:active { opacity: 0.8; transform: scale(0.98); }
+
+    /* Card da Persona em destaque */
+    .persona-card {
+      border: 2px solid #ff3333;
+      background: rgba(255, 51, 51, 0.03);
+      text-align: center;
+    }
+    .declared-badge {
+      display: inline-block;
+      background: rgba(255,106,0,0.12);
+      border: 1px solid rgba(255,106,0,0.4);
+      border-radius: 20px;
+      padding: 0.25rem 0.8rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #ff6a00;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Cabeçalho Global -->
+    <div class="global-header">
+      <header style="text-align: left; margin: 0;">
+        <h1 id="resTitle">Seu Diagnóstico</h1>
+        <p id="userNameDisplay">Carregando perfil...</p>
+      </header>
+      <button class="menu-trigger" id="menuOpenBtn">☰</button>
+    </div>
+
+    <!-- Navegação por Tabs -->
+    <div class="tabs-navigation">
+      <button class="tab-btn active" id="tabReportBtn" onclick="switchTab('report')" id="tabBtnReport">Relatório</button>
+      <button class="tab-btn" id="tabCompatBtn" onclick="switchTab('compat')" id="tabBtnCompat">Compatibilidade</button>
+    </div>
+
+    <!-- TAB 1: Relatório -->
+    <div id="tabReportContent">
+
+      <!-- 1. PERSONA em destaque (topo) -->
+      <div class="card persona-card" id="personaCard">
+        <div class="declared-badge" id="declaredProfileDisplay">...</div>
+        <span class="progress-text" style="color: #ff3333;" id="resPersonaLabel">Sua Persona BDSM</span>
+        <h2 id="personaTitle" style="font-size: 1.6rem; font-weight: 800; color: #fff; margin: 0.5rem 0;" id="resProcessing">Processando...</h2>
+        <p id="personaDescription" style="font-size: 0.9rem; line-height: 1.5; color: #dfdfe8; margin-top: 0.5rem; padding: 0 0.5rem;"></p>
+      </div>
+
+      <!-- 2. RADAR — Pilares de Energia -->
+      <div class="card" style="margin-top: 1.5rem;" id="radarCard">
+        <h2 class="card-title" id="resPilaresTitle">Seus Pilares de Energia</h2>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;" id="resPilaresDesc">
+          Mapeamento psicológico agrupando seus fetiches nas 5 energias kinky dominantes.
+        </p>
+        <div style="position: relative; width: 100%; height: 280px; display: flex; justify-content: center; align-items: center;">
+          <canvas id="radarChartCanvas" style="max-width: 100%; max-height: 100%;"></canvas>
+        </div>
+      </div>
+
+      <!-- 3. BARRAS — Gráfico de Afinidades -->
+      <div class="card" style="margin-top: 1.5rem;">
+        <h2 class="card-title" id="resChartTitle">Gráfico de Afinidades</h2>
+        <div class="bars-container" id="barsMobileContainer">
+          <!-- Renderizado dinamicamente -->
+        </div>
+      </div>
+
+      <!-- 4. TEXTO Diagnóstico -->
+      <div class="card" style="margin-top: 1.5rem;">
+        <h2 class="card-title" id="resDiagTitle">Seu Diagnóstico Kink</h2>
+        <div class="report-text" id="holisticText">
+          Processando sua carta de afinidade personalizada...
+        </div>
+      </div>
+
+      <!-- 5. TOKEN — Pequeno, no final -->
+      <div class="token-card-bottom">
+        <span class="input-label" id="resTokenLabel">Código de Compartilhamento</span>
+        <span class="badge-token-small" id="tokenDisplay">--------</span>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.75rem;" id="resTokenDesc">
+          Copie este código para comparar compatibilidade com parceiros!
+        </p>
+        <button class="btn-download" id="downloadBtn" onclick="baixarResultado()">⬇ Baixar Resultado</button>
+      </div>
+
+      <!-- 6. IMPORTAR RESULTADO COMO SEMÁFORO DE LIMITES -->
+      <div class="card" style="margin-top: 1.25rem; border: 1px solid rgba(0, 208, 132, 0.2); background: rgba(0, 208, 132, 0.02);" id="importarSemaforoCard">
+        <h2 class="card-title" style="color: #00d084;">🟢 Usar Teste como Ponto de Partida</h2>
+        <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.6;">
+          Seu resultado pode preencher automaticamente o <strong style="color:var(--text-main);">Semáforo de Consentimento</strong> no seu perfil.<br>
+          <span style="font-size:0.78rem;">Score ≥ 65% → 🟢 Quero &nbsp;|&nbsp; 35–64% → 🟡 Talvez &nbsp;|&nbsp; &lt; 35% → 🔴 Não quero</span>
+        </p>
+        <div id="importPreviewList" style="max-height: 160px; overflow-y: auto; margin-bottom: 1rem; display:flex; flex-direction:column; gap:0.35rem; padding-right:0.25rem;">
+          <!-- Preenchido dinamicamente -->
+        </div>
+        <button class="btn-primary" id="btnImportarSemaforo" onclick="importarComoSemaforo()" style="background: linear-gradient(135deg, #00d084, #00a067);">
+          ✅ Importar para Meu Perfil
+        </button>
+        <div id="importFeedback" style="display:none; text-align:center; padding:0.75rem; font-size:0.85rem; font-weight:700; color:#00d084; margin-top:0.5rem;">
+          ✅ Semáforo atualizado com sucesso!
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB 2: Compatibilidade -->
+    <div id="tabCompatContent" style="display: none;">
+      <div class="card">
+        <h2 class="card-title" id="resCompatTitle">Testar Sinergia</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;" id="resCompatDesc">
+          Insira o código de compartilhamento de outra pessoa para calcular a compatibilidade.
+        </p>
+
+        <div class="input-group">
+          <label class="input-label" for="partnerToken" id="resCompatLabel">Código do Parceiro(a)</label>
+          <input type="text" id="partnerToken" placeholder="Ex: PcsGt9GC" autocomplete="off" style="text-align: center; text-transform: uppercase;">
+        </div>
+
+        <button class="btn-primary" id="resCompatBtn" onclick="compararTokens()">Calcular Compatibilidade</button>
+
+        <div class="compat-result-card" id="compatResultCard">
+          <div class="compat-title" id="compatValue">Vocês são 0% compatíveis</div>
+          <p class="report-text" id="compatText" style="font-size: 0.95rem;"></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module">
+    import { injetarMenuGlobal } from './assets/menu.js';
+    import { I18N, getLang, translateArchetype, translatePilar } from './assets/i18n.js';
+
+    const API_URL = 'http://localhost:3001/api';
+    const lang = getLang();
+    const L = I18N[lang] || I18N['pt'];
+    let currentToken = '';
+
+    // Aplicar strings de idioma na interface
+    function aplicarIdioma() {
+      document.getElementById('resTitle').innerText = L.results_title;
+      document.getElementById('resPersonaLabel').innerText = L.results_persona_label;
+      document.getElementById('resPilaresTitle').innerText = L.results_pilares_title;
+      document.getElementById('resPilaresDesc').innerText = L.results_pilares_desc;
+      document.getElementById('resChartTitle').innerText = L.results_chart_title;
+      document.getElementById('resDiagTitle').innerText = L.results_diag_title;
+      document.getElementById('resTokenLabel').innerText = L.results_token_label;
+      document.getElementById('resTokenDesc').innerText = L.results_token_desc;
+      document.getElementById('downloadBtn').innerText = L.results_download_btn;
+      document.getElementById('resCompatTitle').innerText = L.results_compat_title;
+      document.getElementById('resCompatDesc').innerText = L.results_compat_desc;
+      document.getElementById('resCompatLabel').innerText = L.results_compat_label;
+      document.getElementById('resCompatBtn').innerText = L.results_compat_btn;
+      document.getElementById('tabReportBtn').innerText = L.results_tab_report;
+      document.getElementById('tabCompatBtn').innerText = L.results_tab_compat;
+      document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang;
+    }
+
+    // Flexão de pronome nos textos do relatório
+    function aplicarPronomeTexto(texto, pronome) {
+      if (pronome === 'ele') {
+        return texto
+          .replace(/o\(a\)/g, 'o').replace(/parceiro\(a\)/g, 'parceiro')
+          .replace(/obrigado\(a\)/g, 'obrigado').replace(/dominado\(a\)/g, 'dominado')
+          .replace(/submetido\(a\)/g, 'submetido').replace(/guiado\(a\)/g, 'guiado')
+          .replace(/imobilizado\(a\)/g, 'imobilizado').replace(/humilhado\(a\)/g, 'humilhado')
+          .replace(/novos\(as\)/g, 'novos').replace(/mimado\(a\)/g, 'mimado');
+      } else if (pronome === 'ela') {
+        return texto
+          .replace(/o\(a\)/g, 'a').replace(/parceiro\(a\)/g, 'parceira')
+          .replace(/obrigado\(a\)/g, 'obrigada').replace(/dominado\(a\)/g, 'dominada')
+          .replace(/submetido\(a\)/g, 'submetida').replace(/guiado\(a\)/g, 'guiada')
+          .replace(/imobilizado\(a\)/g, 'imobilizada').replace(/humilhado\(a\)/g, 'humilhada')
+          .replace(/novos\(as\)/g, 'novas').replace(/mimado\(a\)/g, 'mimada');
+      } else {
+        return texto
+          .replace(/o\(a\)/g, 'e').replace(/parceiro\(a\)/g, 'parceire')
+          .replace(/obrigado\(a\)/g, 'obrigade').replace(/dominado\(a\)/g, 'dominade')
+          .replace(/submetido\(a\)/g, 'submetide').replace(/guiado\(a\)/g, 'guiade')
+          .replace(/imobilizado\(a\)/g, 'imobilizade').replace(/humilhado\(a\)/g, 'humilhade')
+          .replace(/novos\(as\)/g, 'noves').replace(/mimado\(a\)/g, 'mimade');
+      }
+    }
+
+    async function carregarResultados() {
+      currentToken = localStorage.getItem('bdsm_last_token');
+      const userName = localStorage.getItem('bdsm_user_name') || 'Convidado';
+      document.getElementById('userNameDisplay').innerText = `${lang === 'en' ? 'Profile:' : lang === 'es' ? 'Perfil de:' : 'Perfil de:'} ${userName}`;
+
+      if (!currentToken) {
+        alert(lang === 'en' ? 'No test result found.' : 'Nenhum resultado de teste localizado.');
+        return;
+      }
+
+      document.getElementById('tokenDisplay').innerText = currentToken;
+
+      try {
+        const response = await fetch(`${API_URL}/result/${currentToken}`);
+        const result = await response.json();
+
+        const userPronome = result.pronome || 'elu';
+
+        // --- 1. GRÁFICO DE BARRAS (Afinidades) ---
+        const container = document.getElementById('barsMobileContainer');
+        container.innerHTML = '';
+
+        result.scores.forEach(item => {
+          const displayName = translateArchetype(item.name);
+          const row = document.createElement('div');
+          row.className = 'bar-row-mobile';
+          row.innerHTML = `
+            <div class="bar-header-mobile">
+              <span>${displayName}</span>
+              <span>${item.score}%</span>
+            </div>
+            <div class="bar-track-mobile">
+              <div class="bar-fill-mobile" style="width: ${item.score}%"></div>
+            </div>
+          `;
+          container.appendChild(row);
+        });
+
+        // Preencher preview de importação para o Semáforo de Consentimento
+        if (window.renderImportPreview) window.renderImportPreview(result.scores);
+
+        // --- 2. RADAR CHART (5 Pilares) ---
+        const pilarMapeamento = {
+          'Sensorial':   ['Sadist', 'Masochist', 'Primal (Hunter)', 'Primal (Presa)'],
+          'Hierarquia':  ['Master/Mistress', 'Slave', 'Dominant', 'Submissive', 'Owner', 'Switch'],
+          'Psicológico': ['Degrader', 'Degradee', 'Brat tamer', 'Brat', 'Experimentalist'],
+          'Emocional':   ['Daddy/Mommy', 'Little', 'Ageplayer'],
+          'Estético':    ['Rigger', 'Rope bunny', 'Voyeur', 'Exhibitionist', 'Vanilla', 'Non-monogamist']
+        };
+
+        const desMap = {};
+        result.scores.forEach(i => { desMap[i.name] = i.score; });
+
+        const labelsPilares = Object.keys(pilarMapeamento);
+        const scoresPilares = labelsPilares.map(pilar => {
+          const arqs = pilarMapeamento[pilar];
+          const soma = arqs.reduce((acc, arq) => acc + (desMap[arq] || 0), 0);
+          return Math.round(soma / arqs.length);
+        });
+
+        const labelsTraduzidos = labelsPilares.map(p => translatePilar(p));
+
+        const ctx = document.getElementById('radarChartCanvas').getContext('2d');
+        new Chart(ctx, {
+          type: 'radar',
+          data: {
+            labels: labelsTraduzidos,
+            datasets: [{
+              label: lang === 'en' ? 'Your Affinity' : lang === 'es' ? 'Tu Afinidad' : 'Sua Afinidade',
+              data: scoresPilares,
+              backgroundColor: 'rgba(255, 51, 51, 0.2)',
+              borderColor: '#ff3333',
+              pointBackgroundColor: '#ff3333',
+              borderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              r: {
+                angleLines: { color: 'rgba(255,255,255,0.1)' },
+                grid: { color: 'rgba(255,255,255,0.1)' },
+                pointLabels: { color: '#dfdfe8', font: { family: 'Outfit', size: 11, weight: '600' } },
+                ticks: { display: false },
+                suggestedMin: 0,
+                suggestedMax: 100
+              }
+            },
+            plugins: { legend: { display: false } }
+          }
+        });
+
+        // --- 3. PERSONA Dinâmica ---
+        const top3Names = result.scores.slice(0, 3).map(i => i.name);
+        const checkMatch = (arr) => arr.every(a => top3Names.includes(a));
+
+        let personaKey = 'persona_free_spirit';
+        if (checkMatch(['Dominant', 'Sadist', 'Rigger'])) personaKey = 'persona_control_architect';
+        else if (checkMatch(['Submissive', 'Pet', 'Little'])) personaKey = 'persona_devoted_protected';
+        else if (checkMatch(['Sadist', 'Masochist', 'Switch'])) personaKey = 'persona_alchemist';
+        else if (checkMatch(['Dominant', 'Brat tamer', 'Degrader'])) personaKey = 'persona_mind_tamer';
+        else if (checkMatch(['Rope bunny', 'Masochist', 'Degradee'])) personaKey = 'persona_temple';
+        else if (top3Names[0] === 'Vanilla') personaKey = 'persona_vanilla';
+
+        document.getElementById('personaTitle').innerText = L[personaKey] || L.persona_free_spirit;
+        document.getElementById('personaDescription').innerText = L[personaKey + '_desc'] || L.persona_free_spirit_desc;
+
+        // --- Autodeclaração ---
+        const profileMap = {
+          'nao_sabe': L.profile_nao_sabe,
+          'dominante': L.profile_dominante,
+          'submisso': L.profile_submisso
+        };
+        const declared = profileMap[result.profile_declarado] || result.profile_declarado;
+        document.getElementById('declaredProfileDisplay').innerText = `${L.results_declared || ''} ${declared}`;
+
+        // --- 4. TEXTO Holístico ---
+        const textContainer = document.getElementById('holisticText');
+        const top5 = result.top5;
+        if (!top5 || top5.length < 3) {
+          textContainer.innerHTML = '<p>Dados insuficientes para gerar o diagnóstico completo.</p>';
+          return;
+        }
+
+        const t1 = top5[0], t2 = top5[1], t3 = top5[2];
+        const t4 = top5[3] || { name: '', texto: '' };
+        const t5 = top5[4] || { name: '', texto: '' };
+
+        // Para EN/ES, gerar texto baseado nos nomes traduzidos
+        if (lang === 'en') {
+          const n1 = translateArchetype(t1.name), n2 = translateArchetype(t2.name), n3 = translateArchetype(t3.name);
+          const n4 = translateArchetype(t4.name), n5 = translateArchetype(t5.name);
+          textContainer.innerHTML = `
+            <p>Analyzing your responses carefully, we notice that your strongest affinity is <span class="highlight-kink">${n1}</span> (${t1.score}%). This naturally pairs with <span class="highlight-kink">${n2}</span> (${t2.score}%), completing the core of your intimate style with <span class="highlight-kink">${n3}</span> (${t3.score}%).</p>
+            ${t4.name ? `<p>In complementary levels, you also show attraction to <span class="highlight-kink">${n4}</span> (${t4.score}%) and touches of <span class="highlight-kink">${n5}</span> (${t5.score}%), which act as seasoning to your main palette.</p>` : ''}
+            <p>Remember: in any BDSM dynamic, <strong>Aftercare</strong> — the caring and communication after a scene — is essential to ensure both partners feel safe, protected, and fulfilled.</p>
+          `;
+        } else if (lang === 'es') {
+          const n1 = translateArchetype(t1.name), n2 = translateArchetype(t2.name), n3 = translateArchetype(t3.name);
+          const n4 = translateArchetype(t4.name), n5 = translateArchetype(t5.name);
+          textContainer.innerHTML = `
+            <p>Analizando tus respuestas con atención, notamos que tu mayor afinidad es <span class="highlight-kink">${n1}</span> (${t1.score}%). Esto se complementa naturalmente con <span class="highlight-kink">${n2}</span> (${t2.score}%), completando la base de tu estilo íntimo con <span class="highlight-kink">${n3}</span> (${t3.score}%).</p>
+            ${t4.name ? `<p>En niveles complementarios, también muestras atracción por <span class="highlight-kink">${n4}</span> (${t4.score}%) y toques de <span class="highlight-kink">${n5}</span> (${t5.score}%), que actúan como condimento de tu paleta principal.</p>` : ''}
+            <p>Recuerda: en cualquier dinámica BDSM, el <strong>Aftercare</strong> — el cuidado mutuo después de una escena — es esencial para que ambos se sientan seguros, protegidos y felices.</p>
+          `;
+        } else {
+          // PT com flexão de pronome
+          const t1Text = aplicarPronomeTexto(t1.texto || `você se alinha com ${t1.name}`, userPronome);
+          const t2Text = aplicarPronomeTexto(t2.texto || `você também busca ${t2.name}`, userPronome);
+          const t3Text = aplicarPronomeTexto(t3.texto || `você demonstra interesse por ${t3.name}`, userPronome);
+          const t4Text = aplicarPronomeTexto(t4.texto || 'há curiosidade nesse aspecto', userPronome);
+          const t5Text = aplicarPronomeTexto(t5.texto || 'existe leve interesse em explorar', userPronome);
+
+          const n1 = translateArchetype(t1.name), n2 = translateArchetype(t2.name), n3 = translateArchetype(t3.name);
+          const n4 = translateArchetype(t4.name), n5 = translateArchetype(t5.name);
+
+          textContainer.innerHTML = `
+            <p>Analisando suas respostas de forma atenta, percebemos que <span class="highlight-kink">${t1Text}</span>. Essa característica se complementa com <span class="highlight-kink">${t2Text}</span>. Para fechar a base do seu estilo, notamos também que <span class="highlight-kink">${t3Text}</span>.</p>
+            ${t4.name ? `<p>Em níveis complementares, você também demonstra atração pela dinâmica de <span class="highlight-kink">${n4}</span>, indicando que <span class="highlight-kink">${t4Text}</span>. Há espaço para nuances de <span class="highlight-kink">${n5}</span>, sugerindo que <span class="highlight-kink">${t5Text}</span>.</p>` : ''}
+            <p>Encare os arquétipos com menor pontuação como temperos extras. Lembre-se: em dinâmicas BDSM de qualquer nível, o <strong>Aftercare</strong> pós-sessão é essencial para que você e seu parceiro(a) se sintam seguros e felizes.</p>
+          `;
+        }
+
+      } catch (err) {
+        console.error(err);
+        alert('Erro ao buscar dados do teste.');
+      }
+    }
+
+    // --- DOWNLOAD DO RESULTADO ---
+    window.baixarResultado = async function() {
+      const btn = document.getElementById('downloadBtn');
+      const originalText = btn.innerText;
+      btn.innerText = lang === 'en' ? 'Generating...' : lang === 'es' ? 'Generando...' : 'Gerando...';
+      btn.disabled = true;
+
+      try {
+        // Capturar os cards principais (excluindo o token e compat)
+        const reportContent = document.getElementById('tabReportContent');
+
+        const canvas = await html2canvas(reportContent, {
+          backgroundColor: '#050508',
+          scale: 2, // Alta resolução
+          useCORS: true,
+          logging: false,
+          width: Math.min(reportContent.offsetWidth, 480),
+          windowWidth: 480
+        });
+
+        const link = document.createElement('a');
+        link.download = `bdsm-resultado-${currentToken || 'resultado'}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      } catch (e) {
+        alert('Erro ao gerar imagem. Tente novamente.');
+        console.error(e);
+      } finally {
+        btn.innerText = originalText;
+        btn.disabled = false;
+      }
+    }
+
+    window.switchTab = function(tab) {
+      const tabReportContent = document.getElementById('tabReportContent');
+      const tabCompatContent = document.getElementById('tabCompatContent');
+      const tabReportBtn = document.getElementById('tabReportBtn');
+      const tabCompatBtn = document.getElementById('tabCompatBtn');
+
+      if (tab === 'report') {
+        tabReportContent.style.display = 'block';
+        tabCompatContent.style.display = 'none';
+        tabReportBtn.classList.add('active');
+        tabCompatBtn.classList.remove('active');
+      } else {
+        tabReportContent.style.display = 'none';
+        tabCompatContent.style.display = 'block';
+        tabReportBtn.classList.remove('active');
+        tabCompatBtn.classList.add('active');
+      }
+    }
+
+    window.compararTokens = async function() {
+      const partnerToken = document.getElementById('partnerToken').value.trim();
+      if (!partnerToken) {
+        alert(lang === 'en' ? "Enter your partner's code." : 'Insira o código do seu parceiro.');
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_URL}/compare`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tokenA: currentToken, tokenB: partnerToken })
+        });
+        const result = await response.json();
+
+        if (result.error) { alert(result.error); return; }
+
+        const card = document.getElementById('compatResultCard');
+        card.style.display = 'block';
+        document.getElementById('compatValue').innerText = `${result.tokenB.toUpperCase()} — ${result.compatibilidade}%`;
+        document.getElementById('compatText').innerText = result.interpretacao;
+      } catch (err) {
+        alert('Erro na comparação de tokens.');
+      }
+    }
+
+    // Mapeamento de Score → Nível do Semáforo
+    function scoreParaNivel(score) {
+      if (score >= 65) return 'verde';
+      if (score >= 35) return 'amarelo';
+      return 'vermelho';
+    }
+
+    const emojiNivel = { verde: '🟢', amarelo: '🟡', vermelho: '🔴' };
+    let _scoresParaImportar = [];
+
+    // Preenche o preview do card de importação (chamado após carregarResultados)
+    window.renderImportPreview = function(scores) {
+      _scoresParaImportar = scores;
+      const container = document.getElementById('importPreviewList');
+      if (!container) return;
+      container.innerHTML = scores.map(item => {
+        const nivel = scoreParaNivel(item.score);
+        return `
+          <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.8rem; background:rgba(255,255,255,0.02); border-radius:8px; padding:0.35rem 0.6rem;">
+            <span style="font-weight:600; color:var(--text-main);">${translateArchetype(item.name)}</span>
+            <span style="white-space:nowrap;">${emojiNivel[nivel]} ${item.score}%</span>
+          </div>`;
+      }).join('');
+    };
+
+    // Importa todos os scores do teste como limites de consentimento
+    window.importarComoSemaforo = async function() {
+      const userId = localStorage.getItem('bdsm_user_id');
+      if (!userId) { alert('Faça login para usar esta função.'); return; }
+      if (_scoresParaImportar.length === 0) { alert('Nenhum resultado encontrado.'); return; }
+
+      const btn = document.getElementById('btnImportarSemaforo');
+      btn.disabled = true;
+      btn.innerText = 'Importando...';
+
+      let ok = 0;
+      for (const item of _scoresParaImportar) {
+        const nivel = scoreParaNivel(item.score);
+        try {
+          await fetch(`${API_URL}/user/${userId}/limits`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ termo: item.name, nivel, observacao: '' })
+          });
+          ok++;
+        } catch(e) { /* continua */ }
+      }
+
+      btn.style.display = 'none';
+      document.getElementById('importFeedback').style.display = 'block';
+      document.getElementById('importFeedback').innerText = `✅ ${ok} práticas importadas para o seu Semáforo!`;
+    };
+
+    // Inicializar
+    aplicarIdioma();
+    injetarMenuGlobal();
+    carregarResultados();
+  </script>
+</body>
+</html>

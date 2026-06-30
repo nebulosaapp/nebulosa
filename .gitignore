@@ -1,0 +1,19 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env
+
+# Databases
+database/*.db
+database/*.db-journal
+
+# Project System Metadata
+.agents/
+brain/
+.gemini/
+.idea/
+.vscode/
+*.png
+*.log
