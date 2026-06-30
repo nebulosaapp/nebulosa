@@ -27,13 +27,15 @@ export async function registrarUsuario(identificador, senha, pronome) {
   const salt = await bcrypt.genSalt(10);
   const senhaHash = await bcrypt.hash(senha, salt);
   
+  const normalizedIdent = identificador.trim().toLowerCase();
+  
   try {
     const result = await db.run(
       `INSERT INTO usuarios (identificador, senha_hash, pronome) VALUES (?, ?, ?)`,
-      [identificador.trim(), senhaHash, pronome || 'elu']
+      [normalizedIdent, senhaHash, pronome || 'elu']
     );
     const userId = result.lastID;
-    const token = gerarTokenAcesso({ id: userId, identificador });
+    const token = gerarTokenAcesso({ id: userId, identificador: normalizedIdent });
     await db.close();
     return { success: true, userId, token };
   } catch (error) {
@@ -48,9 +50,10 @@ export async function registrarUsuario(identificador, senha, pronome) {
 // 2. Login de Usuário
 export async function loginUsuario(identificador, senha) {
   const db = await getDb();
+  const normalizedIdent = identificador.trim().toLowerCase();
   const user = await db.get(
     `SELECT * FROM usuarios WHERE identificador = ?`,
-    [identificador.trim()]
+    [normalizedIdent]
   );
   await db.close();
 
