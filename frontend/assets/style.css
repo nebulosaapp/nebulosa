@@ -701,47 +701,7 @@ input:focus, select:focus {
 
 /* --- SPLASH SCREEN ANIMADA --- */
 .splash-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: #06050b;
-  z-index: 99999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.5s;
-}
-
-.splash-screen.fade-out {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.splash-logo {
-  width: 140px;
-  height: 140px;
-  object-fit: contain;
-  animation: splashPulse 2s infinite ease-in-out;
-}
-
-.splash-title {
-  margin-top: 1.5rem;
-  font-size: 1.8rem;
-  font-weight: 800;
-  letter-spacing: 1px;
-  background: var(--accent-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.splash-subtitle {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  margin-top: 0.25rem;
+  display: none !important;
 }
 
 @keyframes splashPulse {
