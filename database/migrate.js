@@ -1,4 +1,4 @@
-﻿import fs from 'fs';
+import fs from 'fs';
 import path from 'path';
 import sqlite3 from 'sqlite3';
 import { open } from 'sqlite';
@@ -72,6 +72,11 @@ async function runMigrate() {
       } catch (e005) {
         console.log('ℹ️  Migration 005 Postgres: ' + e005.message);
       }
+      try {
+        await client.query('ALTER TABLE limit_history ADD COLUMN IF NOT EXISTS observacao TEXT');
+      } catch (e) {
+        console.warn('Coluna observacao em limit_history já deve existir no PostgreSQL.');
+      }
     } catch (e) {
       console.error('❌ Erro migrando banco Postgres:', e.message);
       throw e;
@@ -79,10 +84,6 @@ async function runMigrate() {
       client.release();
       await pool.end();
     }
-  } else {
-    // Modo local padrão SQLite
-    console.log('📂 Rodando em modo SQLite (Local)...');
-    
     // 1. Migrar bdsm_completo.db (Aplicação)
     const dbApp = await open({ filename: dbAppPath, driver: sqlite3.Database });
     const migrationAppSql = fs.readFileSync(path.resolve(__dirname, 'migrations/001_initial_app.sql'), 'utf8');
