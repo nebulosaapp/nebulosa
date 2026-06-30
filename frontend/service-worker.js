@@ -1,4 +1,4 @@
-const CACHE_NAME = 'nebulosa-v1';
+const CACHE_NAME = 'nebulosa-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/home.html',
