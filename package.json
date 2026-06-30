@@ -5,8 +5,8 @@
   "description": "BDSM Test V4.0 - App com internacionalização, radar de pilares e download de diagnóstico.",
   "main": "backend/src/domain/server.js",
   "scripts": {
-    "build": "npm install",
-    "prestart": "node database/migrate.js",
+    "build": "npm install --build-from-source=sqlite3",
+    "prestart": "node database/migrate.js && node database/seeds/real_data_seed.js",
     "start": "node backend/src/domain/server.js",
     "dev": "node backend/src/domain/server.js",
     "migrate": "node database/migrate.js"
@@ -23,7 +23,7 @@
     "node-fetch": "^3.3.2",
     "pg": "^8.22.0",
     "sqlite": "^5.1.1",
-    "sqlite3": "^6.0.1"
+    "sqlite3": "^5.1.7"
   },
   "engines": {
     "node": "20.x"

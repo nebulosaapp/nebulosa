@@ -84,8 +84,10 @@ async function runMigrate() {
       client.release();
       await pool.end();
     }
-    // 1. Migrar bdsm_completo.db (Aplicação)
-    const dbApp = await open({ filename: dbAppPath, driver: sqlite3.Database });
+  }
+
+  // 1. Migrar bdsm_completo.db (Aplicação)
+  const dbApp = await open({ filename: dbAppPath, driver: sqlite3.Database });
     const migrationAppSql = fs.readFileSync(path.resolve(__dirname, 'migrations/001_initial_app.sql'), 'utf8');
     await dbApp.exec(migrationAppSql);
     
@@ -181,6 +183,8 @@ async function runMigrate() {
     ["cnc", "CNC", "Consensual Non-Consent", "Cena de simulaÃ§Ã£o consensual de nÃ£o-consentimento previamente negociada sob estrito controle e termos de seguranÃ§a.", "AvanÃ§ado", "AvanÃ§ado", "pratica"]
   ];
 
+  const dbAppSync = await open({ filename: dbAppPath, driver: sqlite3.Database });
+  
   for (const [slug, termo, termoEn, significado, tagNome, catNome, tipo] of dicionarioData) {
     const catId = categoriasMap[catNome] || null;
     await dbWiki.run(
@@ -195,7 +199,17 @@ async function runMigrate() {
     const tagId = tagRow.id;
 
     await dbWiki.run(`INSERT OR IGNORE INTO dicionario_tags (termo_id, tag_id) VALUES (?, ?)`, [termoId, tagId]);
+
+    // Sincronizar todos os termos práticos, papéis e fetiches para a tabela de limites do App
+    if (['fetiche', 'pratica', 'papel'].includes(tipo)) {
+      await dbAppSync.run(
+        `INSERT OR IGNORE INTO praticas (nome, categoria, descricao) VALUES (?, ?, ?)`, 
+        [termo, catNome, significado]
+      );
+    }
   }
+  
+  await dbAppSync.close();
 
   // Popular guias
   const guiasData = [
