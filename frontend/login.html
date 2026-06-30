@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>BDSM Test - Acesso</title>
+  <title>Nebulosa - Acesso</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/style.css">
   
@@ -61,11 +61,18 @@
 </head>
 <body>
 
+  <!-- Splash Screen Animada da Nebulosa -->
+  <div id="splash-screen" class="splash-screen">
+    <img src="logos/logo simples.png" alt="Nebulosa Logo" class="splash-logo">
+    <h1 class="splash-title">Nebulosa</h1>
+    <p class="splash-subtitle">Descubra. Conecte. Explore.</p>
+  </div>
+
   <div class="app-container">
     
-    <header>
-      <h1 id="loginTitle">BDSM Test</h1>
-      <p id="loginSubtitle">Gerencie sua conta e histórico de testes</p>
+    <header style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+      <img src="logos/logo com nome.png" alt="Nebulosa Logo" style="height: 60px; width: auto; object-fit: contain; margin-bottom: 0.5rem;">
+      <p id="loginSubtitle" style="font-size: 0.85rem; color: var(--text-muted); text-align: center; margin: 0;">Gerencie sua conta e histórico de testes</p>
     </header>
 
     <!-- Seletor de Idioma -->
@@ -376,6 +383,16 @@
           .catch((err) => console.error('Erro de registro no Login:', err));
       });
     }
+
+    // Fechar Splash Screen com transição
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        if (splash) {
+          splash.classList.add('fade-out');
+        }
+      }, 1200);
+    });
   </script>
 </body>
 </html>

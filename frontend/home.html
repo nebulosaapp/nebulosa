@@ -150,16 +150,22 @@
 </head>
 <body>
 
+  <!-- Splash Screen Animada da Nebulosa -->
+  <div id="splash-screen" class="splash-screen">
+    <img src="logos/logo simples.png" alt="Nebulosa Logo" class="splash-logo">
+    <h1 class="splash-title">Nebulosa</h1>
+    <p class="splash-subtitle">Descubra. Conecte. Explore.</p>
+  </div>
+
   <div class="constellation-bg"></div>
 
   <div class="app-container" style="position: relative; z-index: 10;">
     
-    <!-- Cabeçalho Global Padronizado -->
+    <!-- Cabeçalho Global com Logomarca Oficial -->
     <div class="global-header">
-      <header style="text-align: left; margin: 0;">
-        <h1 id="homeTitle" style="font-weight: 800; background: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #6366f1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 2rem;">Nebulosa</h1>
-        <p id="homeSubtitle" style="font-size: 0.85rem; font-weight: 800; color: #a855f7; letter-spacing: 0.5px;">Descubra. Conecte. Explore.</p>
-      </header>
+      <div class="header-logo-container">
+        <img src="logos/logo com nome.png" alt="Nebulosa" class="header-logo-img">
+      </div>
       <button class="menu-trigger" id="menuOpenBtn">☰</button>
     </div>
 
@@ -302,7 +308,17 @@
 
     // ─── REGISTRO DO SERVICE WORKER E PROMPT DE INSTALAÇÃO PWA ───────────────────
     
-    // Registrar o Service Worker
+    // 1. Fechar Splash Screen com transição
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        if (splash) {
+          splash.classList.add('fade-out');
+        }
+      }, 1200);
+    });
+
+    // 2. Registrar o Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js')
@@ -311,77 +327,97 @@
       });
     }
 
-    // Gerenciar prompt de instalação customizado
+    // 3. Gerenciar prompt de instalação customizado do PWA (Premium)
     let deferredPrompt;
-    const installBanner = document.createElement('div');
-    installBanner.id = 'pwaInstallBanner';
-    installBanner.style.cssText = `
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%) translateY(150px);
-      width: calc(100% - 2rem);
-      max-width: 440px;
-      background: linear-gradient(135deg, #16112c 0%, #0e0b19 100%);
-      border: 1.5px solid #a855f7;
-      box-shadow: 0 8px 32px rgba(168, 85, 247, 0.3);
-      border-radius: 16px;
-      padding: 1rem 1.25rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      z-index: 99999;
-      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    `;
+    
+    // Detectar iOS
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    // Detectar se já está em modo PWA standalone
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
-    const bannerText = getLang() === 'en' 
-      ? 'Install Nebulosa App on your screen' 
-      : getLang() === 'es' 
-        ? 'Instalar la App Nebulosa en tu pantalla' 
-        : 'Instalar o App Nebulosa no seu celular';
+    if (!isStandalone) {
+      // Criar o container do banner
+      const banner = document.createElement('div');
+      banner.id = 'pwaInstallBanner';
+      banner.className = 'pwa-banner';
+      // Iniciar escondido (deslocado para baixo)
+      banner.style.position = 'fixed';
+      banner.style.bottom = '20px';
+      banner.style.left = '50%';
+      banner.style.transform = 'translateX(-50%) translateY(200px)';
+      banner.style.width = 'calc(100% - 2rem)';
+      banner.style.maxWidth = '440px';
+      banner.style.zIndex = '99999';
+      banner.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
 
-    const bannerBtnText = getLang() === 'en' ? 'Install' : getLang() === 'es' ? 'Instalar' : 'Instalar';
+      const lang = getLang();
+      const pwaTitle = lang === 'en' ? 'Add Nebulosa to Home Screen' : lang === 'es' ? 'Añadir Nebulosa a la Pantalla' : 'Adicione a Nebulosa à Tela Inicial';
+      const pwaDesc = isIOS 
+        ? (lang === 'en' ? 'Tap Share icon and select \"Add to Home Screen\"' : lang === 'es' ? 'Toca Compartir y selecciona \"Añadir a pantalla de inicio\"' : 'Toque no ícone Compartilhar e selecione \"Adicionar à Tela de Início\"')
+        : (lang === 'en' ? 'Install the app for a faster and offline experience' : lang === 'es' ? 'Instala la aplicación para una experiencia más rápida' : 'Instale o aplicativo para ter acesso rápido e offline');
+      
+      const btnInstallText = lang === 'en' ? 'Install' : lang === 'es' ? 'Instalar' : 'Instalar App';
+      const btnCloseText = lang === 'en' ? 'Later' : lang === 'es' ? 'Tal vez' : 'Depois';
 
-    installBanner.innerHTML = `
-      <div style="display:flex; align-items:center; gap:0.75rem;">
-        <div style="font-size:1.8rem; background:rgba(168, 85, 247, 0.1); border-radius:8px; padding:0.25rem; width:42px; height:42px; display:flex; align-items:center; justify-content:center;">🔮</div>
-        <span style="font-size:0.85rem; font-weight:700; color:#f8fafc;">${bannerText}</span>
-      </div>
-      <div style="display:flex; gap:0.5rem;">
-        <button id="btnPwaClose" style="background:none; border:none; color:#94a3b8; font-size:0.8rem; padding:0.5rem; cursor:pointer;">✕</button>
-        <button id="btnPwaInstall" style="background:var(--accent-gradient); border:none; border-radius:10px; color:#fff; font-size:0.8rem; font-weight:800; padding:0.5rem 1rem; cursor:pointer;">${bannerBtnText}</button>
-      </div>
-    `;
+      banner.innerHTML = `
+        <div class="pwa-banner-header">
+          <img src="assets/icons/icon-192.png" alt="Nebulosa App" class="pwa-banner-icon">
+          <div class="pwa-banner-text">
+            <h4>${pwaTitle}</h4>
+            <p>${pwaDesc}</p>
+          </div>
+        </div>
+        <div class="pwa-banner-actions">
+          <button id="btnPwaClose" class="pwa-btn-dismiss">${btnCloseText}</button>
+          ${!isIOS ? `<button id="btnPwaInstall" class="pwa-btn-install">${btnInstallText}</button>` : ''}
+        </div>
+      `;
 
-    document.body.appendChild(installBanner);
+      document.body.appendChild(banner);
 
-    window.addEventListener('beforeinstallprompt', (e) => {
-      // Impede o prompt padrão do Chrome/Android
-      e.preventDefault();
-      deferredPrompt = e;
-      // Exibe nosso banner customizado
-      installBanner.style.transform = 'translateX(-50%) translateY(0)';
-    });
+      // Evento Android/Chrome
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        // Mostrar o banner para Android/Windows
+        setTimeout(() => {
+          banner.style.transform = 'translateX(-50%) translateY(0)';
+        }, 3000);
+      });
 
-    document.getElementById('btnPwaInstall').addEventListener('click', async () => {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        console.log(`Escolha de instalação do usuário: ${outcome}`);
-        deferredPrompt = null;
-        installBanner.style.transform = 'translateX(-50%) translateY(150px)';
+      // Se for iOS (Safari), mostrar o banner com as instruções após 4 segundos
+      if (isIOS) {
+        setTimeout(() => {
+          banner.style.transform = 'translateX(-50%) translateY(0)';
+        }, 4000);
       }
-    });
 
-    document.getElementById('btnPwaClose').addEventListener('click', () => {
-      installBanner.style.transform = 'translateX(-50%) translateY(150px)';
-    });
+      // Eventos de clique
+      const closeBtn = document.getElementById('btnPwaClose');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+          banner.style.transform = 'translateX(-50%) translateY(200px)';
+        });
+      }
 
-    window.addEventListener('appinstalled', () => {
-      console.log('Nebulosa App instalado com sucesso!');
-      installBanner.style.transform = 'translateX(-50%) translateY(150px)';
-    });
+      const installBtn = document.getElementById('btnPwaInstall');
+      if (installBtn) {
+        installBtn.addEventListener('click', async () => {
+          if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`Escolha do usuário: ${outcome}`);
+            deferredPrompt = null;
+            banner.style.transform = 'translateX(-50%) translateY(200px)';
+          }
+        });
+      }
+
+      window.addEventListener('appinstalled', () => {
+        console.log('Nebulosa App instalado com sucesso!');
+        banner.style.transform = 'translateX(-50%) translateY(200px)';
+      });
+    }
   </script>
 </body>
 </html>
