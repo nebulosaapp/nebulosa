@@ -209,21 +209,22 @@
 
     // Aplicar strings de idioma na interface
     function aplicarIdioma() {
-      document.getElementById('resTitle').innerText = L.results_title;
-      document.getElementById('resPersonaLabel').innerText = L.results_persona_label;
-      document.getElementById('resPilaresTitle').innerText = L.results_pilares_title;
-      document.getElementById('resPilaresDesc').innerText = L.results_pilares_desc;
-      document.getElementById('resChartTitle').innerText = L.results_chart_title;
-      document.getElementById('resDiagTitle').innerText = L.results_diag_title;
-      document.getElementById('resTokenLabel').innerText = L.results_token_label;
-      document.getElementById('resTokenDesc').innerText = L.results_token_desc;
-      document.getElementById('downloadBtn').innerText = L.results_download_btn;
-      document.getElementById('resCompatTitle').innerText = L.results_compat_title;
-      document.getElementById('resCompatDesc').innerText = L.results_compat_desc;
-      document.getElementById('resCompatLabel').innerText = L.results_compat_label;
-      document.getElementById('resCompatBtn').innerText = L.results_compat_btn;
-      document.getElementById('tabReportBtn').innerText = L.results_tab_report;
-      document.getElementById('tabCompatBtn').innerText = L.results_tab_compat;
+      const el = (id) => document.getElementById(id);
+      if (el('resTitle')) el('resTitle').innerText = L.results_title;
+      if (el('resPersonaLabel')) el('resPersonaLabel').innerText = L.results_persona_label;
+      if (el('resPilaresTitle')) el('resPilaresTitle').innerText = L.results_pilares_title;
+      if (el('resPilaresDesc')) el('resPilaresDesc').innerText = L.results_pilares_desc;
+      if (el('resChartTitle')) el('resChartTitle').innerText = L.results_chart_title;
+      if (el('resDiagTitle')) el('resDiagTitle').innerText = L.results_diag_title;
+      if (el('resTokenLabel')) el('resTokenLabel').innerText = L.results_token_label;
+      if (el('resTokenDesc')) el('resTokenDesc').innerText = L.results_token_desc;
+      if (el('downloadBtn')) el('downloadBtn').innerText = L.results_download_btn;
+      if (el('resCompatTitle')) el('resCompatTitle').innerText = L.results_compat_title;
+      if (el('resCompatDesc')) el('resCompatDesc').innerText = L.results_compat_desc;
+      if (el('resCompatLabel')) el('resCompatLabel').innerText = L.results_compat_label;
+      if (el('resCompatBtn')) el('resCompatBtn').innerText = L.results_compat_btn;
+      if (el('tabReportBtn')) el('tabReportBtn').innerText = L.results_tab_report;
+      if (el('tabCompatBtn')) el('tabCompatBtn').innerText = L.results_tab_compat;
       document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang;
     }
 
