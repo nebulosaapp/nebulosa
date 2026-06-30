@@ -362,7 +362,9 @@
     if (savedLang) currentLang = savedLang;
     aplicarIdioma();
 
-    if (localStorage.getItem('bdsm_user_id')) {
+    const loggedId = localStorage.getItem('bdsm_user_id');
+    const loggedToken = localStorage.getItem('bdsm_auth_token');
+    if (loggedId && loggedToken) {
       window.location.href = 'home.html';
     }
 
