@@ -443,7 +443,15 @@
         const activeVerde = saved && saved.nivel === 'verde' ? 'active' : '';
         const activeAmarelo = saved && saved.nivel === 'amarelo' ? 'active' : '';
         const activeVermelho = saved && saved.nivel === 'vermelho' ? 'active' : '';
+        const escapeHTML = str => {
+          if (!str) return '';
+          return String(str).replace(/[&<>'"]/g, match => {
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' };
+            return map[match];
+          });
+        };
         const observacaoSalva = saved ? saved.observacao : '';
+        const observacaoSalvaSafe = escapeHTML(observacaoSalva);
 
         item.innerHTML = `
           <div class="accordion-header" onclick="toggleAccordion(this)">
@@ -466,7 +474,7 @@
                 <button class="limit-badge-btn vermelho ${activeVermelho}" onclick="definirLimite('${term.termo}', 'vermelho', this)">🔴 Não quero</button>
               </div>
               <div style="display:flex; gap:0.4rem; align-items:center; margin-top:0.4rem;">
-                <input type="text" class="limit-obs-input" id="obs-${termSlug}" value="${observacaoSalva}" placeholder="Adicionar observação (ex: apenas com cordas de algodão...)" style="flex:1; margin-top:0;">
+                <input type="text" class="limit-obs-input" id="obs-${termSlug}" value="${observacaoSalvaSafe}" placeholder="Adicionar observação (ex: apenas com cordas de algodão...)" style="flex:1; margin-top:0;">
                 <button class="limit-badge-btn" onclick="salvarNotaLimite('${term.termo}', document.getElementById('obs-${termSlug}'), this)" style="flex:none; width:45px; padding:0.6rem 0; font-size:1rem; border-color:#00d084; color:#00d084; background:rgba(0,208,132,0.06); display:flex; align-items:center; justify-content:center;">✓</button>
               </div>
               <div id="status-${termSlug}" style="font-size:0.7rem; color:#00d084; margin-top:0.35rem; display:none; font-weight:700;">✓ Salvo com sucesso!</div>

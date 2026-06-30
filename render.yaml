@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: nebulosa-app
+    env: node
+    plan: free
+    buildCommand: "npm run build"
+    startCommand: "npm start"
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # - key: DATABASE_URL
+      #   sync: false (Para usar PostgreSQL externo, defina manualmente no painel)
+      - key: JWT_SECRET
+        generateValue: true

@@ -326,6 +326,14 @@
 
     const token = localStorage.getItem('bdsm_auth_token');
 
+    const escapeHTML = str => {
+      if (!str) return '';
+      return String(str).replace(/[&<>'"]/g, match => {
+        const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' };
+        return map[match];
+      });
+    };
+
     window.buscarHistorico = async function() {
       try {
         const response = await fetch(`${API_URL}/user/${userId}/tests`, {
@@ -559,8 +567,8 @@
             result.verdes.forEach(p => {
               comunsList.innerHTML += `
                 <li style="margin-bottom:0.4rem;">
-                  <strong>${p.nome}</strong> 
-                  ${p.obs_A || p.obs_B ? `<div style="font-size:0.78rem; color:var(--text-muted); padding-left:0.5rem;">↳ Observações: ${p.obs_A || p.obs_B}</div>` : ''}
+                  <strong>${escapeHTML(p.nome)}</strong> 
+                  ${p.obs_A || p.obs_B ? `<div style="font-size:0.78rem; color:var(--text-muted); padding-left:0.5rem;">↳ Observações: ${escapeHTML(p.obs_A || p.obs_B)}</div>` : ''}
                 </li>
               `;
             });
@@ -577,9 +585,9 @@
               const papelB = p.nivel_B === 'verde' ? '🟢 Quero' : p.nivel_B === 'amarelo' ? '🟡 Talvez' : '⚪ Não avaliado';
               conversarList.innerHTML += `
                 <li style="margin-bottom:0.4rem;">
-                  <strong>${p.nome}</strong> 
+                  <strong>${escapeHTML(p.nome)}</strong> 
                   <span style="font-size:0.8rem; color:var(--text-muted);">(${papelA} vs ${papelB})</span>
-                  ${p.obs_A || p.obs_B ? `<div style="font-size:0.78rem; color:var(--text-muted); padding-left:0.5rem;">↳ Notas: ${p.obs_A || p.obs_B}</div>` : ''}
+                  ${p.obs_A || p.obs_B ? `<div style="font-size:0.78rem; color:var(--text-muted); padding-left:0.5rem;">↳ Notas: ${escapeHTML(p.obs_A || p.obs_B)}</div>` : ''}
                 </li>
               `;
             });
@@ -660,11 +668,11 @@
 
         lista.innerHTML = result.limites.map(l => `
           <div class="modal-limit-item" id="mitem-${l.pratica_id}">
-            <span class="modal-limit-name">${l.nome}</span>
+            <span class="modal-limit-name">${escapeHTML(l.nome)}</span>
             <div class="modal-level-btns">
-              <button class="modal-lvl-btn ${l.nivel === 'verde' ? 'sel' : ''}" onclick="mudarNivelModal(${l.pratica_id}, '${l.nome}', 'verde', this)">🟢</button>
-              <button class="modal-lvl-btn ${l.nivel === 'amarelo' ? 'sel' : ''}" onclick="mudarNivelModal(${l.pratica_id}, '${l.nome}', 'amarelo', this)">🟡</button>
-              <button class="modal-lvl-btn ${l.nivel === 'vermelho' ? 'sel' : ''}" onclick="mudarNivelModal(${l.pratica_id}, '${l.nome}', 'vermelho', this)">🔴</button>
+              <button class="modal-lvl-btn ${l.nivel === 'verde' ? 'sel' : ''}" onclick="mudarNivelModal(${l.pratica_id}, '${escapeHTML(l.nome)}', 'verde', this)">🟢</button>
+              <button class="modal-lvl-btn ${l.nivel === 'amarelo' ? 'sel' : ''}" onclick="mudarNivelModal(${l.pratica_id}, '${escapeHTML(l.nome)}', 'amarelo', this)">🟡</button>
+              <button class="modal-lvl-btn ${l.nivel === 'vermelho' ? 'sel' : ''}" onclick="mudarNivelModal(${l.pratica_id}, '${escapeHTML(l.nome)}', 'vermelho', this)">🔴</button>
             </div>
           </div>`).join('');
       } catch (e) {
