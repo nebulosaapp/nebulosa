@@ -296,7 +296,7 @@
     import { injetarMenuGlobal } from './assets/menu.js';
     import { I18N, getLang, translateArchetype } from './assets/i18n.js';
 
-    const API_URL = 'http://localhost:3001/api';
+    const API_URL = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1') ? 'http://localhost:3001/api' : '/api';
     const userId = localStorage.getItem('bdsm_user_id');
     const lang = getLang();
     const L = I18N[lang] || I18N['pt'];
