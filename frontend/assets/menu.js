@@ -6,6 +6,12 @@ export function injetarMenuGlobal() {
   const lang = getLang();
   const L = I18N[lang] || I18N['pt'];
 
+  // Limpar instâncias anteriores para evitar duplicações e bugs de clique
+  const oldOverlay = document.getElementById('menuOverlay');
+  if (oldOverlay) oldOverlay.remove();
+  const oldDrawer = document.getElementById('menuDrawer');
+  if (oldDrawer) oldDrawer.remove();
+
   // 1. Overlay
   const overlay = document.createElement('div');
   overlay.className = 'menu-overlay';
